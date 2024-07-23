@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.thiagooliveira.delivery</groupId>
+    <artifactId>delivery</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.2</version>
+        <relativePath/>
+    </parent>
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <com.google.guava.version>33.2.1-jre</com.google.guava.version>
+        <jsr305.version>3.0.2</jsr305.version>
+        <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
+        <org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
+        <org.glassfish.expressly.version>5.0.0</org.glassfish.expressly.version>
+        <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
+        <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <org.apache.maven.plugins.version>3.0.0-M5</org.apache.maven.plugins.version>
+        <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <org.mockito.version>5.11.0</org.mockito.version>
+        <org.projectlombok.version>1.18.32</org.projectlombok.version>
+        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <swagger-annotations.version>1.6.9</swagger-annotations.version>
+        <swagger-annotations.v3.version>2.2.8</swagger-annotations.v3.version>
+        <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
+    </properties>
+
+    <modules>
+        <module>restaurants</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <phase>validate</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <java>
+                        <includes>
+                            <include>src/main/java/**/*.java</include>
+                            <include>src/test/java/**/*.java</include>
+                        </includes>
+                        <palantirJavaFormat />
+                    </java>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
