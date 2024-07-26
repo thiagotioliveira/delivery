@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: task-1
+      author: 'Thiago Oliveira'
+      changes:
+        - createTable:
+            tableName: address
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: street
+                  type: varchar(255)
+              - column:
+                  name: number
+                  type: varchar(50)
+              - column:
+                  name: city
+                  type: varchar(255)
+              - column:
+                  name: state
+                  type: varchar(255)
+              - column:
+                  name: postal_code
+                  type: varchar(20)
+              - column:
+                  name: country
+                  type: varchar(255)
+              - column:
+                  name: notes
+                  type: varchar(255)
+
+        - createTable:
+            tableName: restaurant
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: phone_number
+                  type: varchar(50)
+              - column:
+                  name: address_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    foreignKeyName: address_fk
+                    references: address(id)
+        - createTable:
+            tableName: restaurant_user
+            columns:
+              - column:
+                  name: restaurant_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: distance_in_meters
+                  type: double
+        - addPrimaryKey:
+            tableName: restaurant_user
+            columnNames: restaurant_id, user_id
+        - addForeignKeyConstraint:
+            baseTableName: restaurant_user
+            baseColumnNames: restaurant_id
+            constraintName: fk_restaurant_user
+            referencedColumnNames: id
+            referencedTableName: restaurant

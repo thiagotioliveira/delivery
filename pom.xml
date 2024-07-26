@@ -22,12 +22,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <com.google.guava.version>33.2.1-jre</com.google.guava.version>
+        <feign.version>10.12</feign.version>
+        <feign-form.version>3.8.0</feign-form.version>
         <jsr305.version>3.0.2</jsr305.version>
         <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
         <org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
         <org.glassfish.expressly.version>5.0.0</org.glassfish.expressly.version>
         <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <keycloak-admin-client-jakarta.version>21.1.2</keycloak-admin-client-jakarta.version>
         <org.apache.maven.plugins.version>3.0.0-M5</org.apache.maven.plugins.version>
         <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
@@ -36,10 +39,12 @@
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <swagger-annotations.version>1.6.9</swagger-annotations.version>
         <swagger-annotations.v3.version>2.2.8</swagger-annotations.v3.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
         <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
     </properties>
 
     <modules>
+        <module>users</module>
         <module>restaurants</module>
     </modules>
     <build>

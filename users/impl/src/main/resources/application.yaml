@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: users-service
+server:
+  port: 8081
+management:
+  health:
+    probes:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: 'health'
+keycloak:
+  serverUrl: http://localhost:8080/
+  clientId: users-service
+  clientSecret: jftzuKCciHm8bfJ2V0bZK2qtMrXivBgA
+  userRealm: delivery
+  connectionPoolSize: 20

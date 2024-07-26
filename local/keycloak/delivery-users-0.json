@@ -1,0 +1,38 @@
+{
+  "realm" : "delivery",
+  "users" : [ {
+    "id" : "55a45621-bc64-4b25-9077-41729934adef",
+    "createdTimestamp" : 1721926496709,
+    "username" : "service-account-users-service",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "serviceAccountClientId" : "users-service",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery" ],
+    "clientRoles" : {
+      "realm-management" : [ "manage-users" ],
+      "users-service" : [ "uma_protection" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "2f3f2318-98b0-42e4-8d13-62aa8999099f",
+    "createdTimestamp" : 1721926476828,
+    "username" : "user-test1",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "firstName" : "User",
+    "lastName" : "Test 1",
+    "email" : "user-test1@gmail.com",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

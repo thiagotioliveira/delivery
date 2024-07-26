@@ -1,0 +1,121 @@
+openapi: 3.0.0
+info:
+  title: User API
+  description: API for managing users
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: Users
+    description: Operations related to users
+paths:
+  /users/{id}:
+    get:
+      summary: Get user by ID
+      description: Retrieve a user by their unique ID.
+      operationId: getUserById
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the user.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A single user object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  /users/{id}/address:
+    put:
+      summary: Add or update user address
+      description: Add or update the address of a user by their unique ID.
+      operationId: addUserAddress
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Unique identifier of the user.
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Address object to add or update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '204':
+          description: Address successfully added or updated with no content returned
+        '400':
+          description: Invalid input
+        '404':
+          description: User not found
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the user
+        firstName:
+          type: string
+          description: First name of the user
+        lastName:
+          type: string
+          description: Last name of the user
+        email:
+          type: string
+          description: Email address of the user
+        address:
+          $ref: '#/components/schemas/Address'
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - address
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          description: Street address
+        number:
+          type: string
+          description: Street number
+        notes:
+          type: string
+          description: Additional notes
+        city:
+          type: string
+          description: City
+        state:
+          type: string
+          description: State
+        postalCode:
+          type: string
+          description: Postal code
+        country:
+          type: string
+          description: Country
+      required:
+        - street
+        - number
+        - city
+        - state
+        - postalCode
+        - country

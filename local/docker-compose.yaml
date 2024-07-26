@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: bitnami/postgresql:11.6.0-debian-9-r0
+    volumes:
+      - .\postgres:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    networks:
+      - delivery_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0.6
+    command: "-v start-dev --import-realm"
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT_BACKCHANNEL: false
+      KC_HTTP_ENABLED: true
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/${KEYCLOAK_DB}
+      KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    ports:
+      - 8080:8080
+    restart: always
+    volumes:
+      - .\keycloak\delivery-realm.json:/opt/keycloak/data/import/delivery-realm.json
+      - .\keycloak\delivery-users-0.json:/opt/keycloak/data/import/delivery-users-0.json
+    depends_on:
+      - postgres
+    networks:
+      - delivery_network
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - delivery_network
+
+networks:
+  delivery_network:
+    driver: bridge
