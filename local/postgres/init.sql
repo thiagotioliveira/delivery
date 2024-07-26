@@ -5,3 +5,7 @@ GRANT ALL PRIVILEGES ON DATABASE "keycloak_db" TO keycloak;
 CREATE USER "restaurants" WITH SUPERUSER PASSWORD 'admin';
 CREATE DATABASE "restaurants_db";
 GRANT ALL PRIVILEGES ON DATABASE "restaurants_db" TO "restaurants";
+
+CREATE USER "menusservice" WITH SUPERUSER PASSWORD 'menusservice';
+CREATE DATABASE "menus_db";
+GRANT ALL PRIVILEGES ON DATABASE "menus_db" TO "menusservice";

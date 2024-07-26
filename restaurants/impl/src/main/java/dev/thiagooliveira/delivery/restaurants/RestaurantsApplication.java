@@ -3,6 +3,7 @@ package dev.thiagooliveira.delivery.restaurants;
 import dev.thiagooliveira.delivery.restaurants.model.Address;
 import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
 import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
+import dev.thiagooliveira.delivery.restaurants.spec.dto.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +23,10 @@ public class RestaurantsApplication {
     @Bean
     public CommandLineRunner importData() {
         return args -> {
-            if (restaurantService.count() > 0L) {
+            PageRequest pageRequest = new PageRequest();
+            pageRequest.setPageNumber(0);
+            pageRequest.setPageSize(1);
+            if (restaurantService.getAll(pageRequest).getTotalElements() > 0) {
                 return;
             }
             var restaurant = new Restaurant();

@@ -46,6 +46,7 @@
     <modules>
         <module>users</module>
         <module>restaurants</module>
+        <module>menus</module>
     </modules>
     <build>
         <plugins>

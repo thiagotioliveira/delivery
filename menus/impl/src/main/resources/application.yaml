@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: menus-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/menus_db
+    username: menusservice
+    password: menusservice
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+server:
+  port: 8083

@@ -3,17 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>dev.thiagooliveira.delivery.restaurants</groupId>
-        <artifactId>restaurants</artifactId>
+        <groupId>dev.thiagooliveira.delivery</groupId>
+        <artifactId>menus</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>restaurants-service</artifactId>
+    <artifactId>menus-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>restaurants-service</name>
-    <description>restaurants-service</description>
+    <name>menus-service</name>
+    <description>menus-service</description>
 
-    <properties />
+    <properties/>
 
     <dependencies>
         <dependency>
@@ -25,13 +25,9 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+            <groupId>dev.thiagooliveira.delivery.restaurants</groupId>
+            <artifactId>restaurants-spec</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -41,21 +37,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>dev.thiagooliveira.delivery.restaurants</groupId>
-            <artifactId>restaurants-spec</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.thiagooliveira.delivery.restaurants</groupId>
-            <artifactId>restaurants-message</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.thiagooliveira.delivery.users</groupId>
-            <artifactId>users-message</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

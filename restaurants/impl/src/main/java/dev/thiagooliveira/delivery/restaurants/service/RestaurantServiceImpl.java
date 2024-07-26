@@ -1,11 +1,15 @@
 package dev.thiagooliveira.delivery.restaurants.service;
 
+import dev.thiagooliveira.delivery.restaurants.mappers.RestaurantMapper;
 import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
 import dev.thiagooliveira.delivery.restaurants.model.RestaurantIdWithAddressProjection;
 import dev.thiagooliveira.delivery.restaurants.model.RestaurantUser;
 import dev.thiagooliveira.delivery.restaurants.repositories.RestaurantRepository;
 import dev.thiagooliveira.delivery.restaurants.repositories.RestaurantUserRepository;
+import dev.thiagooliveira.delivery.restaurants.spec.dto.PageRequest;
+import dev.thiagooliveira.delivery.restaurants.spec.dto.RestaurantPage;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,12 +18,20 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
 
+    private final RestaurantMapper restaurantMapper;
     private final RestaurantRepository restaurantRepository;
     private final RestaurantUserRepository restaurantUserRepository;
 
     @Override
-    public long count() {
-        return restaurantRepository.count();
+    public RestaurantPage getAll(PageRequest pageRequest) {
+        return restaurantMapper.toRestaurantPage(
+                restaurantRepository.findAll(org.springframework.data.domain.PageRequest.of(
+                        pageRequest.getPageNumber(), pageRequest.getPageSize())));
+    }
+
+    @Override
+    public Optional<Restaurant> getById(UUID restaurantId) {
+        return restaurantRepository.findById(restaurantId);
     }
 
     @Override
