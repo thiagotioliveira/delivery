@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>dev.thiagooliveira.delivery</groupId>
+        <groupId>dev.thiagooliveira.delivery.menus</groupId>
         <artifactId>menus</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -27,6 +27,11 @@
         <dependency>
             <groupId>dev.thiagooliveira.delivery.restaurants</groupId>
             <artifactId>restaurants-spec</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.thiagooliveira.delivery.menus</groupId>
+            <artifactId>menus-spec</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

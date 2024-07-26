@@ -1,0 +1,170 @@
+openapi: 3.0.0
+info:
+  title: Menu Item API
+  version: 1.0.0
+paths:
+  /restaurants/{restaurantId}/items:
+    get:
+      tags:
+        - Menu
+      summary: Get paginated list of menu items for a restaurant
+      operationId: getItemsByRestaurantId
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the restaurant
+        - name: pageNumber
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Page number to retrieve
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Number of items per page
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuPage'
+        '404':
+          description: Restaurant not found
+  /restaurants/{restaurantId}/items/{itemId}:
+    get:
+      tags:
+        - Menu
+      summary: Get details of a specific menu item
+      operationId: getItemByRestaurantIdAndItemId
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the restaurant
+        - name: itemId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the menu item
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '404':
+          description: Menu item or restaurant not found
+components:
+  schemas:
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        restaurantId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: decimal
+      required:
+        - id
+        - restaurantId
+        - name
+        - price
+    Pageable:
+      type: object
+      properties:
+        sort:
+          $ref: '#/components/schemas/Sort'
+        offset:
+          type: integer
+          description: Current offset
+        pageNumber:
+          type: integer
+          description: Current page number
+        pageSize:
+          type: integer
+          description: Number of elements per page
+        unpaged:
+          type: boolean
+          description: Indicates if this is a pageable request
+        paged:
+          type: boolean
+          description: Indicates if this is a paged request
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+          description: Indicates if sorting is enabled
+        unsorted:
+          type: boolean
+          description: Indicates if sorting is not enabled
+        empty:
+          type: boolean
+          description: Indicates if the sort is empty
+    PageRequest:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+          description: The page number to retrieve
+          default: 0
+        pageSize:
+          type: integer
+          format: int32
+          description: The number of items per page
+          default: 10
+    MenuPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItem'
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        totalPages:
+          type: integer
+          description: Total number of pages
+        totalElements:
+          type: integer
+          description: Total number of elements
+        last:
+          type: boolean
+          description: Indicates if this is the last page
+        size:
+          type: integer
+          description: Number of elements per page
+        number:
+          type: integer
+          description: Current page number
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+          description: Indicates if this is the first page
+        numberOfElements:
+          type: integer
+          description: Number of elements currently on this page

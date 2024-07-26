@@ -5,10 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.Data;
 
 @Entity
 @Data
@@ -25,5 +24,6 @@ public class MenuItem {
 
     private String description;
 
+    @NotNull
     private BigDecimal price;
 }
