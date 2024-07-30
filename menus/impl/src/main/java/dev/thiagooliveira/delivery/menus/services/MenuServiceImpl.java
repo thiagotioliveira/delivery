@@ -24,7 +24,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuItem save(MenuItem menuItem) {
-        return null;
+        return menuMapper.toMenuItem(menuItemRepository.save(menuMapper.toMenuItem(menuItem)));
     }
 
     @Override

@@ -140,6 +140,29 @@ components:
         numberOfElements:
           type: integer
           description: Number of elements currently on this page
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        number:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        notes:
+          type: string
+      required:
+        - street
+        - city
+        - state
+        - postalCode
+        - country
     Restaurant:
       type: object
       properties:
@@ -154,19 +177,4 @@ components:
           type: string
           nullable: false
         address:
-          type: object
-          properties:
-            street:
-              type: string
-            number:
-              type: string
-            state:
-              type: string
-              nullable: false
-            postalCode:
-              type: string
-            country:
-              type: string
-              nullable: false
-            notes:
-              type: string
+          $ref: '#/components/schemas/Address'

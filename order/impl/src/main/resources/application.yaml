@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: orders-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders_db
+    username: ordersservice
+    password: ordersservice
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  jpa:
+    show-sql: false
+    hibernate:
+      format_sql: false
+      type: trace
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+server:
+  port: 8084
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: INFO #DEBUG
+        orm:
+          jdbc:
+            bind: INFO #TRACE
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO #TRACE
+app:
+  client:
+    users-service:
+      baseUrl: http://localhost:8081
+    restaurants-service:
+      baseUrl: http://localhost:8082
+    menus-service:
+      baseUrl: http://localhost:8083

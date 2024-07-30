@@ -1,0 +1,182 @@
+databaseChangeLog:
+  - changeSet:
+      id: task-3
+      author: 'Thiago Oliveira'
+      changes:
+        - createTable:
+            tableName: restaurant_order
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_street
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_number
+                  type: varchar(50)
+              - column:
+                  name: restaurant_city
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_state
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_postal_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_country
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: restaurant_notes
+                  type: varchar(255)
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_street
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_number
+                  type: varchar(50)
+              - column:
+                  name: user_city
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_state
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_postal_code
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_country
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_notes
+                  type: varchar(255)
+
+        - createTable:
+            tableName: order_item
+            columns:
+              - column:
+                  name: order_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: item_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: int
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: order_item
+            columnNames: order_id, item_id
+        - addForeignKeyConstraint:
+            baseTableName: order_item
+            baseColumnNames: order_id
+            constraintName: fk_order
+            referencedColumnNames: id
+            referencedTableName: restaurant_order
+
+        - createTable:
+            tableName: order_event
+            columns:
+              - column:
+                  name: order_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_time
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: order_event
+            columnNames: order_id, status
+        - addForeignKeyConstraint:
+            baseTableName: order_event
+            baseColumnNames: order_id
+            constraintName: fk_order
+            referencedColumnNames: id
+            referencedTableName: restaurant_order

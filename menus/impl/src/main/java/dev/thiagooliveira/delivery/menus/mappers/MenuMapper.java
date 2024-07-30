@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 public interface MenuMapper {
     dev.thiagooliveira.delivery.menus.spec.dto.MenuItem toMenuItem(MenuItem item);
 
+    MenuItem toMenuItem(dev.thiagooliveira.delivery.menus.spec.dto.MenuItem item);
+
     MenuPage toMenuPage(org.springframework.data.domain.Page<dev.thiagooliveira.delivery.menus.model.MenuItem> page);
 
     default PageImpl map(MenuPage page) {

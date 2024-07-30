@@ -23,5 +23,7 @@ This is a Spring Boot project built with Maven and Docker, intended for a delive
 - $env:KEYCLOAK_DB_USER='keycloak'
 - $env:KEYCLOAK_DB_PASSWORD='admin'
 
+/swagger-ui/index.html
+
 user-service:
 delivery-realm.json removing the ‘authorizationSettings‘ node
