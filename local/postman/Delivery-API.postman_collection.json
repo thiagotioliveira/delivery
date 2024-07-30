@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "eb66dc95-2bb5-4fc5-8010-8c5a0dac8104",
+		"name": "Delivery API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19497979"
+	},
+	"item": [
+		{
+			"name": "Get User By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users-service",
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User Address",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"street\": \"Rua Luciano Cordeiro\",\r\n  \"number\": \"51\",\r\n  \"notes\": \"2º andar direito\",\r\n  \"city\": \"Lisboa\",\r\n  \"state\": \"Lisboa\",\r\n  \"postalCode\": \"1150-212\",\r\n  \"country\": \"Portugal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/address",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users-service",
+						"users",
+						"{{user_id}}",
+						"address"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Restaurant By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/restaurants-service/restaurants/{{restaurant_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"restaurants-service",
+						"restaurants",
+						"{{restaurant_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Restaurants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/restaurants-service/restaurants",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"restaurants-service",
+						"restaurants"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "pageSize",
+							"value": "10",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Items By RestaurantId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/menus-service/restaurants/{{restaurant_id}}/items",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"menus-service",
+						"restaurants",
+						"{{restaurant_id}}",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item By RestaurantId And ItemId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/menus-service/restaurants/{{restaurant_id}}/items/{{item_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"menus-service",
+						"restaurants",
+						"{{restaurant_id}}",
+						"items",
+						"{{item_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"restaurantId\": \"{{restaurant_id}}\",\r\n    \"userId\": \"{{user_id}}\",\r\n    \"total\": 1,\r\n    \"items\": [\r\n        {\r\n            \"id\": \"b484f0eb-5607-46a5-97a1-4e39290439bb\",\r\n            \"price\": 12.50,\r\n            \"amount\": 1\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders-service/orders",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders-service",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders-service/orders/7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders-service",
+						"orders",
+						"7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Order",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders-service/orders/7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2/approve",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders-service",
+						"orders",
+						"7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2",
+						"approve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deliver Order",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders-service/orders/7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2/deliver",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders-service",
+						"orders",
+						"7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2",
+						"deliver"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

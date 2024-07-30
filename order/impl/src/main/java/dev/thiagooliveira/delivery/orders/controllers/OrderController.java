@@ -16,7 +16,7 @@ public class OrderController implements OrderApi {
     private final OrderService orderService;
 
     @Override
-    public ResponseEntity<OrderDetails> approveOrder(UUID id) {
+    public ResponseEntity<OrderDetails> approve(UUID id) {
         return ResponseEntity.ok(orderService.approve(id));
     }
 
@@ -26,7 +26,7 @@ public class OrderController implements OrderApi {
     }
 
     @Override
-    public ResponseEntity<OrderDetails> delivered(UUID id) {
+    public ResponseEntity<OrderDetails> deliver(UUID id) {
         return ResponseEntity.ok(orderService.deliver(id));
     }
 

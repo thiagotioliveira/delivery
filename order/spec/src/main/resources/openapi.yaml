@@ -70,7 +70,7 @@ paths:
   /orders/{id}/approve:
     patch:
       summary: Approve an order
-      operationId: approveOrder
+      operationId: approve
       tags:
         - Order
       parameters:
@@ -87,10 +87,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderDetails'
-  /orders/{id}/delivered:
+  /orders/{id}/deliver:
     patch:
       summary: Mark order as delivered
-      operationId: delivered
+      operationId: deliver
       tags:
         - Order
       parameters:

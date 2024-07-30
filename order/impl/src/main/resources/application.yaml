@@ -36,10 +36,12 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 app:
+  gateway:
+    baseUrl: http://localhost:8099
   client:
     users-service:
-      baseUrl: http://localhost:8081
+      baseUrl: ${app.gateway.baseUrl}/users-service
     restaurants-service:
-      baseUrl: http://localhost:8082
+      baseUrl: ${app.gateway.baseUrl}/restaurants-service
     menus-service:
-      baseUrl: http://localhost:8083
+      baseUrl: ${app.gateway.baseUrl}/menus-service
