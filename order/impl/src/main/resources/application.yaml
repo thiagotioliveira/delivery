@@ -1,3 +1,5 @@
+server:
+  port: 8084
 spring:
   application:
     name: orders-service
@@ -17,8 +19,6 @@ spring:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-server:
-  port: 8084
 logging:
   level:
     org:
@@ -31,6 +31,10 @@ logging:
           descriptor:
             sql:
               BasicBinder: INFO #TRACE
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 app:
   client:
     users-service:

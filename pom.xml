@@ -20,7 +20,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
         <com.google.guava.version>33.2.1-jre</com.google.guava.version>
         <feign.version>10.12</feign.version>
         <feign-form.version>3.8.0</feign-form.version>
@@ -44,12 +44,25 @@
     </properties>
 
     <modules>
+        <module>discovery</module>
+        <module>gateway</module>
         <module>users</module>
         <module>restaurants</module>
         <module>menus</module>
         <module>notifications</module>
         <module>order</module>
     </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

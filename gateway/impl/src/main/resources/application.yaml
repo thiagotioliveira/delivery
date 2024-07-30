@@ -1,8 +1,8 @@
+server:
+  port: 8099
 spring:
   application:
-    name: notifications-service
-server:
-  port: 8085
+    name: gateway-service
 eureka:
   client:
     serviceUrl:
