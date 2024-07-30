@@ -13,9 +13,9 @@
 
     <properties>
         <openapi-generator-maven-plugin.version>7.5.0</openapi-generator-maven-plugin.version>
-        <codegen.api.package.name>dev.thiagooliveira.delivery.menus.spec.api</codegen.api.package.name>
-        <codegen.client.package.name>dev.thiagooliveira.delivery.menus.spec.client</codegen.client.package.name>
-        <codegen.model.page.name>dev.thiagooliveira.delivery.menus.spec.dto</codegen.model.page.name>
+        <codegen.api.package.name>dev.thiagooliveira.delivery.menus.controllers</codegen.api.package.name>
+        <codegen.client.package.name>dev.thiagooliveira.delivery.menus.clients</codegen.client.package.name>
+        <codegen.model.page.name>dev.thiagooliveira.delivery.menus.dto</codegen.model.page.name>
     </properties>
 
     <dependencies>

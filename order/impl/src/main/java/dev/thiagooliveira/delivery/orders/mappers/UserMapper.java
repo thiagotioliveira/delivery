@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.orders.mappers;
 
-import dev.thiagooliveira.delivery.orders.spec.dto.User;
+import dev.thiagooliveira.delivery.orders.dto.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

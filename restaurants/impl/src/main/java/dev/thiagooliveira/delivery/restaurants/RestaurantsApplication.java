@@ -1,9 +1,9 @@
 package dev.thiagooliveira.delivery.restaurants;
 
+import dev.thiagooliveira.delivery.restaurants.dto.PageRequest;
 import dev.thiagooliveira.delivery.restaurants.model.Address;
 import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
 import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.PageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,9 +1,8 @@
 package dev.thiagooliveira.delivery.orders.controllers;
 
+import dev.thiagooliveira.delivery.orders.dto.*;
 import dev.thiagooliveira.delivery.orders.exceptions.OrderNotFound;
 import dev.thiagooliveira.delivery.orders.services.OrderService;
-import dev.thiagooliveira.delivery.orders.spec.api.OrderApi;
-import dev.thiagooliveira.delivery.orders.spec.dto.*;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
 package dev.thiagooliveira.delivery.orders.validators.handlers;
 
-import dev.thiagooliveira.delivery.menus.spec.client.MenuApi;
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuItem;
-import dev.thiagooliveira.delivery.orders.spec.dto.CreateOrder;
-import dev.thiagooliveira.delivery.orders.spec.dto.OrderItem;
+import dev.thiagooliveira.delivery.menus.clients.MenuApi;
+import dev.thiagooliveira.delivery.menus.dto.MenuItem;
+import dev.thiagooliveira.delivery.orders.dto.CreateOrder;
+import dev.thiagooliveira.delivery.orders.dto.OrderItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

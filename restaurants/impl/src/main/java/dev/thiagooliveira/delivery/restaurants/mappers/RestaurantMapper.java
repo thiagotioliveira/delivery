@@ -1,7 +1,7 @@
 package dev.thiagooliveira.delivery.restaurants.mappers;
 
-import dev.thiagooliveira.delivery.restaurants.spec.dto.Restaurant;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.RestaurantPage;
+import dev.thiagooliveira.delivery.restaurants.dto.Restaurant;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

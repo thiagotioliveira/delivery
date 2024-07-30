@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.orders.dto;
 
-import dev.thiagooliveira.delivery.restaurants.spec.dto.Restaurant;
+import dev.thiagooliveira.delivery.restaurants.dto.Restaurant;
 
 public class CreateOrderValidated {
 

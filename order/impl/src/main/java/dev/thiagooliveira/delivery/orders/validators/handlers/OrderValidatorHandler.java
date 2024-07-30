@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.orders.validators.handlers;
 
-import dev.thiagooliveira.delivery.orders.spec.dto.CreateOrder;
+import dev.thiagooliveira.delivery.orders.dto.CreateOrder;
 
 public interface OrderValidatorHandler {
 

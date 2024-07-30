@@ -1,12 +1,11 @@
 package dev.thiagooliveira.delivery.restaurants.controllers;
 
+import dev.thiagooliveira.delivery.restaurants.dto.PageRequest;
+import dev.thiagooliveira.delivery.restaurants.dto.Restaurant;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import dev.thiagooliveira.delivery.restaurants.exceptions.RestaurantNotFoundException;
 import dev.thiagooliveira.delivery.restaurants.mappers.RestaurantMapper;
 import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
-import dev.thiagooliveira.delivery.restaurants.spec.api.RestaurantApi;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.PageRequest;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.Restaurant;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.RestaurantPage;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

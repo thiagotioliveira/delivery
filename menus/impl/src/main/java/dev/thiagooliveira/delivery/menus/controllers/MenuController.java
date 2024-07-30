@@ -1,12 +1,11 @@
 package dev.thiagooliveira.delivery.menus.controllers;
 
+import dev.thiagooliveira.delivery.menus.dto.MenuItem;
+import dev.thiagooliveira.delivery.menus.dto.MenuPage;
+import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import dev.thiagooliveira.delivery.menus.exceptions.InvalidItemException;
 import dev.thiagooliveira.delivery.menus.exceptions.ItemNotFoundException;
 import dev.thiagooliveira.delivery.menus.services.MenuService;
-import dev.thiagooliveira.delivery.menus.spec.api.MenuApi;
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuItem;
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuPage;
-import dev.thiagooliveira.delivery.menus.spec.dto.PageRequest;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

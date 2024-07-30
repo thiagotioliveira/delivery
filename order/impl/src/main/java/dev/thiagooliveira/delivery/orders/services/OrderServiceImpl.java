@@ -3,11 +3,11 @@ package dev.thiagooliveira.delivery.orders.services;
 import static dev.thiagooliveira.delivery.orders.model.OrderStatus.*;
 
 import dev.thiagooliveira.delivery.notifications.message.dto.EmailCommand;
+import dev.thiagooliveira.delivery.orders.dto.*;
 import dev.thiagooliveira.delivery.orders.exceptions.OrderNotFound;
 import dev.thiagooliveira.delivery.orders.mappers.OrderMapper;
 import dev.thiagooliveira.delivery.orders.producers.EmailProducer;
 import dev.thiagooliveira.delivery.orders.repositories.OrderRepository;
-import dev.thiagooliveira.delivery.orders.spec.dto.*;
 import dev.thiagooliveira.delivery.orders.validators.OrderValidator;
 import java.util.Optional;
 import java.util.UUID;

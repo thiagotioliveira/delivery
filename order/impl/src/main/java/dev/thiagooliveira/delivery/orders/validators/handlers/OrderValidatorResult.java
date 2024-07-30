@@ -2,9 +2,9 @@ package dev.thiagooliveira.delivery.orders.validators.handlers;
 
 import static dev.thiagooliveira.delivery.orders.validators.handlers.OrderValidatedMap.*;
 
-import dev.thiagooliveira.delivery.orders.spec.dto.OrderItem;
-import dev.thiagooliveira.delivery.orders.spec.dto.Restaurant;
-import dev.thiagooliveira.delivery.orders.spec.dto.User;
+import dev.thiagooliveira.delivery.orders.dto.OrderItem;
+import dev.thiagooliveira.delivery.orders.dto.Restaurant;
+import dev.thiagooliveira.delivery.orders.dto.User;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;

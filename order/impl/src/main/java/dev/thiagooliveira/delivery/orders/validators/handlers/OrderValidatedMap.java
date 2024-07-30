@@ -1,8 +1,8 @@
 package dev.thiagooliveira.delivery.orders.validators.handlers;
 
-import dev.thiagooliveira.delivery.orders.spec.dto.OrderItem;
-import dev.thiagooliveira.delivery.orders.spec.dto.Restaurant;
-import dev.thiagooliveira.delivery.orders.spec.dto.User;
+import dev.thiagooliveira.delivery.orders.dto.OrderItem;
+import dev.thiagooliveira.delivery.orders.dto.Restaurant;
+import dev.thiagooliveira.delivery.orders.dto.User;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

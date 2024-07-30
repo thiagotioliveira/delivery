@@ -1,12 +1,12 @@
 package dev.thiagooliveira.delivery.menus;
 
+import dev.thiagooliveira.delivery.menus.dto.MenuItem;
+import dev.thiagooliveira.delivery.menus.dto.MenuPage;
+import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import dev.thiagooliveira.delivery.menus.services.MenuService;
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuItem;
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuPage;
-import dev.thiagooliveira.delivery.menus.spec.dto.PageRequest;
-import dev.thiagooliveira.delivery.restaurants.spec.ApiClient;
-import dev.thiagooliveira.delivery.restaurants.spec.client.RestaurantApi;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.RestaurantPage;
+import dev.thiagooliveira.delivery.restaurants.ApiClient;
+import dev.thiagooliveira.delivery.restaurants.clients.RestaurantApi;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import java.math.BigDecimal;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;

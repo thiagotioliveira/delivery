@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.orders.services;
 
-import dev.thiagooliveira.delivery.orders.spec.dto.*;
+import dev.thiagooliveira.delivery.orders.dto.*;
 import java.util.Optional;
 import java.util.UUID;
 

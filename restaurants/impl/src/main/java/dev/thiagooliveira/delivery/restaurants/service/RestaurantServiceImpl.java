@@ -1,13 +1,13 @@
 package dev.thiagooliveira.delivery.restaurants.service;
 
+import dev.thiagooliveira.delivery.restaurants.dto.PageRequest;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import dev.thiagooliveira.delivery.restaurants.mappers.RestaurantMapper;
 import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
 import dev.thiagooliveira.delivery.restaurants.model.RestaurantIdWithAddressProjection;
 import dev.thiagooliveira.delivery.restaurants.model.RestaurantUser;
 import dev.thiagooliveira.delivery.restaurants.repositories.RestaurantRepository;
 import dev.thiagooliveira.delivery.restaurants.repositories.RestaurantUserRepository;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.PageRequest;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.RestaurantPage;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

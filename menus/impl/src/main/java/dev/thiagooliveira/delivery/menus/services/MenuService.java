@@ -1,8 +1,8 @@
 package dev.thiagooliveira.delivery.menus.services;
 
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuItem;
-import dev.thiagooliveira.delivery.menus.spec.dto.MenuPage;
-import dev.thiagooliveira.delivery.menus.spec.dto.PageRequest;
+import dev.thiagooliveira.delivery.menus.dto.MenuItem;
+import dev.thiagooliveira.delivery.menus.dto.MenuPage;
+import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import java.util.Optional;
 import java.util.UUID;
 

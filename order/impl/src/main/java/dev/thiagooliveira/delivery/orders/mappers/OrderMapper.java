@@ -1,11 +1,11 @@
 package dev.thiagooliveira.delivery.orders.mappers;
 
+import dev.thiagooliveira.delivery.orders.dto.OrderDetails;
+import dev.thiagooliveira.delivery.orders.dto.OrderPage;
 import dev.thiagooliveira.delivery.orders.model.Order;
 import dev.thiagooliveira.delivery.orders.model.OrderEvent;
 import dev.thiagooliveira.delivery.orders.model.OrderItem;
 import dev.thiagooliveira.delivery.orders.model.OrderItemId;
-import dev.thiagooliveira.delivery.orders.spec.dto.OrderDetails;
-import dev.thiagooliveira.delivery.orders.spec.dto.OrderPage;
 import dev.thiagooliveira.delivery.orders.validators.handlers.OrderValidatorResult;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,18 +24,18 @@ public interface OrderMapper {
 
     @Mapping(target = "restaurantId", source = "restaurant.id")
     @Mapping(target = "userId", source = "user.id")
-    dev.thiagooliveira.delivery.orders.spec.dto.Order toOrder(Order order);
+    dev.thiagooliveira.delivery.orders.dto.Order toOrder(Order order);
 
     OrderPage toOrderPage(org.springframework.data.domain.Page<dev.thiagooliveira.delivery.orders.model.Order> page);
 
     Order toOrder(OrderValidatorResult orderValidated);
 
     @Mapping(target = "status", source = "id.status")
-    dev.thiagooliveira.delivery.orders.spec.dto.OrderEvent orderEventToOrderEvent(OrderEvent orderEvent);
+    dev.thiagooliveira.delivery.orders.dto.OrderEvent orderEventToOrderEvent(OrderEvent orderEvent);
 
     @Mapping(target = "id.itemId", source = "id")
     dev.thiagooliveira.delivery.orders.model.OrderItem orderItemToOrderItem(
-            dev.thiagooliveira.delivery.orders.spec.dto.OrderItem orderItem);
+            dev.thiagooliveira.delivery.orders.dto.OrderItem orderItem);
 
     default UUID map(OrderItemId value) {
         if (value == null) {
@@ -69,5 +69,5 @@ public interface OrderMapper {
                 page.getTotalElements());
     }
 
-    dev.thiagooliveira.delivery.orders.model.Address map(dev.thiagooliveira.delivery.orders.spec.dto.Address address);
+    dev.thiagooliveira.delivery.orders.model.Address map(dev.thiagooliveira.delivery.orders.dto.Address address);
 }

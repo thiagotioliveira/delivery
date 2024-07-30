@@ -1,9 +1,9 @@
 package dev.thiagooliveira.delivery.orders.validators.handlers;
 
+import dev.thiagooliveira.delivery.orders.dto.CreateOrder;
 import dev.thiagooliveira.delivery.orders.mappers.RestaurantMapper;
-import dev.thiagooliveira.delivery.orders.spec.dto.CreateOrder;
-import dev.thiagooliveira.delivery.restaurants.spec.client.RestaurantApi;
-import dev.thiagooliveira.delivery.restaurants.spec.dto.Restaurant;
+import dev.thiagooliveira.delivery.restaurants.clients.RestaurantApi;
+import dev.thiagooliveira.delivery.restaurants.dto.Restaurant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.orders.validators;
 
-import dev.thiagooliveira.delivery.orders.spec.dto.CreateOrder;
+import dev.thiagooliveira.delivery.orders.dto.CreateOrder;
 import dev.thiagooliveira.delivery.orders.validators.handlers.OrderValidatedMap;
 import dev.thiagooliveira.delivery.orders.validators.handlers.OrderValidatorHandler;
 import dev.thiagooliveira.delivery.orders.validators.handlers.OrderValidatorResult;
