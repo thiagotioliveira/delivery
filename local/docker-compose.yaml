@@ -48,7 +48,22 @@ services:
       - 5672:5672
     networks:
       - delivery_network
-
+  discovery:
+    image: thiagotioliveira/delivery-discovery:latest
+    ports:
+      - 8761:8761
+    networks:
+      - delivery_network
+  gateway:
+    image: thiagotioliveira/delivery-gateway:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+    depends_on:
+      - discovery
+    ports:
+      - 8080:8080
+    networks:
+      - delivery_network
 networks:
   delivery_network:
     driver: bridge

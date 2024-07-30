@@ -21,6 +21,8 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
+        <java-image-base>eclipse-temurin:21-jre-alpine</java-image-base>
         <com.google.guava.version>33.2.1-jre</com.google.guava.version>
         <feign.version>10.12</feign.version>
         <feign-form.version>3.8.0</feign-form.version>

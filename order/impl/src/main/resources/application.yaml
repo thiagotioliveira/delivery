@@ -32,6 +32,8 @@ logging:
             sql:
               BasicBinder: INFO #TRACE
 eureka:
+  instance:
+    preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
