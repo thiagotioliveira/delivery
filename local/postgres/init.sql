@@ -1,10 +1,10 @@
-CREATE USER keycloak WITH PASSWORD 'admin';
+CREATE USER keycloak WITH PASSWORD 'keycloak';
 CREATE DATABASE "keycloak_db";
 GRANT ALL PRIVILEGES ON DATABASE "keycloak_db" TO keycloak;
 
-CREATE USER "restaurants" WITH SUPERUSER PASSWORD 'admin';
+CREATE USER "restaurantsservice" WITH SUPERUSER PASSWORD 'restaurantsservice';
 CREATE DATABASE "restaurants_db";
-GRANT ALL PRIVILEGES ON DATABASE "restaurants_db" TO "restaurants";
+GRANT ALL PRIVILEGES ON DATABASE "restaurants_db" TO "restaurantsservice";
 
 CREATE USER "menusservice" WITH SUPERUSER PASSWORD 'menusservice';
 CREATE DATABASE "menus_db";

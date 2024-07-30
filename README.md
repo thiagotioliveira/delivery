@@ -21,7 +21,17 @@ This is a Spring Boot project built with Maven and Docker, intended for a delive
 
 - $env:KEYCLOAK_DB='keycloak_db'
 - $env:KEYCLOAK_DB_USER='keycloak'
-- $env:KEYCLOAK_DB_PASSWORD='admin'
+- $env:KEYCLOAK_DB_PASSWORD='keycloak'
+
+ports:
+keycloak: 8760
+discovery: 8761
+gateway: 8080
+user: 8762
+restaurants: 8763
+menus: 8764
+order: 8765
+notification: 8766
 
 /swagger-ui/index.html
 

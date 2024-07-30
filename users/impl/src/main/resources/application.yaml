@@ -2,7 +2,7 @@ spring:
   application:
     name: users-service
 server:
-  port: 8081
+  port: 8762
 eureka:
   client:
     serviceUrl:
@@ -16,7 +16,7 @@ management:
       exposure:
         include: 'health'
 keycloak:
-  serverUrl: http://localhost:8080/
+  serverUrl: http://localhost:8760/
   clientId: users-service
   clientSecret: jftzuKCciHm8bfJ2V0bZK2qtMrXivBgA
   userRealm: delivery

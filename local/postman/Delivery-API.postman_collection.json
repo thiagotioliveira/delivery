@@ -151,7 +151,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"restaurantId\": \"{{restaurant_id}}\",\r\n    \"userId\": \"{{user_id}}\",\r\n    \"total\": 1,\r\n    \"items\": [\r\n        {\r\n            \"id\": \"b484f0eb-5607-46a5-97a1-4e39290439bb\",\r\n            \"price\": 12.50,\r\n            \"amount\": 1\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"restaurantId\": \"{{restaurant_id}}\",\r\n    \"userId\": \"{{user_id}}\",\r\n    \"total\": 1,\r\n    \"items\": [\r\n        {\r\n            \"id\": \"{{item_id}}\",\r\n            \"price\": 12.50,\r\n            \"amount\": 1\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -196,14 +196,14 @@
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/orders-service/orders/7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2/approve",
+					"raw": "{{baseUrl}}/orders-service/orders/935576a8-a6bc-4123-9f41-27a02304a0f6/approve",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"orders-service",
 						"orders",
-						"7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2",
+						"935576a8-a6bc-4123-9f41-27a02304a0f6",
 						"approve"
 					]
 				}

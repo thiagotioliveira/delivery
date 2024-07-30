@@ -1,12 +1,12 @@
 server:
-  port: 8082
+  port: 8763
 spring:
   application:
     name: restaurants-service
   datasource:
     url: jdbc:postgresql://localhost:5432/restaurants_db
-    username: restaurants
-    password: admin
+    username: restaurantsservice
+    password: restaurantsservice
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10

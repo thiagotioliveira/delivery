@@ -31,7 +31,7 @@ public class MenusApplication {
     @Bean
     public CommandLineRunner importData() {
         this.restaurantApi =
-                new ApiClient().setBasePath("http://localhost:8082").buildClient(RestaurantApi.class);
+                new ApiClient().setBasePath("http://localhost:8763").buildClient(RestaurantApi.class);
         return args -> {
             RestaurantPage page = restaurantApi.getRestaurants(0, 9999);
             page.getContent().forEach(r -> {

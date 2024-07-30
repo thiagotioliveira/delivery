@@ -97,7 +97,7 @@ class UserControllerE2ETest {
                 .withEnv("KC_DB", "postgres")
                 .withEnv("KC_DB_URL", "jdbc:postgresql://postgres:5432/keycloak_db")
                 .withEnv("KC_DB_USERNAME", "keycloak")
-                .withEnv("KC_DB_PASSWORD", "admin")
+                .withEnv("KC_DB_PASSWORD", "keycloak")
                 .withRealmImportFiles("keycloak/delivery-realm.json", "keycloak/delivery-users-0.json")
                 .dependsOn(postgres)
                 .withNetwork(network)
@@ -107,7 +107,7 @@ class UserControllerE2ETest {
                         .forPath("/health/started")
                         .withStartupTimeout(Duration.ofMinutes(2)))
                 .withNetworkAliases("keycloak");
-        keycloak.setPortBindings(List.of("8080:8080"));
+        keycloak.setPortBindings(List.of("8760:8080"));
         keycloak.start();
     }
 
