@@ -2,8 +2,10 @@ package dev.thiagooliveira.delivery.orders.services;
 
 import static dev.thiagooliveira.delivery.orders.model.OrderStatus.*;
 
+import dev.thiagooliveira.delivery.notifications.message.dto.EmailCommand;
 import dev.thiagooliveira.delivery.orders.exceptions.OrderNotFound;
 import dev.thiagooliveira.delivery.orders.mappers.OrderMapper;
+import dev.thiagooliveira.delivery.orders.producers.EmailProducer;
 import dev.thiagooliveira.delivery.orders.repositories.OrderRepository;
 import dev.thiagooliveira.delivery.orders.spec.dto.*;
 import dev.thiagooliveira.delivery.orders.validators.OrderValidator;
@@ -19,6 +21,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderValidator orderValidator;
     private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
+    private final EmailProducer emailProducer;
 
     @Override
     public Optional<OrderDetails> getById(UUID id) {
@@ -31,7 +34,14 @@ public class OrderServiceImpl implements OrderService {
                 orderMapper.toOrder(orderValidator.validate(createOrder));
         // TODO - apply payment here
         order.setStatusPending();
-        return orderMapper.toOrderDetails(orderRepository.save(order));
+        var orderDetails = orderMapper.toOrderDetails(orderRepository.save(order));
+        emailProducer.send(EmailCommand.builder()
+                .emailTo(orderDetails.getUser().getEmail())
+                .title("Order created successfully!")
+                .content(String.format(
+                        "Your order number %s has been created and is awaiting approval.", orderDetails.getId()))
+                .build());
+        return orderDetails;
     }
 
     @Override
@@ -39,7 +49,15 @@ public class OrderServiceImpl implements OrderService {
         dev.thiagooliveira.delivery.orders.model.Order order =
                 orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
         order.setStatusApproved();
-        return orderMapper.toOrderDetails(orderRepository.save(order));
+        var orderDetails = orderMapper.toOrderDetails(orderRepository.save(order));
+        emailProducer.send(EmailCommand.builder()
+                .emailTo(orderDetails.getUser().getEmail())
+                .title("Order approved with successfully!")
+                .content(String.format(
+                        "Your order number %s has been approved and and is being prepared by the restaurant.",
+                        orderDetails.getId()))
+                .build());
+        return orderDetails;
     }
 
     @Override
@@ -47,7 +65,14 @@ public class OrderServiceImpl implements OrderService {
         dev.thiagooliveira.delivery.orders.model.Order order =
                 orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
         order.setStatusDelivered();
-        return orderMapper.toOrderDetails(orderRepository.save(order));
+        var orderDetails = orderMapper.toOrderDetails(orderRepository.save(order));
+        emailProducer.send(EmailCommand.builder()
+                .emailTo(orderDetails.getUser().getEmail())
+                .title("Order delivered with successfully!")
+                .content(String.format(
+                        "Your order number %s has been delivered. We hope you like it.", orderDetails.getId()))
+                .build());
+        return orderDetails;
     }
 
     @Override

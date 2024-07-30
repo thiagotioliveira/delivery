@@ -65,6 +65,7 @@ public class Order {
                 .order(this)
                 .build());
     }
+
     public void setStatusDelivered() {
         if (!OrderStatus.APPROVED.equals(this.status) || this.events == null) {
             throw new IllegalStateException("cannot change the status.");

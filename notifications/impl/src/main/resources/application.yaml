@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: notifications-service
+server:
+  port: 8085

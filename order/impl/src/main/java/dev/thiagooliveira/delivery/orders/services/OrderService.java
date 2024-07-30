@@ -11,6 +11,7 @@ public interface OrderService {
     OrderDetails create(CreateOrder createOrder);
 
     OrderDetails approve(UUID orderId);
+
     OrderDetails deliver(UUID orderId);
 
     OrderPage getAll(PageRequest pageRequest);
