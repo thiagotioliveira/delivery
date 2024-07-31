@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class RestaurantIdWithAddressProjection {
+public class RestaurantIdWithAddress {
     private UUID restaurantId;
     private String street;
     private String number;

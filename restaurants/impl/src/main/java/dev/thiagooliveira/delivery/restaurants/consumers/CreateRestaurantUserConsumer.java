@@ -1,10 +1,8 @@
 package dev.thiagooliveira.delivery.restaurants.consumers;
 
 import dev.thiagooliveira.delivery.restaurants.config.AMQPConfig;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantUser;
 import dev.thiagooliveira.delivery.restaurants.message.dto.CreateRestaurantUserCommand;
-import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
-import dev.thiagooliveira.delivery.restaurants.model.RestaurantUser;
-import dev.thiagooliveira.delivery.restaurants.model.RestaurantUserId;
 import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
 import java.util.Random;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +22,11 @@ public class CreateRestaurantUserConsumer {
     public void consume(Message<CreateRestaurantUserCommand> message) {
         CreateRestaurantUserCommand command = message.getPayload();
         log.info("Message received {}", command);
-        Random random = new Random(); // TODO
 
         RestaurantUser restaurantUser = new RestaurantUser();
-        restaurantUser.setId(new RestaurantUserId(command.getRestaurantId(), command.getUserId()));
-        restaurantUser.setRestaurant(new Restaurant());
-        restaurantUser.getRestaurant().setId(command.getRestaurantId());
-        restaurantUser.setDistanceInMeters(2 * random.nextDouble());
+        restaurantUser.setUserId(command.getUserId());
+        restaurantUser.setRestaurantId(command.getRestaurantId());
+        restaurantUser.setDistanceInMeters(2 * new Random().nextDouble()); // TODO
         restaurantService.save(restaurantUser);
     }
 }

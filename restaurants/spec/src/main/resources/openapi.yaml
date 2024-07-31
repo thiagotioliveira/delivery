@@ -168,6 +168,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         name:
           type: string
           nullable: false
@@ -178,3 +179,35 @@ components:
           nullable: false
         address:
           $ref: '#/components/schemas/Address'
+    RestaurantUser:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        restaurantId:
+          type: string
+          format: uuid
+        distanceInMeters:
+          type: number
+          format: double
+    RestaurantIdWithAddress:
+      type: object
+      properties:
+        restaurantId:
+          type: string
+          format: uuid
+        street:
+          type: string
+        number:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+        notes:
+          type: string

@@ -1,16 +1,13 @@
 package dev.thiagooliveira.delivery.restaurants.service;
 
-import dev.thiagooliveira.delivery.restaurants.dto.PageRequest;
-import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
+import dev.thiagooliveira.delivery.restaurants.dto.*;
 import dev.thiagooliveira.delivery.restaurants.mappers.RestaurantMapper;
-import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
-import dev.thiagooliveira.delivery.restaurants.model.RestaurantIdWithAddressProjection;
-import dev.thiagooliveira.delivery.restaurants.model.RestaurantUser;
 import dev.thiagooliveira.delivery.restaurants.repositories.RestaurantRepository;
 import dev.thiagooliveira.delivery.restaurants.repositories.RestaurantUserRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +28,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Optional<Restaurant> getById(UUID restaurantId) {
-        return restaurantRepository.findById(restaurantId);
+        return restaurantRepository.findById(restaurantId).map(restaurantMapper::toRestaurant);
     }
 
     @Override
@@ -41,16 +38,19 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant save(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
+        return restaurantMapper.toRestaurant(restaurantRepository.save(restaurantMapper.toRestaurant(restaurant)));
     }
 
     @Override
     public RestaurantUser save(RestaurantUser restaurantUser) {
-        return restaurantUserRepository.save(restaurantUser);
+        return restaurantMapper.toRestaurantUser(
+                restaurantUserRepository.save(restaurantMapper.toRestaurantUser(restaurantUser)));
     }
 
     @Override
-    public List<RestaurantIdWithAddressProjection> findByAddressStateAndAddressCountry(String state, String country) {
-        return restaurantRepository.findByAddressStateAndAddressCountry(state, country);
+    public List<RestaurantIdWithAddress> getByAddressStateAndAddressCountry(String state, String country) {
+        return restaurantRepository.findByAddressStateAndAddressCountry(state, country).stream()
+                .map(restaurantMapper::toRestaurantIdWithAddress)
+                .collect(Collectors.toList());
     }
 }

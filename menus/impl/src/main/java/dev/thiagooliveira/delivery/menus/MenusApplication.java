@@ -36,7 +36,7 @@ public class MenusApplication {
             RestaurantPage page = restaurantApi.getRestaurants(0, 9999);
             page.getContent().forEach(r -> {
                 MenuPage menuPage = menuItemService.getAll(
-                        UUID.fromString(r.getId()),
+                        r.getId(),
                         new PageRequest().pageNumber(0).pageSize(1));
                 if (menuPage.getContent().size() > 0) {
                     return;
@@ -95,9 +95,9 @@ public class MenusApplication {
         };
     }
 
-    private void saveMenuItem(String restaurantId, String name, String description, BigDecimal price) {
+    private void saveMenuItem(UUID restaurantId, String name, String description, BigDecimal price) {
         var menuItem = new MenuItem();
-        menuItem.setRestaurantId(UUID.fromString(restaurantId));
+        menuItem.setRestaurantId(restaurantId);
         menuItem.setName(name);
         menuItem.setDescription(description);
         menuItem.setPrice(price);

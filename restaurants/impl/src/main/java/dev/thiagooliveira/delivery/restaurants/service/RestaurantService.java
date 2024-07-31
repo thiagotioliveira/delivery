@@ -1,10 +1,6 @@
 package dev.thiagooliveira.delivery.restaurants.service;
 
-import dev.thiagooliveira.delivery.restaurants.dto.PageRequest;
-import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
-import dev.thiagooliveira.delivery.restaurants.model.Restaurant;
-import dev.thiagooliveira.delivery.restaurants.model.RestaurantIdWithAddressProjection;
-import dev.thiagooliveira.delivery.restaurants.model.RestaurantUser;
+import dev.thiagooliveira.delivery.restaurants.dto.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,5 +17,5 @@ public interface RestaurantService {
 
     RestaurantUser save(RestaurantUser restaurantUser);
 
-    List<RestaurantIdWithAddressProjection> findByAddressStateAndAddressCountry(String state, String country);
+    List<RestaurantIdWithAddress> getByAddressStateAndAddressCountry(String state, String country);
 }

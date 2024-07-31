@@ -61,6 +61,7 @@ public interface UserMapper {
         attributes.put("state", Collections.singletonList(address.getState()));
         attributes.put("postalCode", Collections.singletonList(address.getPostalCode()));
         attributes.put("country", Collections.singletonList(address.getCountry()));
+        attributes.put("number", Collections.singletonList(address.getNumber()));
 
         return attributes;
     }

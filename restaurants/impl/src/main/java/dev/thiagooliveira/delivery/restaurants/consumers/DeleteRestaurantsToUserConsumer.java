@@ -25,7 +25,7 @@ public class DeleteRestaurantsToUserConsumer {
         UserAddress userAddress = message.getPayload();
         restaurantService.deleteRestaurantsByUserId(userAddress.getUserId());
         restaurantService
-                .findByAddressStateAndAddressCountry(
+                .getByAddressStateAndAddressCountry(
                         userAddress.getAddress().getState(),
                         userAddress.getAddress().getCountry())
                 .stream()
