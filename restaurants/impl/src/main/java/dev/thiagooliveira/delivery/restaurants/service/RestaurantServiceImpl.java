@@ -20,10 +20,25 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantUserRepository restaurantUserRepository;
 
     @Override
+    public RestaurantUserDetailsPage getAll(UUID userId, PageRequest pageRequest) {
+        return restaurantMapper.toRestaurantPageFromRestaurants(restaurantUserRepository.findByIdUserId(
+                userId,
+                org.springframework.data.domain.PageRequest.of(
+                        pageRequest.getPageNumber(), pageRequest.getPageSize())));
+    }
+
+    @Override
     public RestaurantPage getAll(PageRequest pageRequest) {
         return restaurantMapper.toRestaurantPage(
                 restaurantRepository.findAll(org.springframework.data.domain.PageRequest.of(
                         pageRequest.getPageNumber(), pageRequest.getPageSize())));
+    }
+
+    @Override
+    public Optional<RestaurantUserDetails> getById(UUID userId, UUID restaurantId) {
+        return restaurantUserRepository
+                .findByIdRestaurantIdAndIdUserId(restaurantId, userId)
+                .map(restaurantMapper::toRestaurantUserDetails);
     }
 
     @Override

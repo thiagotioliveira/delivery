@@ -1,17 +1,17 @@
 package dev.thiagooliveira.delivery.users.services;
 
 import dev.thiagooliveira.delivery.users.clients.IAMClient;
+import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.User;
 import dev.thiagooliveira.delivery.users.mappers.UserMapper;
 import dev.thiagooliveira.delivery.users.producers.UserAddessUpdatedProducer;
-import dev.thiagooliveira.users.spec.dto.Address;
-import dev.thiagooliveira.users.spec.dto.User;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class IAMServiceImpl implements IAMService {
+public class UserServiceImpl implements UserService {
     private final IAMClient iamClient;
     private final UserMapper userMapper;
     private final UserAddessUpdatedProducer userAddessUpdatedProducer;

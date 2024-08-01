@@ -1,13 +1,15 @@
 package dev.thiagooliveira.delivery.restaurants.controllers;
 
 import dev.thiagooliveira.delivery.restaurants.dto.PageRequest;
-import dev.thiagooliveira.delivery.restaurants.dto.Restaurant;
-import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantUserDetails;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantUserDetailsPage;
 import dev.thiagooliveira.delivery.restaurants.exceptions.RestaurantNotFoundException;
 import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,14 +19,20 @@ public class RestaurantController implements RestaurantApi {
     private final RestaurantService restaurantService;
 
     @Override
-    public ResponseEntity<Restaurant> getRestaurantById(String id) {
-        return ResponseEntity.ok(
-                restaurantService.getById(UUID.fromString(id)).orElseThrow(RestaurantNotFoundException::new));
+    public ResponseEntity<RestaurantUserDetails> getRestaurantById(UUID restaurantId) {
+        return ResponseEntity.ok(restaurantService
+                .getById(getUserRequest(), restaurantId)
+                .orElseThrow(RestaurantNotFoundException::new));
     }
 
     @Override
-    public ResponseEntity<RestaurantPage> getRestaurants(Integer pageNumber, Integer pageSize) {
+    public ResponseEntity<RestaurantUserDetailsPage> getRestaurants(Integer pageNumber, Integer pageSize) {
         return ResponseEntity.ok(restaurantService.getAll(
-                new PageRequest().pageNumber(pageNumber).pageSize(pageSize)));
+                getUserRequest(), new PageRequest().pageNumber(pageNumber).pageSize(pageSize)));
+    }
+
+    private static UUID getUserRequest() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return UUID.fromString(authentication.getName());
     }
 }

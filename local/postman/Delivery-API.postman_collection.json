@@ -7,8 +7,215 @@
 	},
 	"item": [
 		{
+			"name": "Generate Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Obter a resposta como JSON\r",
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"// Obter o access_token and refresh_token\r",
+							"var accessToken = jsonResponse.access_token;\r",
+							"var refreshToken = jsonResponse.refresh_token;\r",
+							"\r",
+							"// Setar a variável 'authorization' no ambiente 'delivery-local'\r",
+							"pm.environment.set(\"token\", accessToken);\r",
+							"pm.environment.set(\"refreshToken\", refreshToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "delivery-ui",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{user-password}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{keycloakUrl}}"
+					],
+					"path": [
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Token (Client)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Obter a resposta como JSON\r",
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"// Obter o access_token and refresh_token\r",
+							"var accessToken = jsonResponse.access_token;\r",
+							"var refreshToken = jsonResponse.refresh_token;\r",
+							"\r",
+							"// Setar a variável 'authorization' no ambiente 'delivery-local'\r",
+							"pm.environment.set(\"token\", accessToken);\r",
+							"pm.environment.set(\"refreshToken\", refreshToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "orders-service",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "zVw5tde4NLZV8xfujzSgZjHNlVjj0Ioy",
+							"type": "text"
+						},
+						{
+							"key": "scopes",
+							"value": "profile",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{keycloakUrl}}"
+					],
+					"path": [
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Obter a resposta como JSON\r",
+							"var jsonResponse = pm.response.json();\r",
+							"\r",
+							"// Obter o access_token and refresh_token\r",
+							"var accessToken = jsonResponse.access_token;\r",
+							"var refreshToken = jsonResponse.refresh_token;\r",
+							"\r",
+							"// Setar a variável 'authorization' no ambiente 'delivery-local'\r",
+							"pm.environment.set(\"token\", accessToken);\r",
+							"pm.environment.set(\"refreshToken\", refreshToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "client_id",
+							"value": "delivery-ui",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "{{refreshToken}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token",
+					"host": [
+						"{{keycloakUrl}}"
+					],
+					"path": [
+						"realms",
+						"{{realm}}",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get User By Id",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -28,6 +235,16 @@
 		{
 			"name": "Update User Address",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PUT",
 				"header": [],
 				"body": {
@@ -55,27 +272,18 @@
 			"response": []
 		},
 		{
-			"name": "Get Restaurant By Id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/restaurants-service/restaurants/{{restaurant_id}}",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"restaurants-service",
-						"restaurants",
-						"{{restaurant_id}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get Restaurants",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -104,8 +312,88 @@
 			"response": []
 		},
 		{
+			"name": "Get Restaurants (Admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/restaurants-service/admin/restaurants",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"restaurants-service",
+						"admin",
+						"restaurants"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "0",
+							"disabled": true
+						},
+						{
+							"key": "pageSize",
+							"value": "10",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Restaurant By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/restaurants-service/restaurants/{{restaurant_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"restaurants-service",
+						"restaurants",
+						"{{restaurant_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Items By RestaurantId",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -126,6 +414,16 @@
 		{
 			"name": "Get Item By RestaurantId And ItemId",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -147,11 +445,21 @@
 		{
 			"name": "Create Order",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"restaurantId\": \"{{restaurant_id}}\",\r\n    \"userId\": \"{{user_id}}\",\r\n    \"total\": 1,\r\n    \"items\": [\r\n        {\r\n            \"id\": \"{{item_id}}\",\r\n            \"price\": 12.50,\r\n            \"amount\": 1\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"restaurantId\": \"{{restaurant_id}}\",\r\n    \"userId\": \"{{user_id}}\",\r\n    \"total\": 12.50,\r\n    \"items\": [\r\n        {\r\n            \"id\": \"{{item_id}}\",\r\n            \"price\": 12.50,\r\n            \"amount\": 1\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -174,17 +482,27 @@
 		{
 			"name": "Get Order By Id",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/orders-service/orders/7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2",
+					"raw": "{{baseUrl}}/orders-service/orders/48add9d4-31a6-4169-8d01-5af03dcaa297",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"orders-service",
 						"orders",
-						"7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2"
+						"48add9d4-31a6-4169-8d01-5af03dcaa297"
 					]
 				}
 			},
@@ -193,17 +511,27 @@
 		{
 			"name": "Approve Order",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/orders-service/orders/935576a8-a6bc-4123-9f41-27a02304a0f6/approve",
+					"raw": "{{baseUrl}}/orders-service/orders/48add9d4-31a6-4169-8d01-5af03dcaa297/approve",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"orders-service",
 						"orders",
-						"935576a8-a6bc-4123-9f41-27a02304a0f6",
+						"48add9d4-31a6-4169-8d01-5af03dcaa297",
 						"approve"
 					]
 				}
@@ -213,17 +541,27 @@
 		{
 			"name": "Deliver Order",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "PATCH",
 				"header": [],
 				"url": {
-					"raw": "{{baseUrl}}/orders-service/orders/7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2/deliver",
+					"raw": "{{baseUrl}}/orders-service/orders/48add9d4-31a6-4169-8d01-5af03dcaa297/deliver",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"orders-service",
 						"orders",
-						"7ef89616-cd42-451e-b1d9-4f6ff5e6d0a2",
+						"48add9d4-31a6-4169-8d01-5af03dcaa297",
 						"deliver"
 					]
 				}

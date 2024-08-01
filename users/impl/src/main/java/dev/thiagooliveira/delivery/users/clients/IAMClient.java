@@ -1,7 +1,7 @@
 package dev.thiagooliveira.delivery.users.clients;
 
-import dev.thiagooliveira.users.spec.dto.Address;
-import dev.thiagooliveira.users.spec.dto.User;
+import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.User;
 import java.util.UUID;
 
 public interface IAMClient {

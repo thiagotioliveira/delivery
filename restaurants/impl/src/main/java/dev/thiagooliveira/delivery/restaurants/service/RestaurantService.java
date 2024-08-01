@@ -7,7 +7,11 @@ import java.util.UUID;
 
 public interface RestaurantService {
 
+    RestaurantUserDetailsPage getAll(UUID userId, PageRequest pageRequest);
+
     RestaurantPage getAll(PageRequest pageRequest);
+
+    Optional<RestaurantUserDetails> getById(UUID userId, UUID restaurantId);
 
     Optional<Restaurant> getById(UUID restaurantId);
 

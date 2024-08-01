@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -21,6 +22,7 @@ public class DeleteRestaurantsToUserConsumer {
     private final CreateRestaurantUserProducer createRestaurantUserProducer;
 
     @RabbitListener(queues = AMQPConfig.DELETE_RESTAURANTS_TO_USER_QUEUE)
+    @Transactional
     public void consume(Message<UserAddress> message) {
         UserAddress userAddress = message.getPayload();
         restaurantService.deleteRestaurantsByUserId(userAddress.getUserId());

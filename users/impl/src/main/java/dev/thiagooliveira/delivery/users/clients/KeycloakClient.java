@@ -1,16 +1,18 @@
 package dev.thiagooliveira.delivery.users.clients;
 
+import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.User;
 import dev.thiagooliveira.delivery.users.exceptions.UserNotFoundException;
 import dev.thiagooliveira.delivery.users.mappers.UserMapper;
-import dev.thiagooliveira.users.spec.dto.Address;
-import dev.thiagooliveira.users.spec.dto.User;
 import jakarta.ws.rs.NotFoundException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.representations.idm.UserRepresentation;
 
 @RequiredArgsConstructor
+@Slf4j
 public class KeycloakClient implements IAMClient {
     private final RealmResource realm;
     private final UserMapper userMapper;
@@ -33,7 +35,8 @@ public class KeycloakClient implements IAMClient {
         try {
             return realm.users().get(id.toString()).toRepresentation();
         } catch (NotFoundException e) {
-            throw new UserNotFoundException(e);
+            log.debug("user not found.", e);
+            throw new UserNotFoundException();
         }
     }
 }

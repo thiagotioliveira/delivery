@@ -13,9 +13,9 @@
 
     <properties>
         <openapi-generator-maven-plugin.version>7.5.0</openapi-generator-maven-plugin.version>
-        <codegen.api.package.name>dev.thiagooliveira.users.spec.api</codegen.api.package.name>
-        <codegen.client.package.name>dev.thiagooliveira.users.spec.client</codegen.client.package.name>
-        <codegen.model.page.name>dev.thiagooliveira.users.spec.dto</codegen.model.page.name>
+        <codegen.api.package.name>dev.thiagooliveira.delivery.users.controllers</codegen.api.package.name>
+        <codegen.client.package.name>dev.thiagooliveira.delivery.users.clients</codegen.client.package.name>
+        <codegen.model.page.name>dev.thiagooliveira.delivery.users.dto</codegen.model.page.name>
     </properties>
 
     <dependencies>
@@ -72,6 +72,11 @@
             <groupId>io.github.openfeign.form</groupId>
             <artifactId>feign-form</artifactId>
             <version>${feign-form.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-core</artifactId>
+            <version>${scribejava.version}</version>
         </dependency>
     </dependencies>
 
@@ -143,6 +148,7 @@
                             <configOptions>
                                 <library>feign</library>
                                 <useJakartaEe>true</useJakartaEe>
+                                <invokerPackage>${codegen.client.package.name}.invokers</invokerPackage>
                                 <apiPackage>${codegen.client.package.name}</apiPackage>
                                 <modelPackage>${codegen.model.page.name}</modelPackage>
                             </configOptions>

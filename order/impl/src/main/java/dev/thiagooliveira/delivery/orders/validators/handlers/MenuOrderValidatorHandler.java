@@ -47,8 +47,8 @@ public class MenuOrderValidatorHandler implements OrderValidatorHandler {
                 orderItem.setName(menuItem.getName());
             }
             items.add(orderItem);
+            log.debug("item {} validated.", orderItem.getId());
         }
-
         var output = new OrderValidatedMap();
         output.putItems(items);
         return output;

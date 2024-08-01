@@ -2,6 +2,8 @@ package dev.thiagooliveira.delivery.restaurants.mappers;
 
 import dev.thiagooliveira.delivery.restaurants.dto.Restaurant;
 import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantUserDetails;
+import dev.thiagooliveira.delivery.restaurants.dto.RestaurantUserDetailsPage;
 import dev.thiagooliveira.delivery.restaurants.model.RestaurantIdWithAddress;
 import dev.thiagooliveira.delivery.restaurants.model.RestaurantUser;
 import java.util.UUID;
@@ -16,8 +18,18 @@ public interface RestaurantMapper {
 
     dev.thiagooliveira.delivery.restaurants.model.Restaurant toRestaurant(Restaurant restaurant);
 
+    @Mapping(target = "id", source = "restaurant.id")
+    @Mapping(target = "name", source = "restaurant.name")
+    @Mapping(target = "description", source = "restaurant.description")
+    @Mapping(target = "phoneNumber", source = "restaurant.phoneNumber")
+    @Mapping(target = "address", source = "restaurant.address")
+    RestaurantUserDetails toRestaurantUserDetails(RestaurantUser restaurantUser);
+
     RestaurantPage toRestaurantPage(
             org.springframework.data.domain.Page<dev.thiagooliveira.delivery.restaurants.model.Restaurant> page);
+
+    RestaurantUserDetailsPage toRestaurantPageFromRestaurants(
+            org.springframework.data.domain.Page<dev.thiagooliveira.delivery.restaurants.model.RestaurantUser> page);
 
     @Mapping(target = "id.restaurantId", source = "restaurantId")
     @Mapping(target = "id.userId", source = "userId")

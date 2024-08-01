@@ -35,5 +35,14 @@ notification: 8766
 
 /swagger-ui/index.html
 
+http://localhost:8080/realms/delivery/.well-known/openid-configuration
+
+docker-compose:
+keycloak:
+  volume:
+    - C:\Users\Thiago\data:/tmp
+
+./kc.sh export --dir /tmp --realm delivery
+
 user-service:
 delivery-realm.json removing the ‘authorizationSettings‘ node

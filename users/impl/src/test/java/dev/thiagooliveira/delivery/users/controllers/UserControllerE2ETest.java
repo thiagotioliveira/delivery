@@ -3,11 +3,11 @@ package dev.thiagooliveira.delivery.users.controllers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import dasniko.testcontainers.keycloak.KeycloakContainer;
-import dev.thiagooliveira.users.spec.ApiClient;
-import dev.thiagooliveira.users.spec.client.UsersApi;
-import dev.thiagooliveira.users.spec.dto.Address;
-import dev.thiagooliveira.users.spec.dto.ApiResponse;
-import dev.thiagooliveira.users.spec.dto.User;
+import dev.thiagooliveira.delivery.users.clients.UsersApi;
+import dev.thiagooliveira.delivery.users.clients.invokers.ApiClient;
+import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.ApiResponse;
+import dev.thiagooliveira.delivery.users.dto.User;
 import feign.FeignException;
 import java.time.Duration;
 import java.util.List;
@@ -26,7 +26,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Testcontainers
 class UserControllerE2ETest {
-    private static final String USER_ID = "2f3f2318-98b0-42e4-8d13-62aa8999099f";
+    private static final String USER_ID = "96768a60-dac9-4bdc-9b6d-a7c89052c7e9";
 
     @LocalServerPort
     private int port;

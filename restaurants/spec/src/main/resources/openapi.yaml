@@ -3,6 +3,65 @@ info:
   title: Restaurant API
   version: 1.0.0
 paths:
+  /admin/restaurants:
+    get:
+      tags:
+        - RestaurantAdmin
+      summary: Get a paginated list of restaurants
+      description: Retrieve a paginated list of restaurants.
+      operationId: getRestaurantsAsAdmin
+      parameters:
+        - name: pageNumber
+          in: query
+          description: The page number to retrieve
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pageSize
+          in: query
+          description: The number of items per page
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          description: Successful response with a paginated list of restaurants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestaurantPage'
+        '400':
+          description: Bad request, e.g., invalid pageNumber or pageSize
+        '500':
+          description: Internal server error
+  /admin/restaurants/{restaurantId}:
+    get:
+      tags:
+        - RestaurantAdmin
+      summary: Get restaurant by ID
+      description: Retrieve details of a specific restaurant by its ID.
+      operationId: getRestaurantByIdAsAdmin
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          description: ID of the restaurant to retrieve
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response with restaurant details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+        '404':
+          description: Restaurant not found
+        '500':
+          description: Internal server error
   /restaurants:
     get:
       tags:
@@ -31,7 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestaurantPage'
+                $ref: '#/components/schemas/RestaurantUserDetailsPage'
         '400':
           description: Bad request, e.g., invalid pageNumber or pageSize
         '500':
@@ -50,13 +109,14 @@ paths:
           description: ID of the restaurant to retrieve
           schema:
             type: string
+            format: uuid
       responses:
         '200':
           description: Successful response with restaurant details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Restaurant'
+                $ref: '#/components/schemas/RestaurantUserDetails'
         '404':
           description: Restaurant not found
         '500':
@@ -108,6 +168,38 @@ components:
           format: int32
           description: The number of items per page
           default: 10
+    RestaurantUserDetailsPage:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestaurantUserDetails'
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        totalPages:
+          type: integer
+          description: Total number of pages
+        totalElements:
+          type: integer
+          description: Total number of elements
+        last:
+          type: boolean
+          description: Indicates if this is the last page
+        size:
+          type: integer
+          description: Number of elements per page
+        number:
+          type: integer
+          description: Current page number
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+          description: Indicates if this is the first page
+        numberOfElements:
+          type: integer
+          description: Number of elements currently on this page
     RestaurantPage:
       type: object
       properties:
@@ -179,6 +271,25 @@ components:
           nullable: false
         address:
           $ref: '#/components/schemas/Address'
+    RestaurantUserDetails:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          nullable: false
+        distanceInMeters:
+          type: number
+          format: double
+        description:
+          type: string
+        phoneNumber:
+          type: string
+          nullable: false
+        address:
+          $ref: '#/components/schemas/Address'
     RestaurantUser:
       type: object
       properties:
@@ -211,3 +322,12 @@ components:
           type: string
         notes:
           type: string
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          scopes: { }
+security:
+  - ClientCredentials: [ ]

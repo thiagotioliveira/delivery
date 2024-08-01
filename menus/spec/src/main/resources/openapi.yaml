@@ -168,3 +168,12 @@ components:
         numberOfElements:
           type: integer
           description: Number of elements currently on this page
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          scopes: { }
+security:
+  - ClientCredentials: [ ]

@@ -39,6 +39,7 @@
         <org.mockito.version>5.11.0</org.mockito.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <scribejava.version>8.3.3</scribejava.version>
         <swagger-annotations.version>1.6.9</swagger-annotations.version>
         <swagger-annotations.v3.version>2.2.8</swagger-annotations.v3.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>

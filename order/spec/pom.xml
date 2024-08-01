@@ -73,6 +73,11 @@
             <artifactId>feign-form</artifactId>
             <version>${feign-form.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-core</artifactId>
+            <version>${scribejava.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -147,6 +152,7 @@
                                 <library>feign</library>
                                 <useJakartaEe>true</useJakartaEe>
                                 <dateLibrary>java8</dateLibrary>
+                                <invokerPackage>${codegen.client.package.name}.invokers</invokerPackage>
                                 <apiPackage>${codegen.client.package.name}</apiPackage>
                                 <modelPackage>${codegen.model.page.name}</modelPackage>
                             </configOptions>

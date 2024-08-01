@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     @Mapping(target = "name", expression = "java(concatenateNames(user.getFirstName(), user.getLastName()))")
-    User toUser(dev.thiagooliveira.users.spec.dto.User user);
+    User toUser(dev.thiagooliveira.delivery.users.dto.User user);
 
     default String concatenateNames(String firstName, String lastName) {
         return firstName + " " + lastName;

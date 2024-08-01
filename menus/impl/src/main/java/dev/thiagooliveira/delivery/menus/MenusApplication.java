@@ -1,11 +1,13 @@
 package dev.thiagooliveira.delivery.menus;
 
+import dev.thiagooliveira.delivery.menus.config.properties.AppProperties;
 import dev.thiagooliveira.delivery.menus.dto.MenuItem;
 import dev.thiagooliveira.delivery.menus.dto.MenuPage;
 import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import dev.thiagooliveira.delivery.menus.services.MenuService;
-import dev.thiagooliveira.delivery.restaurants.ApiClient;
-import dev.thiagooliveira.delivery.restaurants.clients.RestaurantApi;
+import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
+import dev.thiagooliveira.delivery.restaurants.clients.invokers.ApiClient;
+import dev.thiagooliveira.delivery.restaurants.clients.invokers.auth.OauthClientCredentialsGrant;
 import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -23,21 +25,34 @@ public class MenusApplication {
         SpringApplication.run(MenusApplication.class, args);
     }
 
-    private RestaurantApi restaurantApi;
+    @Autowired
+    private AppProperties appProperties;
 
     @Autowired
     private MenuService menuItemService;
 
     @Bean
     public CommandLineRunner importData() {
-        this.restaurantApi =
-                new ApiClient().setBasePath("http://localhost:8763").buildClient(RestaurantApi.class);
         return args -> {
-            RestaurantPage page = restaurantApi.getRestaurants(0, 9999);
+            OauthClientCredentialsGrant clientCredentialsGrant = new OauthClientCredentialsGrant(
+                    "",
+                    String.format(
+                            "%s/realms/%s/protocol/openid-connect/token",
+                            appProperties.getKeycloak().getBaseUrl(),
+                            appProperties.getKeycloak().getRealm()),
+                    "profile");
+            clientCredentialsGrant.configure(
+                    appProperties.getKeycloak().getClientId(),
+                    appProperties.getKeycloak().getClientSecret());
+
+            ApiClient apiClient = new ApiClient().setBasePath("http://localhost:8763");
+            apiClient.addAuthorization("ClientCredentials", clientCredentialsGrant);
+
+            var restaurantAdminApi = apiClient.buildClient(RestaurantAdminApi.class);
+            RestaurantPage page = restaurantAdminApi.getRestaurantsAsAdmin(0, 9999);
             page.getContent().forEach(r -> {
                 MenuPage menuPage = menuItemService.getAll(
-                        r.getId(),
-                        new PageRequest().pageNumber(0).pageSize(1));
+                        r.getId(), new PageRequest().pageNumber(0).pageSize(1));
                 if (menuPage.getContent().size() > 0) {
                     return;
                 }

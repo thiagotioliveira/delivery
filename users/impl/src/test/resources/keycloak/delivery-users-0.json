@@ -1,6 +1,95 @@
 {
   "realm" : "delivery",
   "users" : [ {
+    "id" : "8b1be42a-645f-4b1d-8670-e0160855e0e2",
+    "createdTimestamp" : 1722429474496,
+    "username" : "laura.jones",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "firstName" : "Laura",
+    "lastName" : "Jones",
+    "email" : "laura.jones@gmail.com",
+    "credentials" : [ {
+      "id" : "f0af9ff5-9b05-449f-b8b3-acc94966e8fb",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1722429480061,
+      "secretData" : "{\"value\":\"tW85qyywXBTckaTBUILx7XSpNMOvFNBIbFb6kr3CUtk=\",\"salt\":\"yxLlBeApyYxNM8+QcX83dA==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery", "USER" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "96768a60-dac9-4bdc-9b6d-a7c89052c7e9",
+    "createdTimestamp" : 1722429433032,
+    "username" : "michael.smith",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : true,
+    "firstName" : "Michael",
+    "lastName" : "Smith",
+    "email" : "michael.smith@gmail.com",
+    "attributes" : {
+      "country" : [ "Portugal" ],
+      "number" : [ "51" ],
+      "notes" : [ "Lisboa" ],
+      "city" : [ "Lisboa" ],
+      "street" : [ "Rua Luciano Cordeiro" ],
+      "postalCode" : [ "1150-212" ],
+      "state" : [ "Lisboa" ]
+    },
+    "credentials" : [ {
+      "id" : "b566f580-7ccb-4659-a391-9e179a77ca25",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1722429442814,
+      "secretData" : "{\"value\":\"Ng0nIK1SzfdZvjBfOfi/waV/9HH2rxq0jzGaZapnFSM=\",\"salt\":\"jG2eDpkLVzdzoIMSttqYBQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery", "USER" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "0cefbc97-a122-4239-b199-c935d484b66e",
+    "createdTimestamp" : 1722461210281,
+    "username" : "service-account-menus-service",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "serviceAccountClientId" : "menus-service",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery", "ADMIN" ],
+    "clientRoles" : {
+      "menus-service" : [ "uma_protection" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "c958bab0-06b7-4097-bb33-932a10973ddb",
+    "createdTimestamp" : 1722449350932,
+    "username" : "service-account-orders-service",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "serviceAccountClientId" : "orders-service",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery", "ADMIN" ],
+    "clientRoles" : {
+      "orders-service" : [ "uma_protection" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "55a45621-bc64-4b25-9077-41729934adef",
     "createdTimestamp" : 1721926496709,
     "username" : "service-account-users-service",
@@ -11,27 +100,11 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-delivery" ],
+    "realmRoles" : [ "default-roles-delivery", "ADMIN" ],
     "clientRoles" : {
       "realm-management" : [ "manage-users" ],
       "users-service" : [ "uma_protection" ]
     },
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
-    "id" : "2f3f2318-98b0-42e4-8d13-62aa8999099f",
-    "createdTimestamp" : 1721926476828,
-    "username" : "user-test1",
-    "enabled" : true,
-    "totp" : false,
-    "emailVerified" : true,
-    "firstName" : "User",
-    "lastName" : "Test 1",
-    "email" : "user-test1@gmail.com",
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-delivery" ],
     "notBefore" : 0,
     "groups" : [ ]
   } ]

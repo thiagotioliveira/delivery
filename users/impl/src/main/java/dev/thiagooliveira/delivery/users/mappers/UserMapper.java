@@ -1,8 +1,8 @@
 package dev.thiagooliveira.delivery.users.mappers;
 
+import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.User;
 import dev.thiagooliveira.delivery.users.message.dto.UserAddress;
-import dev.thiagooliveira.users.spec.dto.Address;
-import dev.thiagooliveira.users.spec.dto.User;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
