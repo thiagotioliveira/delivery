@@ -36,7 +36,6 @@ services:
     volumes:
       - .\keycloak\delivery-realm.json:/opt/keycloak/data/import/delivery-realm.json
       - .\keycloak\delivery-users-0.json:/opt/keycloak/data/import/delivery-users-0.json
-      - C:\Users\Thiago\data:/tmp
     depends_on:
       - postgres
     networks:
@@ -53,6 +52,12 @@ services:
     image: thiagotioliveira/delivery-discovery:latest
     ports:
       - "8761:8761"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8761 || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - delivery_network
   gateway:
@@ -60,7 +65,8 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
     depends_on:
-      - discovery
+      discovery:
+        condition: service_healthy
     ports:
       - "8082:8080"
     networks:
