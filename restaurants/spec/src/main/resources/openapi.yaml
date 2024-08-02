@@ -280,9 +280,10 @@ components:
         name:
           type: string
           nullable: false
-        distanceInMeters:
-          type: number
-          format: double
+        distance:
+          type: string
+        duration:
+          type: string
         description:
           type: string
         phoneNumber:
@@ -299,9 +300,10 @@ components:
         restaurantId:
           type: string
           format: uuid
-        distanceInMeters:
-          type: number
-          format: double
+        distance:
+          type: string
+        duration:
+          type: string
     RestaurantIdWithAddress:
       type: object
       properties:
@@ -322,6 +324,15 @@ components:
           type: string
         notes:
           type: string
+        formatted:
+          type: string
+          description: formatted address
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
   securitySchemes:
     ClientCredentials:
       type: oauth2

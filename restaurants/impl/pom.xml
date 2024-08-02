@@ -59,6 +59,11 @@
             <artifactId>liquibase-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>dev.thiagooliveira.delivery.location</groupId>
+            <artifactId>location-spec</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>dev.thiagooliveira.delivery.restaurants</groupId>
             <artifactId>restaurants-spec</artifactId>
             <version>0.0.1-SNAPSHOT</version>

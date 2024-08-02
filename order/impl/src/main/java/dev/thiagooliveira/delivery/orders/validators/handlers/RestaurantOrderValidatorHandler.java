@@ -1,5 +1,6 @@
 package dev.thiagooliveira.delivery.orders.validators.handlers;
 
+import dev.thiagooliveira.delivery.orders.config.factories.RestaurantsApiFactory;
 import dev.thiagooliveira.delivery.orders.dto.CreateOrder;
 import dev.thiagooliveira.delivery.orders.mappers.RestaurantMapper;
 import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
@@ -13,11 +14,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RestaurantOrderValidatorHandler implements OrderValidatorHandler {
 
-    private final RestaurantAdminApi restaurantAdminApi;
+    private final RestaurantsApiFactory restaurantsApiFactory;
     private final RestaurantMapper restaurantMapper;
 
     @Override
     public OrderValidatedMap validate(CreateOrder createOrder) {
+        RestaurantAdminApi restaurantAdminApi = restaurantsApiFactory.create();
         Restaurant restaurant = restaurantAdminApi.getRestaurantByIdAsAdmin(createOrder.getRestaurantId());
         log.debug("restaurant {} validated.", restaurant.getId());
         var output = new OrderValidatedMap();

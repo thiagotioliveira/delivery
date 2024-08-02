@@ -21,4 +21,7 @@ public class RestaurantIdWithAddress {
     private String postalCode;
 
     private String country;
+    private String formatted;
+    private Double latitude;
+    private Double longitude;
 }

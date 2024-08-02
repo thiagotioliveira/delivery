@@ -18,8 +18,13 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotNull
     private String street;
+
+    @NotNull
     private String number;
+
+    @NotNull
     private String city;
 
     @NotNull
@@ -32,4 +37,13 @@ public class Address {
     private String country;
 
     private String notes;
+
+    @NotNull
+    private String formatted;
+
+    @NotNull
+    private Double latitude;
+
+    @NotNull
+    private Double longitude;
 }

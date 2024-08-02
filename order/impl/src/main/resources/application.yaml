@@ -57,15 +57,13 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 app:
-  gateway:
-    baseUrl: http://localhost:8082
   client:
     users-service:
-      baseUrl: ${app.gateway.baseUrl}/users-service
+      serviceId: users-service
     restaurants-service:
-      baseUrl: ${app.gateway.baseUrl}/restaurants-service
+      serviceId: restaurants-service
     menus-service:
-      baseUrl: ${app.gateway.baseUrl}/menus-service
+      serviceId: menus-service
   keycloak:
     baseUrl: http://localhost:8080/
     clientId: orders-service

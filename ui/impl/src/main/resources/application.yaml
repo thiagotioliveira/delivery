@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: web-ui
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: delivery-ui
+            client-secret: bPAf9i0ndcYaU6lYC6xEGAlesX6EPkPf
+            scope: openid, profile, email
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/delivery
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/delivery

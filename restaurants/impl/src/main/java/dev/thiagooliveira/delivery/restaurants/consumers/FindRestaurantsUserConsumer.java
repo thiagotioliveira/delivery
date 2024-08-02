@@ -1,8 +1,8 @@
 package dev.thiagooliveira.delivery.restaurants.consumers;
 
 import dev.thiagooliveira.delivery.restaurants.config.AMQPConfig;
+import dev.thiagooliveira.delivery.restaurants.mappers.AddressMapper;
 import dev.thiagooliveira.delivery.restaurants.message.dto.CreateRestaurantUserCommand;
-import dev.thiagooliveira.delivery.restaurants.model.Address;
 import dev.thiagooliveira.delivery.restaurants.producers.CreateRestaurantUserProducer;
 import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
 import dev.thiagooliveira.delivery.users.message.dto.UserAddress;
@@ -16,12 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DeleteRestaurantsToUserConsumer {
+public class FindRestaurantsUserConsumer {
 
     private final RestaurantService restaurantService;
     private final CreateRestaurantUserProducer createRestaurantUserProducer;
+    private final AddressMapper addressMapper;
 
-    @RabbitListener(queues = AMQPConfig.DELETE_RESTAURANTS_TO_USER_QUEUE)
+    @RabbitListener(queues = AMQPConfig.FIND_RESTAURANTS_FOR_USER_QUEUE)
     @Transactional
     public void consume(Message<UserAddress> message) {
         UserAddress userAddress = message.getPayload();
@@ -35,25 +36,9 @@ public class DeleteRestaurantsToUserConsumer {
                 .forEach(r -> {
                     var command = new CreateRestaurantUserCommand(
                             r.getRestaurantId(),
-                            Address.builder()
-                                    .street(r.getStreet())
-                                    .number(r.getNumber())
-                                    .notes(r.getNotes())
-                                    .state(r.getState())
-                                    .city(r.getCity())
-                                    .country(r.getCountry())
-                                    .postalCode(r.getPostalCode())
-                                    .build(),
+                            addressMapper.toAddress(r),
                             userAddress.getUserId(),
-                            Address.builder()
-                                    .street(userAddress.getAddress().getStreet())
-                                    .number(userAddress.getAddress().getNumber())
-                                    .notes(userAddress.getAddress().getNotes())
-                                    .state(userAddress.getAddress().getState())
-                                    .city(userAddress.getAddress().getCity())
-                                    .country(userAddress.getAddress().getCountry())
-                                    .postalCode(userAddress.getAddress().getPostalCode())
-                                    .build());
+                            addressMapper.toAddress(userAddress.getAddress()));
                     createRestaurantUserProducer.send(command);
                 });
     }

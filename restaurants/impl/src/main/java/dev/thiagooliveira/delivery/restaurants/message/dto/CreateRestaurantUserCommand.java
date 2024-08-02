@@ -1,6 +1,5 @@
 package dev.thiagooliveira.delivery.restaurants.message.dto;
 
-import dev.thiagooliveira.delivery.restaurants.model.Address;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.UUID;

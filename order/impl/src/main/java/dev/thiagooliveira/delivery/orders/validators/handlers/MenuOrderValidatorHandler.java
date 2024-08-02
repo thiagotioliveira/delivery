@@ -2,6 +2,7 @@ package dev.thiagooliveira.delivery.orders.validators.handlers;
 
 import dev.thiagooliveira.delivery.menus.clients.MenuApi;
 import dev.thiagooliveira.delivery.menus.dto.MenuItem;
+import dev.thiagooliveira.delivery.orders.config.factories.MenuApiFactory;
 import dev.thiagooliveira.delivery.orders.dto.CreateOrder;
 import dev.thiagooliveira.delivery.orders.dto.OrderItem;
 import java.util.ArrayList;
@@ -18,10 +19,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class MenuOrderValidatorHandler implements OrderValidatorHandler {
 
-    private final MenuApi menuApi;
+    private final MenuApiFactory menuApiFactory;
 
     @Override
     public OrderValidatedMap validate(CreateOrder createOrder) {
+        var menuApi = menuApiFactory.create();
         Map<UUID, MenuItem> itemsMap =
                 menuApi
                         .getItemsByRestaurantId(createOrder.getRestaurantId(), 0, Integer.MAX_VALUE)

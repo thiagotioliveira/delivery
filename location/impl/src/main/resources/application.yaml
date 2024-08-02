@@ -1,0 +1,39 @@
+server:
+  port: 8767
+spring:
+  application:
+    name: location-service
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            scope: openid
+            authorization-grant-type: authorization_code
+            client-id: delivery-ui
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/delivery
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/delivery
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+app:
+  google:
+    directionsApi:
+      apiKey: "null" #use gogle directions api key here
+google:
+  application:
+    credentials: gcloud/application_default_credentials.json
+logging:
+  level:
+    dev:
+      thiagooliveira:
+        delivery: DEBUG

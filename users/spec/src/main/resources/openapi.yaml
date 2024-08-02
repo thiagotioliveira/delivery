@@ -105,13 +105,46 @@ components:
           type: string
           description: Email address of the user
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressValidated'
       required:
         - id
         - firstName
         - lastName
         - email
         - address
+    AddressValidated:
+      type: object
+      properties:
+        street:
+          type: string
+          description: Street address
+        number:
+          type: string
+          description: Street number
+        notes:
+          type: string
+          description: Additional notes
+        city:
+          type: string
+          description: City
+        state:
+          type: string
+          description: State
+        postalCode:
+          type: string
+          description: Postal code
+        country:
+          type: string
+          description: Country
+        formatted:
+          type: string
+          description: formatted address
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
     Address:
       type: object
       properties:

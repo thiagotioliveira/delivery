@@ -1,13 +1,11 @@
 package dev.thiagooliveira.delivery.menus;
 
-import dev.thiagooliveira.delivery.menus.config.properties.AppProperties;
+import dev.thiagooliveira.delivery.menus.config.factories.RestaurantAdminApiFactory;
 import dev.thiagooliveira.delivery.menus.dto.MenuItem;
 import dev.thiagooliveira.delivery.menus.dto.MenuPage;
 import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import dev.thiagooliveira.delivery.menus.services.MenuService;
 import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
-import dev.thiagooliveira.delivery.restaurants.clients.invokers.ApiClient;
-import dev.thiagooliveira.delivery.restaurants.clients.invokers.auth.OauthClientCredentialsGrant;
 import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -16,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
@@ -26,32 +25,17 @@ public class MenusApplication {
     }
 
     @Autowired
-    private AppProperties appProperties;
-
+    private RestaurantAdminApiFactory factory;
     @Autowired
-    private MenuService menuItemService;
+    private MenuService menuService;
 
     @Bean
     public CommandLineRunner importData() {
         return args -> {
-            OauthClientCredentialsGrant clientCredentialsGrant = new OauthClientCredentialsGrant(
-                    "",
-                    String.format(
-                            "%s/realms/%s/protocol/openid-connect/token",
-                            appProperties.getKeycloak().getBaseUrl(),
-                            appProperties.getKeycloak().getRealm()),
-                    "profile");
-            clientCredentialsGrant.configure(
-                    appProperties.getKeycloak().getClientId(),
-                    appProperties.getKeycloak().getClientSecret());
-
-            ApiClient apiClient = new ApiClient().setBasePath("http://localhost:8763");
-            apiClient.addAuthorization("ClientCredentials", clientCredentialsGrant);
-
-            var restaurantAdminApi = apiClient.buildClient(RestaurantAdminApi.class);
+            var restaurantAdminApi = factory.create();
             RestaurantPage page = restaurantAdminApi.getRestaurantsAsAdmin(0, 9999);
             page.getContent().forEach(r -> {
-                MenuPage menuPage = menuItemService.getAll(
+                MenuPage menuPage = menuService.getAll(
                         r.getId(), new PageRequest().pageNumber(0).pageSize(1));
                 if (menuPage.getContent().size() > 0) {
                     return;
@@ -117,6 +101,6 @@ public class MenusApplication {
         menuItem.setDescription(description);
         menuItem.setPrice(price);
 
-        menuItemService.save(menuItem);
+        menuService.save(menuItem);
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class AMQPConfig {
 
     public static final String CREATE_RESTAURANT_USER_QUEUE = "create-restaurant-user-queue";
-    public static final String DELETE_RESTAURANTS_TO_USER_QUEUE = "delete-restaurants-to-user-queue";
+    public static final String FIND_RESTAURANTS_FOR_USER_QUEUE = "find-restaurants-for-user-queue";
 
     @Bean
     public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
@@ -26,8 +26,8 @@ public class AMQPConfig {
     }
 
     @Bean
-    public Queue deleteRestaurantsToUserQueue() {
-        return new Queue(DELETE_RESTAURANTS_TO_USER_QUEUE);
+    public Queue findRestaurantsForUserQueue() {
+        return new Queue(FIND_RESTAURANTS_FOR_USER_QUEUE);
     }
 
     @Bean
@@ -36,8 +36,8 @@ public class AMQPConfig {
     }
 
     @Bean
-    public Binding binding(Queue deleteRestaurantsToUserQueue, TopicExchange userAddressUpdatedTopic) {
-        return BindingBuilder.bind(deleteRestaurantsToUserQueue)
+    public Binding binding(Queue findRestaurantsForUserQueue, TopicExchange userAddressUpdatedTopic) {
+        return BindingBuilder.bind(findRestaurantsForUserQueue)
                 .to(userAddressUpdatedTopic)
                 .with(Label.USER_ADDRESS_UPDATED_ROUTING_KEY);
     }

@@ -1,21 +1,43 @@
 package dev.thiagooliveira.delivery.orders.config;
 
+import dev.thiagooliveira.delivery.orders.config.factories.RestaurantsApiFactory;
 import dev.thiagooliveira.delivery.orders.config.properties.AppProperties;
+import dev.thiagooliveira.delivery.orders.exceptions.ServiceInstanceNotFoundException;
 import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
 import dev.thiagooliveira.delivery.restaurants.clients.invokers.ApiClient;
 import dev.thiagooliveira.delivery.restaurants.clients.invokers.auth.OauthClientCredentialsGrant;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 @Configuration
+@Slf4j
 public class RestaurantsApiConfig {
 
     @Bean
-    public RestaurantAdminApi restaurantsAdminApi(AppProperties appProperties) {
+    @Scope(scopeName = SCOPE_PROTOTYPE)
+    public RestaurantAdminApi restaurantsAdminApi(AppProperties appProperties, LoadBalancerClient loadBalancerClient) {
+        ServiceInstance instance = loadBalancerClient.choose(appProperties.getClient().getRestaurantsService().getServiceId());
+        if(instance == null){
+            throw new ServiceInstanceNotFoundException(appProperties.getClient().getRestaurantsService().getServiceId());
+        }
         ApiClient apiClient = new ApiClient()
-                .setBasePath(appProperties.getClient().getRestaurantsService().getBaseUrl());
+                .setBasePath(instance.getUri().toString());
         apiClient.addAuthorization("ClientCredentials", buildOauthClientCredentialsGrant(appProperties.getKeycloak()));
-        return apiClient.buildClient(RestaurantAdminApi.class);
+        RestaurantAdminApi restaurantAdminApi = apiClient.buildClient(RestaurantAdminApi.class);
+        log.debug("creating restaurantAdminApi - prototype scope.");
+        return restaurantAdminApi;
+    }
+
+    @Bean
+    public RestaurantsApiFactory restaurantsApiFactory(ApplicationContext applicationContext) {
+        return new RestaurantsApiFactory(applicationContext);
     }
 
     private OauthClientCredentialsGrant buildOauthClientCredentialsGrant(AppProperties.Keycloak keycloak) {

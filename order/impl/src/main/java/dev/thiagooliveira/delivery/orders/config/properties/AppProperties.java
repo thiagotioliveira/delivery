@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class AppProperties {
-    private Gateway gateway;
     private Client client;
     private Keycloak keycloak;
 
@@ -30,7 +29,7 @@ public class AppProperties {
         @Getter
         @Setter
         public static class Service {
-            private String baseUrl;
+            private String serviceId;
         }
     }
 

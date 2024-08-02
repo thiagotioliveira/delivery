@@ -19,7 +19,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**", "GET"))
                         .permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/admin/**"))
-                        .hasRole("ADMIN")
+                        .hasAnyRole("ADMIN", "SERVICE")
                         .requestMatchers(new AntPathRequestMatcher("/**"))
                         .hasRole("USER")
                         .anyRequest()

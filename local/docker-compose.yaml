@@ -36,6 +36,7 @@ services:
     volumes:
       - .\keycloak\delivery-realm.json:/opt/keycloak/data/import/delivery-realm.json
       - .\keycloak\delivery-users-0.json:/opt/keycloak/data/import/delivery-users-0.json
+      #- C:\Users\Thiago\data:/tmp
     depends_on:
       - postgres
     networks:

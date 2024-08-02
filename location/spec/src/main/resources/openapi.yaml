@@ -1,0 +1,142 @@
+openapi: 3.0.0
+info:
+  title: User API
+  description: API for managing users
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: Users
+    description: Operations related to users
+paths:
+  /admin/directions:
+    post:
+      summary: Directions between two addresses
+      operationId: directions
+      tags:
+        - Location
+      requestBody:
+        description: Address object to be validated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Directions'
+      responses:
+        '200':
+          description: Address successfully validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+  /admin/address/validate:
+    post:
+      summary: Validate address
+      operationId: validateAddress
+      tags:
+        - Location
+      requestBody:
+        description: Address object to be validated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '200':
+          description: Address successfully validated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressValidated'
+components:
+  schemas:
+    Route:
+      type: object
+      properties:
+        distance:
+          type: string
+          description: distance
+        duration:
+          type: string
+          description: duration
+    Directions:
+      type: object
+      properties:
+        origin:
+          $ref: '#/components/schemas/AddressValidated'
+        destination:
+          $ref: '#/components/schemas/AddressValidated'
+    AddressValidated:
+      type: object
+      properties:
+        street:
+          type: string
+          description: Street address
+        number:
+          type: string
+          description: Street number
+        notes:
+          type: string
+          description: Additional notes
+        city:
+          type: string
+          description: City
+        state:
+          type: string
+          description: State
+        postalCode:
+          type: string
+          description: Postal code
+        country:
+          type: string
+          description: Country
+        formatted:
+          type: string
+          description: formatted address
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          description: Street address
+        number:
+          type: string
+          description: Street number
+        notes:
+          type: string
+          description: Additional notes
+        city:
+          type: string
+          description: City
+        state:
+          type: string
+          description: State
+        postalCode:
+          type: string
+          description: Postal code
+        country:
+          type: string
+          description: Country
+      required:
+        - street
+        - number
+        - city
+        - state
+        - postalCode
+        - country
+  securitySchemes:
+    ClientCredentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          scopes: { }
+security:
+  - ClientCredentials: [ ]

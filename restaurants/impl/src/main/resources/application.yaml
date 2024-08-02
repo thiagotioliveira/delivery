@@ -39,3 +39,12 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+app:
+  client:
+    location-service:
+      serviceId: location-service
+  keycloak:
+    baseUrl: http://localhost:8080/
+    clientId: restaurants-service
+    clientSecret: MakEeNbkCiLQmCq5jYzg50nuKKnLt7fF
+    realm: delivery

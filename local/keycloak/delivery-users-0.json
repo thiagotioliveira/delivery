@@ -38,9 +38,12 @@
       "number" : [ "51" ],
       "notes" : [ "Lisboa" ],
       "city" : [ "Lisboa" ],
+      "formatted" : [ "Rua Luciano Cordeiro 51 2º andar direito, 1150-212 Lisboa, Portugal" ],
       "street" : [ "Rua Luciano Cordeiro" ],
       "postalCode" : [ "1150-212" ],
-      "state" : [ "Lisboa" ]
+      "latitude" : [ "38.7249445" ],
+      "state" : [ "Lisboa" ],
+      "longitude" : [ "-9.1442222" ]
     },
     "credentials" : [ {
       "id" : "b566f580-7ccb-4659-a391-9e179a77ca25",
@@ -66,7 +69,7 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-delivery", "ADMIN" ],
+    "realmRoles" : [ "default-roles-delivery", "SERVICE" ],
     "clientRoles" : {
       "menus-service" : [ "uma_protection" ]
     },
@@ -83,9 +86,26 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-delivery", "ADMIN" ],
+    "realmRoles" : [ "default-roles-delivery", "SERVICE" ],
     "clientRoles" : {
       "orders-service" : [ "uma_protection" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "7973e97a-65e9-4ea9-ba63-a4bb3098b14e",
+    "createdTimestamp" : 1722607804575,
+    "username" : "service-account-restaurants-service",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "serviceAccountClientId" : "restaurants-service",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-delivery", "SERVICE" ],
+    "clientRoles" : {
+      "restaurants-service" : [ "uma_protection" ]
     },
     "notBefore" : 0,
     "groups" : [ ]
@@ -100,7 +120,7 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-delivery", "ADMIN" ],
+    "realmRoles" : [ "default-roles-delivery", "SERVICE" ],
     "clientRoles" : {
       "realm-management" : [ "manage-users" ],
       "users-service" : [ "uma_protection" ]

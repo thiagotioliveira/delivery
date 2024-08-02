@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.users.clients;
 
-import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.AddressValidated;
 import dev.thiagooliveira.delivery.users.dto.User;
 import dev.thiagooliveira.delivery.users.exceptions.UserNotFoundException;
 import dev.thiagooliveira.delivery.users.mappers.UserMapper;
@@ -23,9 +23,9 @@ public class KeycloakClient implements IAMClient {
     }
 
     @Override
-    public User updateAddress(UUID id, Address address) {
+    public User updateAddress(UUID id, AddressValidated addressValidated) {
         User user = get(id);
-        user.setAddress(address);
+        user.setAddress(addressValidated);
         UserRepresentation userRepresentation = userMapper.toUserRepresentation(user);
         realm.users().get(id.toString()).update(userRepresentation);
         return user;

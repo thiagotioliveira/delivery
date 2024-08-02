@@ -3,19 +3,41 @@ package dev.thiagooliveira.delivery.orders.config;
 import dev.thiagooliveira.delivery.menus.clients.MenuApi;
 import dev.thiagooliveira.delivery.menus.clients.invokers.ApiClient;
 import dev.thiagooliveira.delivery.menus.clients.invokers.auth.OauthClientCredentialsGrant;
+import dev.thiagooliveira.delivery.orders.config.factories.MenuApiFactory;
 import dev.thiagooliveira.delivery.orders.config.properties.AppProperties;
+import dev.thiagooliveira.delivery.orders.exceptions.ServiceInstanceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.*;
 
 @Configuration
+@Slf4j
 public class MenuApiConfig {
 
     @Bean
-    public MenuApi menuApi(AppProperties appProperties) {
+    @Scope(scopeName = SCOPE_PROTOTYPE)
+    public MenuApi menuApi(AppProperties appProperties, LoadBalancerClient loadBalancerClient) {
+        ServiceInstance instance = loadBalancerClient.choose(appProperties.getClient().getMenusService().getServiceId());
+        if(instance == null){
+            throw new ServiceInstanceNotFoundException(appProperties.getClient().getMenusService().getServiceId());
+        }
         ApiClient apiClient = new ApiClient()
-                .setBasePath(appProperties.getClient().getMenusService().getBaseUrl());
+                .setBasePath(instance.getUri().toString());
         apiClient.addAuthorization("ClientCredentials", buildOauthClientCredentialsGrant(appProperties.getKeycloak()));
-        return apiClient.buildClient(MenuApi.class);
+        MenuApi menuApi = apiClient.buildClient(MenuApi.class);
+        log.debug("creating menuApi - prototype scope.");
+        return menuApi;
+    }
+
+    @Bean
+    public MenuApiFactory menuApiFactory(ApplicationContext applicationContext){
+        return new MenuApiFactory(applicationContext);
     }
 
     private OauthClientCredentialsGrant buildOauthClientCredentialsGrant(AppProperties.Keycloak keycloak) {

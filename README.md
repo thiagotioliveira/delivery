@@ -32,6 +32,7 @@ restaurants: 8763
 menus: 8764
 order: 8765
 notification: 8766
+location: 8767
 
 /swagger-ui/index.html
 
@@ -46,3 +47,8 @@ keycloak:
 
 user-service:
 delivery-realm.json removing the ‘authorizationSettings‘ node
+GOOGLE_APPLICATION_CREDENTIALS
+[C:\Users\Thiago\AppData\Roaming\gcloud\application_default_credentials.json]
+
+converte o openapi.yaml to json
+PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output -l javascript --additional-properties useES6=false

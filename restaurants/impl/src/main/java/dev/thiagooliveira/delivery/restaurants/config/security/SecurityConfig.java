@@ -19,12 +19,13 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**", "GET"))
                         .permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/admin/**"))
-                        .hasRole("ADMIN")
+                        .hasAnyRole("ADMIN", "SERVICE")
                         .requestMatchers(new AntPathRequestMatcher("/**"))
                         .hasRole("USER")
                         .anyRequest()
                         .authenticated());
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new JWTConverter())));
+        http.cors(cors -> cors.disable());
         return http.build();
     }
 }

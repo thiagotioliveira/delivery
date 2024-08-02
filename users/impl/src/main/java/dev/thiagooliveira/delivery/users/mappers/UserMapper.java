@@ -1,6 +1,6 @@
 package dev.thiagooliveira.delivery.users.mappers;
 
-import dev.thiagooliveira.delivery.users.dto.Address;
+import dev.thiagooliveira.delivery.users.dto.AddressValidated;
 import dev.thiagooliveira.delivery.users.dto.User;
 import dev.thiagooliveira.delivery.users.message.dto.UserAddress;
 import java.util.Collections;
@@ -24,20 +24,20 @@ public interface UserMapper {
     UserAddress toUserAddress(User user);
 
     @Named("attributesToAddress")
-    default Address mapAttributesToAddress(Map<String, List<String>> attributes) {
+    default AddressValidated mapAttributesToAddress(Map<String, List<String>> attributes) {
         return attributesToAddress(attributes);
     }
 
     @Named("addressToAttributes")
-    default Map<String, List<String>> mapAddressToAttributes(Address address) {
+    default Map<String, List<String>> mapAddressToAttributes(AddressValidated address) {
         return addressToAttributes(address);
     }
 
-    private static Address attributesToAddress(Map<String, List<String>> attributes) {
+    private static AddressValidated attributesToAddress(Map<String, List<String>> attributes) {
         if (attributes == null) {
             return null;
         }
-        Address address = new Address();
+        AddressValidated address = new AddressValidated();
         address.setStreet(getFirstElement(attributes.get("street")));
         address.setCity(getFirstElement(attributes.get("city")));
         address.setNotes(getFirstElement(attributes.get("notes")));
@@ -45,11 +45,19 @@ public interface UserMapper {
         address.setState(getFirstElement(attributes.get("state")));
         address.setPostalCode(getFirstElement(attributes.get("postalCode")));
         address.setCountry(getFirstElement(attributes.get("country")));
-
+        address.setFormatted(getFirstElement(attributes.get("formatted")));
+        String latitude = getFirstElement(attributes.get("latitude"));
+        if (latitude != null) {
+            address.setLatitude(Double.valueOf(latitude));
+        }
+        String longitude = getFirstElement(attributes.get("longitude"));
+        if (longitude != null) {
+            address.setLongitude(Double.valueOf(longitude));
+        }
         return address;
     }
 
-    private static Map<String, List<String>> addressToAttributes(Address address) {
+    private static Map<String, List<String>> addressToAttributes(AddressValidated address) {
         if (address == null) {
             return null;
         }
@@ -62,6 +70,16 @@ public interface UserMapper {
         attributes.put("postalCode", Collections.singletonList(address.getPostalCode()));
         attributes.put("country", Collections.singletonList(address.getCountry()));
         attributes.put("number", Collections.singletonList(address.getNumber()));
+        attributes.put("formatted", Collections.singletonList(address.getFormatted()));
+        if (address.getLatitude() != null) {
+            attributes.put(
+                    "latitude", Collections.singletonList(address.getLatitude().toString()));
+        }
+        if (address.getLongitude() != null) {
+            attributes.put(
+                    "longitude",
+                    Collections.singletonList(address.getLongitude().toString()));
+        }
 
         return attributes;
     }

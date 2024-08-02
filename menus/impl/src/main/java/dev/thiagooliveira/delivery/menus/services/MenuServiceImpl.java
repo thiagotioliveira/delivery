@@ -1,5 +1,6 @@
 package dev.thiagooliveira.delivery.menus.services;
 
+import dev.thiagooliveira.delivery.menus.config.factories.RestaurantAdminApiFactory;
 import dev.thiagooliveira.delivery.menus.dto.MenuItem;
 import dev.thiagooliveira.delivery.menus.dto.MenuPage;
 import dev.thiagooliveira.delivery.menus.dto.PageRequest;
@@ -7,13 +8,18 @@ import dev.thiagooliveira.delivery.menus.mappers.MenuMapper;
 import dev.thiagooliveira.delivery.menus.respositories.MenuItemRepository;
 import java.util.Optional;
 import java.util.UUID;
+
+import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MenuServiceImpl implements MenuService {
 
+    private final RestaurantAdminApiFactory restaurantAdminApiFactory;
     private final MenuMapper menuMapper;
     private final MenuItemRepository menuItemRepository;
 
@@ -24,7 +30,11 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuItem save(MenuItem menuItem) {
-        return menuMapper.toMenuItem(menuItemRepository.save(menuMapper.toMenuItem(menuItem)));
+        RestaurantAdminApi restaurantAdminApi = restaurantAdminApiFactory.create();
+        restaurantAdminApi.getRestaurantByIdAsAdmin(menuItem.getRestaurantId());
+        MenuItem menuItemSaved = menuMapper.toMenuItem(menuItemRepository.save(menuMapper.toMenuItem(menuItem)));
+        log.debug("item '{}' saved", menuItemSaved.getId());
+        return menuItemSaved;
     }
 
     @Override

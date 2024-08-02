@@ -11,4 +11,27 @@ import org.springframework.stereotype.Component;
 @Setter
 public class AppProperties {
     private Keycloak keycloak;
+    private Client client;
+
+    @Getter
+    @Setter
+    public static class Keycloak {
+        private String baseUrl;
+        private String clientId;
+        private String clientSecret;
+        private String realm;
+        private int connectionPoolSize;
+    }
+
+    @Getter
+    @Setter
+    public static class Client {
+        private Service locationService;
+
+        @Getter
+        @Setter
+        public static class Service {
+            private String serviceId;
+        }
+    }
 }

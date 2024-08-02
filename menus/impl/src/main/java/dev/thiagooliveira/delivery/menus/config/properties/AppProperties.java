@@ -10,7 +10,20 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 public class AppProperties {
+    private Client client;
     private Keycloak keycloak;
+
+    @Getter
+    @Setter
+    public static class Client {
+        private Service restaurantsService;
+
+        @Getter
+        @Setter
+        public static class Service {
+            private String serviceId;
+        }
+    }
 
     @Getter
     @Setter

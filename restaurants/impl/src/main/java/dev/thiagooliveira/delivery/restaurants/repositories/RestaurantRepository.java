@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 public interface RestaurantRepository extends PagingAndSortingRepository<Restaurant, UUID> {
 
     @Query("SELECT new dev.thiagooliveira.delivery.restaurants.model.RestaurantIdWithAddress("
-            + "r.id, a.street, a.number, a.notes, a.city, a.state, a.postalCode, a.country) "
+            + "r.id, a.street, a.number, a.notes, a.city, a.state, a.postalCode, a.country, a.formatted, a.latitude, a.longitude) "
             + "FROM Restaurant r JOIN r.address a "
             + "WHERE a.state = :state AND a.country = :country")
     List<RestaurantIdWithAddress> findByAddressStateAndAddressCountry(

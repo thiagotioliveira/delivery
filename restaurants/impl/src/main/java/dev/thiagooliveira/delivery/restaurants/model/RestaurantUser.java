@@ -16,5 +16,8 @@ public class RestaurantUser {
     private Restaurant restaurant;
 
     @NotNull
-    private Double distanceInMeters;
+    private String distance;
+
+    @NotNull
+    private String duration;
 }

@@ -49,11 +49,13 @@
     <modules>
         <module>discovery</module>
         <module>gateway</module>
+        <module>location</module>
+        <module>notifications</module>
         <module>users</module>
         <module>restaurants</module>
         <module>menus</module>
-        <module>notifications</module>
         <module>order</module>
+        <module>ui</module>
     </modules>
     <dependencyManagement>
         <dependencies>

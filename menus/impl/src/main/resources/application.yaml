@@ -40,6 +40,9 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 app:
+  client:
+    restaurants-service:
+      serviceId: restaurants-service
   keycloak:
     baseUrl: http://localhost:8080/
     clientId: menus-service

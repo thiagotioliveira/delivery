@@ -34,14 +34,16 @@ management:
       exposure:
         include: 'health'
 app:
+  client:
+    location-service:
+      serviceId: location-service
   keycloak:
     baseUrl: http://localhost:8080/
     clientId: users-service
     clientSecret: jftzuKCciHm8bfJ2V0bZK2qtMrXivBgA
     realm: delivery
-    connectionPoolSize: 20
-#logging:
-  #level:
-    #org.springframework.security: TRACE
-    #org.springframework.security.oauth2: TRACE
-    #org.keycloak: TRACE
+logging:
+  level:
+    dev:
+      thiagooliveira:
+        delivery: DEBUG

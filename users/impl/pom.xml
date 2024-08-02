@@ -62,6 +62,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>dev.thiagooliveira.delivery.location</groupId>
+            <artifactId>location-spec</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>dev.thiagooliveira.delivery.users</groupId>
             <artifactId>users-spec</artifactId>
             <version>0.0.1-SNAPSHOT</version>
