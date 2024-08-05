@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 public class UsersApiFactory {
     private final ApplicationContext applicationContext;
 
-    public UsersAdminApi create(){
+    public UsersAdminApi create() {
         return applicationContext.getBean(UsersAdminApi.class);
     }
 }

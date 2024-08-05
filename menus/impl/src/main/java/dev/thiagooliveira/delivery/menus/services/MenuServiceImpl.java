@@ -6,10 +6,9 @@ import dev.thiagooliveira.delivery.menus.dto.MenuPage;
 import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import dev.thiagooliveira.delivery.menus.mappers.MenuMapper;
 import dev.thiagooliveira.delivery.menus.respositories.MenuItemRepository;
+import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
 import java.util.Optional;
 import java.util.UUID;
-
-import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

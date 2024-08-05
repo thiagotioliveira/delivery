@@ -5,7 +5,6 @@ import dev.thiagooliveira.delivery.menus.dto.MenuItem;
 import dev.thiagooliveira.delivery.menus.dto.MenuPage;
 import dev.thiagooliveira.delivery.menus.dto.PageRequest;
 import dev.thiagooliveira.delivery.menus.services.MenuService;
-import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
 import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -14,7 +13,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
@@ -26,6 +24,7 @@ public class MenusApplication {
 
     @Autowired
     private RestaurantAdminApiFactory factory;
+
     @Autowired
     private MenuService menuService;
 

@@ -48,6 +48,7 @@ keycloak:
 user-service:
 delivery-realm.json removing the ‘authorizationSettings‘ node
 GOOGLE_APPLICATION_CREDENTIALS
+APP_GOOGLE_DIRECTIONSAPI_APIKEY
 [C:\Users\Thiago\AppData\Roaming\gcloud\application_default_credentials.json]
 
 converte o openapi.yaml to json

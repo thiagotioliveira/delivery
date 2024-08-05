@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 public class RestaurantsApiFactory {
     private final ApplicationContext applicationContext;
 
-    public RestaurantAdminApi create(){
+    public RestaurantAdminApi create() {
         return applicationContext.getBean(RestaurantAdminApi.class);
     }
 }

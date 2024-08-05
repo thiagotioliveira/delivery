@@ -15,12 +15,6 @@ public class AppProperties {
 
     @Getter
     @Setter
-    public static class Gateway {
-        private String baseUrl;
-    }
-
-    @Getter
-    @Setter
     public static class Client {
         private Service usersService;
         private Service restaurantsService;

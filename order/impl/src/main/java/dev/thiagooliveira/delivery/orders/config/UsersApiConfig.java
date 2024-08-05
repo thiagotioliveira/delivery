@@ -1,5 +1,7 @@
 package dev.thiagooliveira.delivery.orders.config;
 
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
 import dev.thiagooliveira.delivery.orders.config.factories.UsersApiFactory;
 import dev.thiagooliveira.delivery.orders.config.properties.AppProperties;
 import dev.thiagooliveira.delivery.orders.exceptions.ServiceInstanceNotFoundException;
@@ -13,7 +15,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
 
 @Configuration
 @Slf4j
@@ -22,12 +23,13 @@ public class UsersApiConfig {
     @Bean
     @Scope(scopeName = SCOPE_PROTOTYPE)
     public UsersAdminApi userApi(AppProperties appProperties, LoadBalancerClient loadBalancerClient) {
-        ServiceInstance instance = loadBalancerClient.choose(appProperties.getClient().getUsersService().getServiceId());
-        if(instance == null){
-            throw new ServiceInstanceNotFoundException(appProperties.getClient().getUsersService().getServiceId());
+        ServiceInstance instance = loadBalancerClient.choose(
+                appProperties.getClient().getUsersService().getServiceId());
+        if (instance == null) {
+            throw new ServiceInstanceNotFoundException(
+                    appProperties.getClient().getUsersService().getServiceId());
         }
-        ApiClient apiClient = new ApiClient()
-                .setBasePath(instance.getUri().toString());
+        ApiClient apiClient = new ApiClient().setBasePath(instance.getUri().toString());
         apiClient.addAuthorization("ClientCredentials", buildOauthClientCredentialsGrant(appProperties.getKeycloak()));
         UsersAdminApi usersAdminApi = apiClient.buildClient(UsersAdminApi.class);
         log.debug("creating usersAdminApi - prototype scope.");
@@ -35,7 +37,7 @@ public class UsersApiConfig {
     }
 
     @Bean
-    public UsersApiFactory usersApiFactory(ApplicationContext applicationContext){
+    public UsersApiFactory usersApiFactory(ApplicationContext applicationContext) {
         return new UsersApiFactory(applicationContext);
     }
 

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ValidateAddressClientImpl implements ValidateAddressClient {
+public class GoogleValidateAddressClient implements ValidateAddressClient {
     @Override
     public AddressValidated validate(Address address) {
         try (AddressValidationClient addressValidationClient = AddressValidationClient.create()) {

@@ -1,5 +1,7 @@
 package dev.thiagooliveira.delivery.menus.config;
 
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
 import dev.thiagooliveira.delivery.menus.config.factories.RestaurantAdminApiFactory;
 import dev.thiagooliveira.delivery.menus.config.properties.AppProperties;
 import dev.thiagooliveira.delivery.menus.exceptions.ServiceInstanceNotFoundException;
@@ -14,8 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_PROTOTYPE;
-
 @Configuration
 @Slf4j
 public class RestaurantsApiConfig {
@@ -23,12 +23,13 @@ public class RestaurantsApiConfig {
     @Bean
     @Scope(scopeName = SCOPE_PROTOTYPE)
     public RestaurantAdminApi restaurantsAdminApi(AppProperties appProperties, LoadBalancerClient loadBalancerClient) {
-        ServiceInstance instance = loadBalancerClient.choose(appProperties.getClient().getRestaurantsService().getServiceId());
-        if(instance == null){
-            throw new ServiceInstanceNotFoundException(appProperties.getClient().getRestaurantsService().getServiceId());
+        ServiceInstance instance = loadBalancerClient.choose(
+                appProperties.getClient().getRestaurantsService().getServiceId());
+        if (instance == null) {
+            throw new ServiceInstanceNotFoundException(
+                    appProperties.getClient().getRestaurantsService().getServiceId());
         }
-        ApiClient apiClient = new ApiClient()
-                .setBasePath(instance.getUri().toString());
+        ApiClient apiClient = new ApiClient().setBasePath(instance.getUri().toString());
         apiClient.addAuthorization("ClientCredentials", buildOauthClientCredentialsGrant(appProperties.getKeycloak()));
         RestaurantAdminApi restaurantAdminApi = apiClient.buildClient(RestaurantAdminApi.class);
         log.debug("creating restaurantAdminApi - prototype scope.");
@@ -36,7 +37,7 @@ public class RestaurantsApiConfig {
     }
 
     @Bean
-    public RestaurantAdminApiFactory restaurantAdminApiFactory(ApplicationContext applicationContext){
+    public RestaurantAdminApiFactory restaurantAdminApiFactory(ApplicationContext applicationContext) {
         return new RestaurantAdminApiFactory(applicationContext);
     }
 

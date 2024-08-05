@@ -74,6 +74,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>dev.thiagooliveira.delivery.orders</groupId>
+            <artifactId>orders-message</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>dev.thiagooliveira.delivery.menus</groupId>
             <artifactId>menus-spec</artifactId>
             <version>0.0.1-SNAPSHOT</version>

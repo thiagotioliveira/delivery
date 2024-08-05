@@ -1,8 +1,8 @@
 package dev.thiagooliveira.delivery.location.config;
 
+import dev.thiagooliveira.delivery.location.clients.GoogleValidateAddressClient;
 import dev.thiagooliveira.delivery.location.clients.ValidateAddressClient;
 import dev.thiagooliveira.delivery.location.clients.ValidateAddressClientFake;
-import dev.thiagooliveira.delivery.location.clients.ValidateAddressClientImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,8 +18,8 @@ public class ValidateAddressClientConfig {
             log.debug("using ValidateAddressClientFake");
             return new ValidateAddressClientFake();
         } else {
-            log.debug("using ValidateAddressClientImpl");
-            return new ValidateAddressClientImpl();
+            log.debug("using GoogleValidateAddressClient");
+            return new GoogleValidateAddressClient();
         }
     }
 }

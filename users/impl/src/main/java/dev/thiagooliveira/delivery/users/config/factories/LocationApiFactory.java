@@ -9,7 +9,7 @@ public class LocationApiFactory {
 
     private final ApplicationContext applicationContext;
 
-    public LocationApi create(){
+    public LocationApi create() {
         return applicationContext.getBean(LocationApi.class);
     }
 }

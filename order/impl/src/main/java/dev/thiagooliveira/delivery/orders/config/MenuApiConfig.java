@@ -1,5 +1,7 @@
 package dev.thiagooliveira.delivery.orders.config;
 
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.*;
+
 import dev.thiagooliveira.delivery.menus.clients.MenuApi;
 import dev.thiagooliveira.delivery.menus.clients.invokers.ApiClient;
 import dev.thiagooliveira.delivery.menus.clients.invokers.auth.OauthClientCredentialsGrant;
@@ -14,8 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-import static org.springframework.beans.factory.config.ConfigurableBeanFactory.*;
-
 @Configuration
 @Slf4j
 public class MenuApiConfig {
@@ -23,12 +23,13 @@ public class MenuApiConfig {
     @Bean
     @Scope(scopeName = SCOPE_PROTOTYPE)
     public MenuApi menuApi(AppProperties appProperties, LoadBalancerClient loadBalancerClient) {
-        ServiceInstance instance = loadBalancerClient.choose(appProperties.getClient().getMenusService().getServiceId());
-        if(instance == null){
-            throw new ServiceInstanceNotFoundException(appProperties.getClient().getMenusService().getServiceId());
+        ServiceInstance instance = loadBalancerClient.choose(
+                appProperties.getClient().getMenusService().getServiceId());
+        if (instance == null) {
+            throw new ServiceInstanceNotFoundException(
+                    appProperties.getClient().getMenusService().getServiceId());
         }
-        ApiClient apiClient = new ApiClient()
-                .setBasePath(instance.getUri().toString());
+        ApiClient apiClient = new ApiClient().setBasePath(instance.getUri().toString());
         apiClient.addAuthorization("ClientCredentials", buildOauthClientCredentialsGrant(appProperties.getKeycloak()));
         MenuApi menuApi = apiClient.buildClient(MenuApi.class);
         log.debug("creating menuApi - prototype scope.");
@@ -36,7 +37,7 @@ public class MenuApiConfig {
     }
 
     @Bean
-    public MenuApiFactory menuApiFactory(ApplicationContext applicationContext){
+    public MenuApiFactory menuApiFactory(ApplicationContext applicationContext) {
         return new MenuApiFactory(applicationContext);
     }
 

@@ -3,6 +3,7 @@ package dev.thiagooliveira.delivery.orders.controllers;
 import dev.thiagooliveira.delivery.orders.dto.*;
 import dev.thiagooliveira.delivery.orders.exceptions.OrderNotFound;
 import dev.thiagooliveira.delivery.orders.services.OrderService;
+import java.net.URI;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,9 @@ public class OrderController implements OrderApi {
 
     @Override
     public ResponseEntity<OrderDetails> createOrder(CreateOrder createOrder) {
-        return ResponseEntity.ok(orderService.create(createOrder));
+        OrderDetails orderDetails = orderService.create(createOrder);
+        return ResponseEntity.created(URI.create("/orders/" + orderDetails.getId()))
+                .body(orderDetails);
     }
 
     @Override

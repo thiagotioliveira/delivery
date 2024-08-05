@@ -1,6 +1,5 @@
 package dev.thiagooliveira.delivery.orders.validators.handlers;
 
-import dev.thiagooliveira.delivery.menus.clients.MenuApi;
 import dev.thiagooliveira.delivery.menus.dto.MenuItem;
 import dev.thiagooliveira.delivery.orders.config.factories.MenuApiFactory;
 import dev.thiagooliveira.delivery.orders.dto.CreateOrder;

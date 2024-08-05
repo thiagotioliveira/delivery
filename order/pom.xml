@@ -19,6 +19,7 @@
 
     <modules>
         <module>spec</module>
+        <module>message</module>
         <module>impl</module>
     </modules>
 

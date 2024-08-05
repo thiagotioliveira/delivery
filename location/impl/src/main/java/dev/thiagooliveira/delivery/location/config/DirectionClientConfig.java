@@ -15,8 +15,8 @@ public class DirectionClientConfig {
             log.debug("using DirectionClientFake");
             return new DirectionClientFake();
         } else {
-            log.debug("using DirectionClientImpl");
-            return new DirectionClientImpl(apiKey);
+            log.debug("using GoogleDirectionClient");
+            return new GoogleDirectionClient(apiKey);
         }
     }
 }

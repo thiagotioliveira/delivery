@@ -9,7 +9,7 @@ spring:
         registration:
           keycloak:
             client-id: delivery-ui
-            client-secret: bPAf9i0ndcYaU6lYC6xEGAlesX6EPkPf
+            #client-secret: hwdX94y90HQC0VcUIUTROMKYnsYAaEPI
             scope: openid, profile, email
         provider:
           keycloak:
@@ -17,3 +17,18 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/delivery
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+app:
+  client:
+    gateway:
+      baseUrl: http://localhost:8082
+logging:
+  level:
+    dev:
+      thiagooliveira:
+        delivery: DEBUG

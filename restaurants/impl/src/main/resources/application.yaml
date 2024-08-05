@@ -10,7 +10,8 @@ spring:
           keycloak:
             scope: openid
             authorization-grant-type: authorization_code
-            client-id: delivery-ui
+            client-id: restaurants-service
+            client-secret: MakEeNbkCiLQmCq5jYzg50nuKKnLt7fF
         provider:
           keycloak:
             issuer-uri: http://localhost:8080/realms/delivery
@@ -48,3 +49,11 @@ app:
     clientId: restaurants-service
     clientSecret: MakEeNbkCiLQmCq5jYzg50nuKKnLt7fF
     realm: delivery
+logging:
+  level:
+    dev:
+      thiagooliveira:
+        delivery: DEBUG
+    org:
+      springframework:
+        security: TRACE

@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 public class MenuApiFactory {
     private final ApplicationContext applicationContext;
 
-    public MenuApi create(){
+    public MenuApi create() {
         return applicationContext.getBean(MenuApi.class);
     }
 }

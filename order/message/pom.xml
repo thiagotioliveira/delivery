@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>notifications-message</artifactId>
+    <artifactId>orders-message</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notifications-message</name>
-    <description>notifications-message</description>
+    <name>orders-message</name>
+    <description>orders-message</description>
 
     <parent>
-        <groupId>dev.thiagooliveira.delivery.notifications</groupId>
-        <artifactId>notifications</artifactId>
+        <groupId>dev.thiagooliveira.delivery.orders</groupId>
+        <artifactId>orders</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 

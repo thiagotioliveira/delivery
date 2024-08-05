@@ -56,7 +56,7 @@
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
     "realmRoles" : [ "default-roles-delivery", "USER" ],
-    "notBefore" : 0,
+    "notBefore" : 1722861206,
     "groups" : [ ]
   }, {
     "id" : "0cefbc97-a122-4239-b199-c935d484b66e",

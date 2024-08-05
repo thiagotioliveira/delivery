@@ -10,7 +10,8 @@ spring:
           keycloak:
             scope: openid
             authorization-grant-type: authorization_code
-            client-id: delivery-ui
+            client-id: orders-service
+            client-secret: zVw5tde4NLZV8xfujzSgZjHNlVjj0Ioy
         provider:
           keycloak:
             issuer-uri: http://localhost:8080/realms/delivery

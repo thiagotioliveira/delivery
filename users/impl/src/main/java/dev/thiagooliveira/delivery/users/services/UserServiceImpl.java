@@ -30,8 +30,7 @@ public class UserServiceImpl implements UserService {
     public void updateAddress(UUID id, Address address) {
         LocationApi locationApi = locationApiFactory.create();
         User user = iamClient.updateAddress(
-                id,
-                addressMapper.toAddressValidated(locationApi.validateAddress(addressMapper.toAddress(address))));
+                id, addressMapper.toAddressValidated(locationApi.validateAddress(addressMapper.toAddress(address))));
         userAddessUpdatedProducer.send(userMapper.toUserAddress(user));
     }
 }

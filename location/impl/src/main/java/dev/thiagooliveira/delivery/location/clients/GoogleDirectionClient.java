@@ -14,7 +14,7 @@ import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class DirectionClientImpl implements DirectionClient {
+public class GoogleDirectionClient implements DirectionClient {
 
     private final String apiKey;
 
