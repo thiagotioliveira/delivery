@@ -233,7 +233,7 @@
 			"response": []
 		},
 		{
-			"name": "Update User Address",
+			"name": "Get Address by User By Id",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -245,19 +245,10 @@
 						}
 					]
 				},
-				"method": "PUT",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"street\": \"Rua Luciano Cordeiro\",\r\n  \"number\": \"51\",\r\n  \"notes\": \"2º andar direito\",\r\n  \"city\": \"Lisboa\",\r\n  \"state\": \"Lisboa\",\r\n  \"postalCode\": \"1150-212\",\r\n  \"country\": \"Portugal\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/address",
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/addresses",
 					"host": [
 						"{{baseUrl}}"
 					],
@@ -265,7 +256,156 @@
 						"users-service",
 						"users",
 						"{{user_id}}",
-						"address"
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creare Address To User 1",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"home\",\r\n  \"street\": \"Rua Luciano Cordeiro\",\r\n  \"number\": \"51\",\r\n  \"notes\": \"2º andar direito\",\r\n  \"city\": \"Lisboa\",\r\n  \"state\": \"Lisboa\",\r\n  \"postalCode\": \"1150-212\",\r\n  \"country\": \"Portugal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/addresses",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users-service",
+						"users",
+						"{{user_id}}",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creare Address To User 2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"work\",\r\n  \"street\": \"Rua João de Freitas Branco\",\r\n  \"number\": \"34B\",\r\n  \"city\": \"Lisboa\",\r\n  \"state\": \"Lisboa\",\r\n  \"postalCode\": \"1500-714\",\r\n  \"country\": \"Portugal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/addresses",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users-service",
+						"users",
+						"{{user_id}}",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Address To User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/addresses/06e54760-8df7-4964-97b0-36e844a3fda8",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users-service",
+						"users",
+						"{{user_id}}",
+						"addresses",
+						"06e54760-8df7-4964-97b0-36e844a3fda8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Address To User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"current\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/users-service/users/{{user_id}}/addresses/5521fa14-e429-4922-ab95-04ba2fd1c124",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users-service",
+						"users",
+						"{{user_id}}",
+						"addresses",
+						"5521fa14-e429-4922-ab95-04ba2fd1c124"
 					]
 				}
 			},
