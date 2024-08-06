@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<!--HEAD-->
+<div th:include="~{/fragments/header :: head}"></div>
+<style>
+    .list-group {
+    width: 100%;
+    max-width: 460px;
+    margin-inline: 1.5rem;
+    }
+    .form-check-input:checked + .form-checked-content {
+    opacity: .5;
+    }
+    .form-check-input-placeholder {
+    border-style: dashed;
+    }
+    [contenteditable]:focus {
+    outline: 0;
+    }
+    .list-group-checkable .list-group-item {
+    cursor: pointer;
+    }
+    .list-group-item-check {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    }
+    .list-group-item-check:hover + .list-group-item {
+    background-color: var(--bs-secondary-bg);
+    }
+    .list-group-item-check:checked + .list-group-item {
+    color: #fff;
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    }
+    .list-group-item-check[disabled] + .list-group-item,
+    .list-group-item-check:disabled + .list-group-item {
+    pointer-events: none;
+    filter: none;
+    opacity: .5;
+    }
+    .list-group-radio .list-group-item {
+    cursor: pointer;
+    border-radius: .5rem;
+    }
+    .list-group-radio .form-check-input {
+    z-index: 2;
+    margin-top: -.5em;
+    }
+    .list-group-radio .list-group-item:hover,
+    .list-group-radio .list-group-item:focus {
+    background-color: var(--bs-secondary-bg);
+    }
+    .list-group-radio .form-check-input:checked + .list-group-item {
+    background-color: var(--bs-body);
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 2px var(--bs-primary);
+    }
+    .list-group-radio .form-check-input[disabled] + .list-group-item,
+    .list-group-radio .form-check-input:disabled + .list-group-item {
+    pointer-events: none;
+    filter: none;
+    opacity: .5;
+    }
+</style>
+<body>
+<div th:include="~{/fragments/header :: header}"></div>
+<main>
+    <div th:fragment="alert" class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+        <div id="alert-message" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="alert-message-text">
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <section class="py-2 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light" th:text="${user.name}"></h1>
+                <img th:src="@{'assets/images/avatar/'+${user.avatar}}" alt="mdo" width="128" height="128"
+                     class="rounded-circle">
+                <p th:text="${user.email}"></p>
+            </div>
+        </div>
+    </section>
+    <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-2 align-items-center justify-content-center">
+        <div>
+            <span>Addresses:</span>
+        </div>
+        <div class="list-group list-group-radio d-grid gap-2 border-0" id="addresses-list">
+        </div>
+    </div>
+</main>
+<div th:include="~{/fragments/footer :: footer}"></div>
+</body>
+<script>
+    require.config({
+        paths: {
+            'superagent': 'assets/dist/js/superagent/superagent.min',
+            'index': 'assets/dist/js/clients/users_api/index',
+            'ApiClient': 'assets/dist/js/clients/users_api/ApiClient',
+            'api/UsersAdminApi': 'assets/dist/js/clients/users_api/api/UsersAdminApi',
+            'api/UsersApi': 'assets/dist/js/clients/users_api/api/UsersApi',
+            'model/Address': 'assets/dist/js/clients/users_api/model/Address',
+            'model/CreateAddress': 'assets/dist/js/clients/users_api/model/CreateAddress',
+            'model/UpdateAddress': 'assets/dist/js/clients/users_api/model/UpdateAddress',
+            'model/User': 'assets/dist/js/clients/users_api/model/User',
+        }
+    });
+
+    require(['index'], function(OpenApiDefinition) {
+        var usersApi = new OpenApiDefinition.UsersApi();
+        usersApi.apiClient.basePath = '[[${gateway}]]/users-service'.replace(/\/+$/, '');
+        usersApi.apiClient.authentications['oauth2'] = {
+            type: 'oauth2',
+            accessToken: '[[${user.token}]]'
+        };
+
+        usersApi.getUserAddress('[[${user.id}]]', function(error, data, response) {
+            if (error) {
+                console.error(error);
+            } else {
+                addAddressToList(data);
+            }
+        });
+
+        function addAddressToList(addresses) {
+            const grid = document.getElementById('addresses-list');
+            grid.innerHTML = '';
+
+            grid.innerHTML = addresses.map((address, index) => {
+                const checkedAttribute = address.current ? 'checked' : '';
+                return `
+                    <div class="position-relative">
+                        <input class="form-check-input position-absolute top-50 end-0 me-3 fs-5" type="radio"
+                               name="listGroupRadioGrid" id="listGroupRadioGrid${index + 1}" value="${address.id}" ${checkedAttribute}>
+                        <label class="list-group-item py-3 pe-5" for="listGroupRadioGrid${index + 1}">
+                            <strong class="fw-semibold">${address.description}</strong>
+                            <span class="d-block small opacity-75">${address.formatted}</span>
+                        </label>
+                    </div>`;
+            }).join('');
+
+            const radioButtons = grid.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    usersApi.patchUserAddress({
+                        current: true
+                    }, '[[${user.id}]]', event.target.value, function(error, data, response) {
+                        if (error) {
+                            console.error(error);
+                        } else {
+                            const alertDivText = document.getElementById('alert-message-text');
+                            alertDivText.innerHTML = 'Address configured successfully.';
+                            const alertDiv = document.getElementById('alert-message');
+                            const toast = new bootstrap.Toast(alertDiv);
+                            toast.show();
+                        }
+                    });
+                });
+            });
+        }
+    });
+</script>
+</html>

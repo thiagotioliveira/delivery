@@ -57,35 +57,86 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: User not found
-  /users/{id}/address:
-    put:
-      summary: Add or update user address
-      description: Add or update the address of a user by their unique ID.
-      operationId: addUserAddress
+  /users/{id}/addresses:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier of the user.
+        schema:
+          type: string
+          format: uuid
+    get:
+      summary: Get user address
+      description: Get the address of a user by their unique ID.
+      operationId: getUserAddress
       tags:
         - Users
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: Unique identifier of the user.
-          schema:
-            type: string
-            format: uuid
+      responses:
+        '200':
+          description: list of address
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+    post:
+      summary: Add user address
+      description: Add the address of a user by their unique ID.
+      operationId: postUserAddress
+      tags:
+        - Users
       requestBody:
-        description: Address object to add or update
+        description: Address object to add
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Address'
+              $ref: '#/components/schemas/CreateAddress'
+      responses:
+        '201':
+          description: Address successfully added with no content returned
+  /users/{id}/addresses/{addressId}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier of the user.
+        schema:
+          type: string
+          format: uuid
+      - name: addressId
+        in: path
+        required: true
+        description: Unique identifier of the address.
+        schema:
+          type: string
+          format: uuid
+    patch:
+      summary: Update user address
+      operationId: patchUserAddress
+      tags:
+        - Users
+      requestBody:
+        description: Address object to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAddress'
       responses:
         '204':
-          description: Address successfully added or updated with no content returned
-        '400':
-          description: Invalid input
-        '404':
-          description: User not found
+          description: Address successfully updated.
+    delete:
+      summary: Delete user address
+      description: Delete the address of a user by their unique ID.
+      operationId: deleteUserAddress
+      tags:
+        - Users
+      responses:
+        '204':
+          description: Address successfully deleted.
 components:
   schemas:
     User:
@@ -105,16 +156,46 @@ components:
           type: string
           description: Email address of the user
         address:
-          $ref: '#/components/schemas/AddressValidated'
+          $ref: '#/components/schemas/Address'
       required:
         - id
         - firstName
         - lastName
         - email
         - address
-    AddressValidated:
+    UserWithAddressId:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the user
+        firstName:
+          type: string
+          description: First name of the user
+        lastName:
+          type: string
+          description: Last name of the user
+        email:
+          type: string
+          description: Email address of the user
+        currentAddressId:
+          type: string
+          format: uuid
+          description: current address id
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        description:
+          type: string
+          description: Address description
+        current:
+          type: boolean
+          description: Address current
         street:
           type: string
           description: Street address
@@ -145,9 +226,18 @@ components:
         longitude:
           type: number
           format: double
-    Address:
+    UpdateAddress:
       type: object
       properties:
+        current:
+          type: boolean
+          description: Address current
+    CreateAddress:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Address description
         street:
           type: string
           description: Street address
@@ -170,6 +260,8 @@ components:
           type: string
           description: Country
       required:
+        - description
+        - current
         - street
         - number
         - city

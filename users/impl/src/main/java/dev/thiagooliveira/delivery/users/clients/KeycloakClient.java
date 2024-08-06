@@ -1,10 +1,14 @@
 package dev.thiagooliveira.delivery.users.clients;
 
-import dev.thiagooliveira.delivery.users.dto.AddressValidated;
-import dev.thiagooliveira.delivery.users.dto.User;
+import static dev.thiagooliveira.delivery.users.utils.Constants.ATTRIBUTE_ADDRESS_ID;
+
+import dev.thiagooliveira.delivery.users.dto.UserWithAddressId;
 import dev.thiagooliveira.delivery.users.exceptions.UserNotFoundException;
 import dev.thiagooliveira.delivery.users.mappers.UserMapper;
 import jakarta.ws.rs.NotFoundException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,25 +22,26 @@ public class KeycloakClient implements IAMClient {
     private final UserMapper userMapper;
 
     @Override
-    public User get(UUID id) {
-        return userMapper.toUser(getRepresentation(id));
+    public Optional<UserWithAddressId> get(UUID userId) {
+        return getRepresentation(userId).map(userMapper::toUser);
     }
 
     @Override
-    public User updateAddress(UUID id, AddressValidated addressValidated) {
-        User user = get(id);
-        user.setAddress(addressValidated);
-        UserRepresentation userRepresentation = userMapper.toUserRepresentation(user);
-        realm.users().get(id.toString()).update(userRepresentation);
-        return user;
+    public void updateCurrentAddress(UUID userId, UUID addressId) {
+        UserRepresentation userRepresentation = getRepresentation(userId).orElseThrow(UserNotFoundException::new);
+        if (userRepresentation.getAttributes() == null) {
+            userRepresentation.setAttributes(new HashMap<>());
+        }
+        userRepresentation.getAttributes().put(ATTRIBUTE_ADDRESS_ID, List.of(addressId.toString()));
+        realm.users().get(userId.toString()).update(userRepresentation);
     }
 
-    private UserRepresentation getRepresentation(UUID id) {
+    private Optional<UserRepresentation> getRepresentation(UUID userId) {
         try {
-            return realm.users().get(id.toString()).toRepresentation();
+            return Optional.of(realm.users().get(userId.toString()).toRepresentation());
         } catch (NotFoundException e) {
             log.debug("user not found.", e);
-            throw new UserNotFoundException();
+            return Optional.empty();
         }
     }
 }

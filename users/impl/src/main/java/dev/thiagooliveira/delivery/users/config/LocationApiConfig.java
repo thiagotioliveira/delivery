@@ -8,7 +8,6 @@ import dev.thiagooliveira.delivery.location.clients.invokers.auth.OauthClientCre
 import dev.thiagooliveira.delivery.users.config.factories.LocationApiFactory;
 import dev.thiagooliveira.delivery.users.config.properties.AppProperties;
 import dev.thiagooliveira.delivery.users.exceptions.ServiceInstanceNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 @Configuration
-@Slf4j
 public class LocationApiConfig {
 
     @Bean
@@ -32,9 +30,7 @@ public class LocationApiConfig {
         }
         ApiClient apiClient = new ApiClient().setBasePath(instance.getUri().toString());
         apiClient.addAuthorization("ClientCredentials", buildOauthClientCredentialsGrant(appProperties.getKeycloak()));
-        LocationApi locationApi = apiClient.buildClient(LocationApi.class);
-        log.debug("creating locationApi - prototype scope.");
-        return locationApi;
+        return apiClient.buildClient(LocationApi.class);
     }
 
     @Bean

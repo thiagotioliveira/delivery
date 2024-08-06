@@ -54,4 +54,4 @@ APP_GOOGLE_DIRECTIONSAPI_APIKEY
 User: michael.smith
 
 converte o openapi.yaml to json
-PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output -l javascript --additional-properties useES6=false
+PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output_users -l javascript --additional-properties useES6=false

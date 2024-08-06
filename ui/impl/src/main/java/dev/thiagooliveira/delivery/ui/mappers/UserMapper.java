@@ -11,6 +11,7 @@ public interface UserMapper {
     @Mapping(target = "id", expression = "java(principal.getAttribute(\"sub\"))")
     @Mapping(target = "name", expression = "java(principal.getAttribute(\"name\"))")
     @Mapping(target = "email", expression = "java(principal.getAttribute(\"email\"))")
+    @Mapping(target = "avatar", expression = "java(principal.getAttribute(\"avatar\"))")
     @Mapping(target = "token", expression = "java(principal.getIdToken().getTokenValue())")
     User toUser(OidcUser principal);
 }

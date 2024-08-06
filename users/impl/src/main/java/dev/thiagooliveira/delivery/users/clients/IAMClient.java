@@ -1,12 +1,15 @@
 package dev.thiagooliveira.delivery.users.clients;
 
-import dev.thiagooliveira.delivery.users.dto.AddressValidated;
-import dev.thiagooliveira.delivery.users.dto.User;
+import dev.thiagooliveira.delivery.users.dto.UserWithAddressId;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IAMClient {
+    Optional<UserWithAddressId> get(UUID userId);
 
-    User get(UUID id);
+    void updateCurrentAddress(UUID userId, UUID addressId);
+    /*
+       User updateAddress(UUID id, AddressValidated address);
 
-    User updateAddress(UUID id, AddressValidated address);
+    */
 }

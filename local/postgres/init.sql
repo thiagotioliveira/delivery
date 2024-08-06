@@ -13,3 +13,7 @@ GRANT ALL PRIVILEGES ON DATABASE "menus_db" TO "menusservice";
 CREATE USER "ordersservice" WITH SUPERUSER PASSWORD 'ordersservice';
 CREATE DATABASE "orders_db";
 GRANT ALL PRIVILEGES ON DATABASE "orders_db" TO "ordersservice";
+
+CREATE USER "usersservice" WITH SUPERUSER PASSWORD 'usersservice';
+CREATE DATABASE "users_db";
+GRANT ALL PRIVILEGES ON DATABASE "users_db" TO "usersservice";

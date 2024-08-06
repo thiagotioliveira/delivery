@@ -1,6 +1,7 @@
 package dev.thiagooliveira.delivery.users.controllers;
 
 import dev.thiagooliveira.delivery.users.dto.User;
+import dev.thiagooliveira.delivery.users.exceptions.UserNotFoundException;
 import dev.thiagooliveira.delivery.users.services.UserService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class UsersAdminController implements UsersAdminApi {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<User> getUserByIdAsAdmin(UUID id) {
-        return ResponseEntity.ok(userService.get(id));
+    public ResponseEntity<User> getUserByIdAsAdmin(UUID userId) {
+        return ResponseEntity.ok(userService.getById(userId).orElseThrow(UserNotFoundException::new));
     }
 }

@@ -73,34 +73,34 @@
 
     // Função para criar e adicionar cards ao grid
     function addRestaurantsToGrid(restaurants) {
-    const grid = document.getElementById('restaurants-grid');
+        const grid = document.getElementById('restaurants-grid');
 
-    // Limpar o grid antes de adicionar novos cards
-    grid.innerHTML = '';
+        // Limpar o grid antes de adicionar novos cards
+        grid.innerHTML = '';
 
-    restaurants.forEach(restaurant => {
-        const randomImageNumber = getRandomImageNumber();
-        const imageUrl = `assets/images/vp-${randomImageNumber}.png`;
-        const cardHTML = `
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="${imageUrl}" class="card-img-top" alt="Restaurant Image">
-                    <div class="card-body">
-                        <h5 class="card-title">${restaurant.name}</h5>
-                        <p class="card-text">${restaurant.description}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+        restaurants.forEach(restaurant => {
+            const randomImageNumber = getRandomImageNumber();
+            const imageUrl = `assets/images/vp-${randomImageNumber}.png`;
+            const cardHTML = `
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img src="${imageUrl}" class="card-img-top" alt="Restaurant Image">
+                        <div class="card-body">
+                            <h5 class="card-title">${restaurant.name}</h5>
+                            <p class="card-text">${restaurant.description}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                </div>
+                                <small class="text-body-secondary">${restaurant.distance} | ${restaurant.duration}</small>
                             </div>
-                            <small class="text-body-secondary">${restaurant.distance} | ${restaurant.duration}</small>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
 
-        grid.innerHTML += cardHTML;
-    });
+            grid.innerHTML += cardHTML;
+        });
     }
 </script>
 </body>

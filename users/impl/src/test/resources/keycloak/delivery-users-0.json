@@ -10,6 +10,9 @@
     "firstName" : "Laura",
     "lastName" : "Jones",
     "email" : "laura.jones@gmail.com",
+    "attributes" : {
+      "avatar" : [ "25a5c8a6-06eb-4a5f-88f0-6b3d26aac5ee.webp" ]
+    },
     "credentials" : [ {
       "id" : "f0af9ff5-9b05-449f-b8b3-acc94966e8fb",
       "type" : "password",
@@ -34,16 +37,8 @@
     "lastName" : "Smith",
     "email" : "michael.smith@gmail.com",
     "attributes" : {
-      "country" : [ "Portugal" ],
-      "number" : [ "51" ],
-      "notes" : [ "Lisboa" ],
-      "city" : [ "Lisboa" ],
-      "formatted" : [ "Rua Luciano Cordeiro 51 2º andar direito, 1150-212 Lisboa, Portugal" ],
-      "street" : [ "Rua Luciano Cordeiro" ],
-      "postalCode" : [ "1150-212" ],
-      "latitude" : [ "38.7249445" ],
-      "state" : [ "Lisboa" ],
-      "longitude" : [ "-9.1442222" ]
+      "avatar" : [ "fc6a8a82-d62e-4e7b-9727-54f509f6ee37.webp" ],
+      "addressId" : [ "3b3382dc-8da1-43a3-9bdc-171b152e8205" ]
     },
     "credentials" : [ {
       "id" : "b566f580-7ccb-4659-a391-9e179a77ca25",

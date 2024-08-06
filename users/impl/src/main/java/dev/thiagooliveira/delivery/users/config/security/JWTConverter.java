@@ -11,11 +11,21 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 public class JWTConverter implements Converter<Jwt, AbstractAuthenticationToken> {
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
-        Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
-        Collection<String> roles = realmAccess.get("roles");
-        var grants = roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
-                .toList();
-        return new JwtAuthenticationToken(jwt, grants);
+        if (jwt.hasClaim("realm_access")) {
+            Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
+            Collection<String> roles = realmAccess.get("roles");
+            var grants = roles.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .toList();
+            return new JwtAuthenticationToken(jwt, grants);
+        } else if (jwt.hasClaim("groups")) {
+            Collection<String> groups = jwt.getClaim("groups");
+            var grants = groups.stream()
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                    .toList();
+            return new JwtAuthenticationToken(jwt, grants);
+        } else {
+            throw new IllegalStateException("it was not possible to convert the jwt.");
+        }
     }
 }
