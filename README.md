@@ -51,5 +51,7 @@ GOOGLE_APPLICATION_CREDENTIALS
 APP_GOOGLE_DIRECTIONSAPI_APIKEY
 [C:\Users\Thiago\AppData\Roaming\gcloud\application_default_credentials.json]
 
+User: michael.smith
+
 converte o openapi.yaml to json
 PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output -l javascript --additional-properties useES6=false
