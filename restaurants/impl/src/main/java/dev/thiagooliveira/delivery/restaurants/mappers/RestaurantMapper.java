@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 
 @Mapper
 public interface RestaurantMapper {
+    static final String NON_NUMERIC_REGEX = "[^\\d.]";
+
     Restaurant toRestaurant(dev.thiagooliveira.delivery.restaurants.model.Restaurant restaurant);
 
     dev.thiagooliveira.delivery.restaurants.model.Restaurant toRestaurant(Restaurant restaurant);
@@ -23,6 +25,8 @@ public interface RestaurantMapper {
     @Mapping(target = "description", source = "restaurant.description")
     @Mapping(target = "phoneNumber", source = "restaurant.phoneNumber")
     @Mapping(target = "address", source = "restaurant.address")
+    @Mapping(target = "distance", expression = "java(formatDistance(restaurantUser.getDistance()))")
+    @Mapping(target = "duration", expression = "java(formatDuration(restaurantUser.getDuration()))")
     RestaurantUserDetails toRestaurantUserDetails(RestaurantUser restaurantUser);
 
     RestaurantPage toRestaurantPage(
@@ -34,6 +38,8 @@ public interface RestaurantMapper {
     @Mapping(target = "id.restaurantId", source = "restaurantId")
     @Mapping(target = "id.userId", source = "userId")
     @Mapping(target = "restaurant", expression = "java(buildNewRestaurantWithId(restaurantUser.getRestaurantId()))")
+    @Mapping(target = "distance", expression = "java(parseDistance(restaurantUser.getDistance()))")
+    @Mapping(target = "duration", expression = "java(parseDuration(restaurantUser.getDuration()))")
     RestaurantUser toRestaurantUser(dev.thiagooliveira.delivery.restaurants.dto.RestaurantUser restaurantUser);
 
     @Mapping(target = "restaurantId", source = "id.restaurantId")
@@ -56,5 +62,27 @@ public interface RestaurantMapper {
                 PageRequest.of(
                         page.getPageable().getPageNumber(), page.getPageable().getPageSize()),
                 page.getTotalElements());
+    }
+
+    default String formatDistance(double distance) {
+        return distance + " km";
+    }
+
+    default String formatDuration(double duration) {
+        return duration + " mins";
+    }
+
+    default double parseDistance(String distance) {
+        if (distance != null) {
+            return Double.parseDouble(distance.replaceAll(NON_NUMERIC_REGEX, "").trim());
+        }
+        throw new IllegalArgumentException("invalid distance format: " + distance);
+    }
+
+    default double parseDuration(String duration) {
+        if (duration != null) {
+            return Double.parseDouble(duration.replaceAll(NON_NUMERIC_REGEX, "").trim());
+        }
+        throw new IllegalArgumentException("invalid duration format: " + duration);
     }
 }

@@ -26,6 +26,7 @@ public class FindRestaurantsUserConsumer {
     @Transactional
     public void consume(Message<UserAddress> message) {
         UserAddress userAddress = message.getPayload();
+        log.debug("Message received {}", userAddress);
         restaurantService.deleteRestaurantsByUserId(userAddress.getUserId());
         restaurantService
                 .getByAddressStateAndAddressCountry(

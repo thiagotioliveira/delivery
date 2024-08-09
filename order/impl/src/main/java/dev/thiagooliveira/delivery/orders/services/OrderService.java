@@ -6,13 +6,13 @@ import java.util.UUID;
 
 public interface OrderService {
 
-    Optional<OrderDetails> getById(UUID id);
+    Optional<OrderDetails> getById(UUID userId, UUID id);
 
     OrderDetails create(CreateOrder createOrder);
 
-    OrderDetails approve(UUID orderId);
+    OrderDetails approve(UUID userId, UUID orderId);
 
-    OrderDetails deliver(UUID orderId);
+    OrderDetails deliver(UUID userId, UUID orderId);
 
-    OrderPage getAll(PageRequest pageRequest);
+    OrderPage getAll(UUID userId, PageRequest pageRequest);
 }

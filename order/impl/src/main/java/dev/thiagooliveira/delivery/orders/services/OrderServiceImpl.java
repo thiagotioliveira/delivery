@@ -21,8 +21,8 @@ public class OrderServiceImpl implements OrderService {
     private final OrderUpdatedProducer orderUpdatedProducer;
 
     @Override
-    public Optional<OrderDetails> getById(UUID id) {
-        return orderRepository.findById(id).map(orderMapper::toOrderDetails);
+    public Optional<OrderDetails> getById(UUID userId, UUID id) {
+        return orderRepository.findByIdAndUserId(id, userId).map(orderMapper::toOrderDetails);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDetails approve(UUID orderId) {
+    public OrderDetails approve(UUID userId, UUID orderId) {
         dev.thiagooliveira.delivery.orders.model.Order order =
                 orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
         order.setStatusApproved();
@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDetails deliver(UUID orderId) {
+    public OrderDetails deliver(UUID userId, UUID orderId) {
         dev.thiagooliveira.delivery.orders.model.Order order =
                 orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
         order.setStatusDelivered();
@@ -57,8 +57,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderPage getAll(PageRequest pageRequest) {
-        return orderMapper.toOrderPage(orderRepository.findAll(org.springframework.data.domain.PageRequest.of(
-                pageRequest.getPageNumber(), pageRequest.getPageSize())));
+    public OrderPage getAll(UUID userId, PageRequest pageRequest) {
+        return orderMapper.toOrderPage(orderRepository.findByUserId(
+                userId,
+                org.springframework.data.domain.PageRequest.of(
+                        pageRequest.getPageNumber(),
+                        pageRequest.getPageSize(),
+                        org.springframework.data.domain.Sort.by(
+                                org.springframework.data.domain.Sort.Order.desc("createdAt")))));
     }
 }

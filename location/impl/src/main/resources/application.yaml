@@ -1,5 +1,11 @@
 server:
   port: 8767
+info:
+  app:
+    name: ${spring.application.name}
+    description: Responsible for handling data related to geolocation
+    version: 0.0.1-SNAPSHOT
+    author: Thiago Oliveira
 spring:
   application:
     name: location-service
@@ -10,16 +16,38 @@ spring:
           keycloak:
             scope: openid
             authorization-grant-type: authorization_code
-            client-id: location-service
-            client-secret: M7Ex9Se42yR0rh1d8pELfKJrt4DLq9j1
+            client-id: ${app.keycloak.clientId}
+            client-secret: ${app.keycloak.clientSecret}
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/delivery
+            issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/delivery
+          issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
 eureka:
   instance:
     preferIpAddress: true
@@ -27,14 +55,16 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 app:
+  keycloak:
+    baseUrl: http://localhost:8080
+    clientId: location-service
+    clientSecret: M7Ex9Se42yR0rh1d8pELfKJrt4DLq9j1
   google:
     directionsApi:
       apiKey: "null" #use gogle directions api key here
 google:
   application:
-    credentials: gcloud/application_default_credentials.json
+    credentials: "null" #gcloud/application_default_credentials.json
 logging:
   level:
-    dev:
-      thiagooliveira:
-        delivery: DEBUG
+    dev.thiagooliveira.delivery: DEBUG

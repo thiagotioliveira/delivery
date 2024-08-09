@@ -10,15 +10,15 @@ spring:
           keycloak:
             scope: openid
             authorization-grant-type: authorization_code
-            client-id: users-service
-            client-secret: jftzuKCciHm8bfJ2V0bZK2qtMrXivBgA
+            client-id: ${app.keycloak.clientId}
+            client-secret: ${app.keycloak.clientSecret}
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/delivery
+            issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/delivery
+          issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
     url: jdbc:postgresql://localhost:5432/users_db
@@ -53,12 +53,10 @@ app:
     location-service:
       serviceId: location-service
   keycloak:
-    baseUrl: http://localhost:8080/
+    baseUrl: http://localhost:8080
     clientId: users-service
     clientSecret: jftzuKCciHm8bfJ2V0bZK2qtMrXivBgA
     realm: delivery
 logging:
   level:
-    dev:
-      thiagooliveira:
-        delivery: DEBUG
+    dev.thiagooliveira.delivery: DEBUG

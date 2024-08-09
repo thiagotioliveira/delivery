@@ -16,34 +16,33 @@
     </parent>
 
     <properties>
-        <java.version>21</java.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <com.google.guava.version>33.2.1-jre</com.google.guava.version>
+        <feign-form.version>3.8.0</feign-form.version>
+        <feign.version>10.12</feign.version>
+        <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
         <jib-maven-plugin.version>3.4.3</jib-maven-plugin.version>
         <java-image-base>eclipse-temurin:21-jre-alpine</java-image-base>
-        <com.google.guava.version>33.2.1-jre</com.google.guava.version>
-        <feign.version>10.12</feign.version>
-        <feign-form.version>3.8.0</feign-form.version>
-        <jsr305.version>3.0.2</jsr305.version>
-        <jackson-databind-nullable.version>0.2.4</jackson-databind-nullable.version>
-        <org.hibernate.validator.version>8.0.1.Final</org.hibernate.validator.version>
-        <org.glassfish.expressly.version>5.0.0</org.glassfish.expressly.version>
-        <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
+        <java.version>21</java.version>
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+        <jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
+        <jsr305.version>3.0.2</jsr305.version>
         <keycloak-admin-client-jakarta.version>21.1.2</keycloak-admin-client-jakarta.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <org.apache.maven.plugins.version>3.0.0-M5</org.apache.maven.plugins.version>
+        <org.glassfish.expressly.version>5.0.0</org.glassfish.expressly.version>
+        <org.hibernate.validator.version>9.0.0.Beta2</org.hibernate.validator.version>
         <org.junit.jupiter.version>5.10.2</org.junit.jupiter.version>
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <org.mockito.version>5.11.0</org.mockito.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
-        <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <scribejava.version>8.3.3</scribejava.version>
+        <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
         <swagger-annotations.version>1.6.9</swagger-annotations.version>
         <swagger-annotations.v3.version>2.2.8</swagger-annotations.v3.version>
-        <springdoc-openapi-starter-webmvc-ui.version>2.6.0</springdoc-openapi-starter-webmvc-ui.version>
-        <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
     </properties>
 
     <modules>

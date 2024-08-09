@@ -8,6 +8,7 @@ import dev.thiagooliveira.delivery.menus.services.MenuService;
 import dev.thiagooliveira.delivery.restaurants.dto.RestaurantPage;
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@Slf4j
 public class MenusApplication {
     public static void main(String[] args) {
         SpringApplication.run(MenusApplication.class, args);
@@ -100,6 +102,7 @@ public class MenusApplication {
         menuItem.setDescription(description);
         menuItem.setPrice(price);
 
-        menuService.save(menuItem);
+        MenuItem menuItemSaved = menuService.save(menuItem);
+        log.debug("item '{}' saved", menuItemSaved.getId());
     }
 }

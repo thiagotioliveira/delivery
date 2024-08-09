@@ -10,15 +10,15 @@ spring:
           keycloak:
             scope: openid
             authorization-grant-type: authorization_code
-            client-id: menus-service
-            client-secret: PZim6H4TZ3nOfxCoeKaxfneoCDKqpBOl
+            client-id: ${app.keycloak.clientId}
+            client-secret: ${app.keycloak.clientSecret}
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/delivery
+            issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/delivery
+          issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
     url: jdbc:postgresql://localhost:5432/menus_db
@@ -45,13 +45,10 @@ app:
     restaurants-service:
       serviceId: restaurants-service
   keycloak:
-    baseUrl: http://localhost:8080/
+    baseUrl: http://localhost:8080
     clientId: menus-service
     clientSecret: PZim6H4TZ3nOfxCoeKaxfneoCDKqpBOl
     realm: delivery
 logging:
   level:
-    dev.thiagooliveira.delivery.menus: DEBUG
-#    com:
-#      github:
-#        scribejava: DEBUG
+    dev.thiagooliveira.delivery: DEBUG

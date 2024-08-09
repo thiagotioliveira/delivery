@@ -6,9 +6,9 @@ services:
     volumes:
       - .\postgres:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: delivery_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
     networks:
@@ -18,25 +18,30 @@ services:
     image: quay.io/keycloak/keycloak:23.0.6
     command: "-v start-dev --import-realm"
     environment:
-      KC_HOSTNAME: localhost
-      KC_HOSTNAME_PORT: 8080
+      #KC_HOSTNAME: localhost
+      #KC_HOSTNAME_PORT: 8080
       KC_HOSTNAME_STRICT_BACKCHANNEL: false
       KC_HTTP_ENABLED: true
       KC_HOSTNAME_STRICT_HTTPS: false
       KC_HEALTH_ENABLED: true
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres/${KEYCLOAK_DB}
-      KC_DB_USERNAME: ${KEYCLOAK_DB_USER}
-      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak_db
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
     ports:
       - "8080:8080"
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e 'GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 90s
     volumes:
       - .\keycloak\delivery-realm.json:/opt/keycloak/data/import/delivery-realm.json
       - .\keycloak\delivery-users-0.json:/opt/keycloak/data/import/delivery-users-0.json
-      - C:\Users\Thiago\data:/tmp
     depends_on:
       - postgres
     networks:
@@ -58,7 +63,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 50s
     networks:
       - delivery_network
   gateway:
@@ -70,6 +75,45 @@ services:
         condition: service_healthy
     ports:
       - "8082:8080"
+    networks:
+      - delivery_network
+  location:
+    image: thiagotioliveira/delivery-location:latest
+    environment:
+      APP_KEYCLOAK_BASEURL: http://keycloak:8080
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "8767:8767"
+    networks:
+      - delivery_network
+  notifications:
+    image: thiagotioliveira/delivery-notifications:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "8766:8766"
+    networks:
+      - delivery_network
+  orders:
+    image: thiagotioliveira/delivery-orders:latest
+    environment:
+      APP_KEYCLOAK_BASEURL: http://keycloak:8080
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orders_db
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "8765:8765"
     networks:
       - delivery_network
 networks:

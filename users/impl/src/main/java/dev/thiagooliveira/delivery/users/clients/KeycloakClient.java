@@ -27,6 +27,11 @@ public class KeycloakClient implements IAMClient {
     }
 
     @Override
+    public Optional<UserWithAddressId> getByUsername(String username) {
+        return getRepresentation(username).map(userMapper::toUser);
+    }
+
+    @Override
     public void updateCurrentAddress(UUID userId, UUID addressId) {
         UserRepresentation userRepresentation = getRepresentation(userId).orElseThrow(UserNotFoundException::new);
         if (userRepresentation.getAttributes() == null) {
@@ -39,6 +44,15 @@ public class KeycloakClient implements IAMClient {
     private Optional<UserRepresentation> getRepresentation(UUID userId) {
         try {
             return Optional.of(realm.users().get(userId.toString()).toRepresentation());
+        } catch (NotFoundException e) {
+            log.debug("user not found.", e);
+            return Optional.empty();
+        }
+    }
+
+    private Optional<UserRepresentation> getRepresentation(String username) {
+        try {
+            return realm.users().search(username).stream().findFirst();
         } catch (NotFoundException e) {
             log.debug("user not found.", e);
             return Optional.empty();

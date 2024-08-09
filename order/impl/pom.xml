@@ -168,6 +168,45 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib-maven-plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>${java-image-base}</image>
+                        <platforms>
+                            <platform>
+                                <architecture>amd64</architecture>
+                                <os>linux</os>
+                            </platform>
+                        </platforms>
+                    </from>
+                    <to>
+                        <image>docker.io/thiagotioliveira/delivery-orders</image>
+                        <tags>
+                            <tag>0.0.1-SNAPSHOT</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <workingDirectory>/app</workingDirectory>
+                        <ports>
+                            <port>8765</port>
+                        </ports>
+                        <entrypoint>java,-jar,/app/orders-service-0.0.1-SNAPSHOT.jar</entrypoint>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                    </container>
+                    <extraDirectories>
+                        <paths>
+                            <path>
+                                <from>${project.basedir}/target/</from>
+                                <includes>orders-service-0.0.1-SNAPSHOT.jar</includes>
+                                <into>/app</into>
+                            </path>
+                        </paths>
+                    </extraDirectories>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

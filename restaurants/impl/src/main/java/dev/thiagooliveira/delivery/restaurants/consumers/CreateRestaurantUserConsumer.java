@@ -27,7 +27,7 @@ public class CreateRestaurantUserConsumer {
     @RabbitListener(queues = AMQPConfig.CREATE_RESTAURANT_USER_QUEUE)
     public void consume(Message<CreateRestaurantUserCommand> message) {
         CreateRestaurantUserCommand command = message.getPayload();
-        log.info("Message received {}", command);
+        log.debug("Message received {}", command);
 
         LocationApi locationApi = locationApiFactory.create();
         Route route = locationApi.directions(new Directions()

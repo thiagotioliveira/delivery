@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
+<!--HEAD-->
+<div th:include="~{/fragments/header :: head}"></div>
+<style></style>
+<body>
+<div th:include="~{/fragments/header :: header}"></div>
+<main>
+    <div class="container mt-5">
+        <h1 class="mb-4">Orders</h1>
+        <div id="order-list" class="list-group">
+        </div>
+    </div>
+</main>
+<div th:include="~{/fragments/footer :: footer}"></div>
+<script>
+    require.config({
+        paths: {
+            'superagent': '/assets/dist/js/superagent/superagent.min',
+            'index': '/assets/dist/js/clients/orders_api/index',
+            'ApiClient': '/assets/dist/js/clients/orders_api/ApiClient',
+            'api/OrderApi': '/assets/dist/js/clients/orders_api/api/OrderApi',
+            'model/Address': '/assets/dist/js/clients/orders_api/model/Address',
+            'model/CreateOrder': '/assets/dist/js/clients/orders_api/model/CreateOrder',
+            'model/Order': '/assets/dist/js/clients/orders_api/model/Order',
+            'model/OrderDetails': '/assets/dist/js/clients/orders_api/model/OrderDetails',
+            'model/OrderEvent': '/assets/dist/js/clients/orders_api/model/OrderEvent',
+            'model/OrderItem': '/assets/dist/js/clients/orders_api/model/OrderItem',
+            'model/OrderPage': '/assets/dist/js/clients/orders_api/model/OrderPage',
+            'model/Pageable': '/assets/dist/js/clients/orders_api/model/Pageable',
+            'model/Restaurant': '/assets/dist/js/clients/orders_api/model/Restaurant',
+            'model/User': '/assets/dist/js/clients/orders_api/model/User',
+            'model/Sort': '/assets/dist/js/clients/orders_api/model/Sort'
+        }
+    });
+
+    require(['index'], function(OpenApiDefinition) {
+        var orderApi = new OpenApiDefinition.OrderApi();
+        orderApi.apiClient.basePath = '[[${gateway}]]/orders-service'.replace(/\/+$/, '');
+        orderApi.apiClient.authentications['oauth2'] = {
+            type: 'oauth2',
+            accessToken: '[[${user.token}]]'
+        };
+
+        orderApi.getOrders({}, function(error, data, response) {
+            if (error) {
+                console.error(error);
+            } else {
+                addOrdersToGrid(data.content);
+            }
+        });
+    });
+
+    function addOrdersToGrid(orders){
+        const orderList = document.getElementById('order-list');
+        orders.forEach(order => {
+            const orderItem = document.createElement('div');
+            orderItem.className = 'list-group-item list-group-item-action order-item';
+            orderItem.innerHTML = `
+                <h5>ID: ${order.id}</h5>
+                <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()} ${new Date(order.createdAt).toLocaleTimeString()}</p>
+                <p><strong>Total:</strong> R$ ${order.total.toFixed(2)}</p>
+                <p><strong>Status:</strong> ${order.status}</p>
+            `;
+            orderList.appendChild(orderItem);
+        });
+    }
+</script>
+</body>
+</html>

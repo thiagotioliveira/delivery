@@ -10,15 +10,15 @@ spring:
           keycloak:
             scope: openid
             authorization-grant-type: authorization_code
-            client-id: orders-service
-            client-secret: zVw5tde4NLZV8xfujzSgZjHNlVjj0Ioy
+            client-id: ${app.keycloak.clientId}
+            client-secret: ${app.keycloak.clientSecret}
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/delivery
+            issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/delivery
+          issuer-uri: ${app.keycloak.baseUrl}/realms/delivery
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
   datasource:
     url: jdbc:postgresql://localhost:5432/orders_db
@@ -36,21 +36,6 @@ spring:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-logging:
-  level:
-    dev:
-      thiagooliveira:
-        delivery: DEBUG
-    org:
-      hibernate:
-        SQL: INFO #DEBUG
-        orm:
-          jdbc:
-            bind: INFO #TRACE
-        type:
-          descriptor:
-            sql:
-              BasicBinder: INFO #TRACE
 eureka:
   instance:
     preferIpAddress: true
@@ -66,7 +51,10 @@ app:
     menus-service:
       serviceId: menus-service
   keycloak:
-    baseUrl: http://localhost:8080/
+    baseUrl: http://localhost:8080
     clientId: orders-service
     clientSecret: zVw5tde4NLZV8xfujzSgZjHNlVjj0Ioy
     realm: delivery
+logging:
+  level:
+    dev.thiagooliveira.delivery: DEBUG

@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: User API
-  description: API for managing users
+  title: Location API
+  description: Responsible for handling data related to geolocation
   version: 1.0.0
 servers:
   - url: http://localhost:8080/v1
 tags:
-  - name: Users
-    description: Operations related to users
+  - name: Location
+    description: Responsible for handling data related to geolocation
 paths:
   /admin/directions:
     post:
@@ -67,6 +67,9 @@ components:
           $ref: '#/components/schemas/AddressValidated'
         destination:
           $ref: '#/components/schemas/AddressValidated'
+      required:
+        - origin
+        - destination
     AddressValidated:
       type: object
       properties:
@@ -100,6 +103,16 @@ components:
         longitude:
           type: number
           format: double
+      required:
+        - street
+        - number
+        - city
+        - state
+        - postalCode
+        - country
+        - formatted
+        - latitude
+        - longitude
     Address:
       type: object
       properties:

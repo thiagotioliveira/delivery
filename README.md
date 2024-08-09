@@ -55,3 +55,9 @@ User: michael.smith
 
 converte o openapi.yaml to json
 PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output_users -l javascript --additional-properties useES6=false
+
+1 docker-compose 
+2 notification / location
+4 restaurants
+5 menu
+6 users

@@ -4,8 +4,8 @@
 <div th:include="~{/fragments/header :: head}"></div>
 <style>
     .card-img-top {
-        height: 225px;
-        object-fit: cover;
+    height: 225px;
+    object-fit: cover;
     }
 </style>
 <body>
@@ -77,6 +77,13 @@
 
         // Limpar o grid antes de adicionar novos cards
         grid.innerHTML = '';
+
+        if(restaurants.length === 0){
+            grid.innerHTML = `<span>
+                  You need to configure the delivery address in
+                  <a href="/settings">/settings</a>
+                </span>`;
+        }
 
         restaurants.forEach(restaurant => {
             const randomImageNumber = getRandomImageNumber();

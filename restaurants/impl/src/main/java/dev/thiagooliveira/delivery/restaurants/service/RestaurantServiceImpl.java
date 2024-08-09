@@ -24,7 +24,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantMapper.toRestaurantPageFromRestaurants(restaurantUserRepository.findByIdUserId(
                 userId,
                 org.springframework.data.domain.PageRequest.of(
-                        pageRequest.getPageNumber(), pageRequest.getPageSize())));
+                        pageRequest.getPageNumber(),
+                        pageRequest.getPageSize(),
+                        org.springframework.data.domain.Sort.by("distance"))));
     }
 
     @Override

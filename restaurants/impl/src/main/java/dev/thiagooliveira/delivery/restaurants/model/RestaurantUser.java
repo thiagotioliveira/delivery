@@ -16,8 +16,8 @@ public class RestaurantUser {
     private Restaurant restaurant;
 
     @NotNull
-    private String distance;
+    private Double distance;
 
     @NotNull
-    private String duration;
+    private Double duration;
 }

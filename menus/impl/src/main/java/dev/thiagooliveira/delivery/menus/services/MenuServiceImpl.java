@@ -10,12 +10,10 @@ import dev.thiagooliveira.delivery.restaurants.clients.RestaurantAdminApi;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class MenuServiceImpl implements MenuService {
 
     private final RestaurantAdminApiFactory restaurantAdminApiFactory;
@@ -31,9 +29,7 @@ public class MenuServiceImpl implements MenuService {
     public MenuItem save(MenuItem menuItem) {
         RestaurantAdminApi restaurantAdminApi = restaurantAdminApiFactory.create();
         restaurantAdminApi.getRestaurantByIdAsAdmin(menuItem.getRestaurantId());
-        MenuItem menuItemSaved = menuMapper.toMenuItem(menuItemRepository.save(menuMapper.toMenuItem(menuItem)));
-        log.debug("item '{}' saved", menuItemSaved.getId());
-        return menuItemSaved;
+        return menuMapper.toMenuItem(menuItemRepository.save(menuMapper.toMenuItem(menuItem)));
     }
 
     @Override

@@ -83,10 +83,10 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: distance
-                  type: varchar(50)
+                  type: double
               - column:
                   name: duration
-                  type: varchar(50)
+                  type: double
         - addPrimaryKey:
             tableName: restaurant_user
             columnNames: restaurant_id, user_id

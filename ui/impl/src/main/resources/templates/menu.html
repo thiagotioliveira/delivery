@@ -2,104 +2,288 @@
 <html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
 <div th:include="~{/fragments/header :: head}"></div>
 <style>
-    html,
-    body {
-    overflow-x: hidden; /* Prevent scroll on narrow devices */
+    .container {
+    max-width: 960px;
     }
-    body {
-    padding-top: 56px;
+    .item-card {
+    margin-bottom: 20px;
     }
-    @media (max-width: 991.98px) {
-    .offcanvas-collapse {
-    position: fixed;
-    top: 56px; /* Height of navbar */
-    bottom: 0;
-    left: 100%;
-    width: 100%;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    overflow-y: auto;
-    visibility: hidden;
-    background-color: #343a40;
-    transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+    .item-img {
+    width: 150px;
+    height: auto;
+    margin-right: 20px;
     }
-    .offcanvas-collapse.open {
-    visibility: visible;
-    transform: translateX(-100%);
-    }
-    }
-    .nav-scroller .nav {
-    color: rgba(255, 255, 255, .75);
-    }
-    .nav-scroller .nav-link {
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    font-size: .875rem;
-    color: #6c757d;
-    }
-    .nav-scroller .nav-link:hover {
-    color: #007bff;
-    }
-    .nav-scroller .active {
-    font-weight: 500;
-    color: #343a40;
-    }
-    .bg-purple {
-    background-color: #6f42c1;
+    .item-details {
+    flex: 1;
     }
 </style>
 <body>
 <div th:include="~{/fragments/header :: header}"></div>
 <main>
-<div class="my-3 p-3 bg-body rounded shadow-sm">
-    <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
-    <div class="d-flex text-body-secondary pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff"/>
-            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
-                <strong class="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
+    <div class="container">
+        <div class="row py-5 g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your cart</span>
+                    <span class="badge bg-primary rounded-pill" id="count-items">0</span>
+                </h4>
+                <ul class="list-group mb-3" id="cart-list">
+                </ul>
+                <div class="input-group">
+                    <button id="checkout-btn" class="w-100 btn btn-primary btn-lg" type="button" disabled
+                            onclick="checkout()">Checkout</button>
+                </div>
             </div>
-            <span class="d-block">@username</span>
+            <div class="col-md-7 col-lg-8">
+                <h2 class="mb-3" id="restaurant-name"></h2>
+                <p id="restaurant-description"></p>
+                <p id="restaurant-phone-number"></p>
+                <p id="restaurant-distance"></p>
+                <p id="restaurant-address"></p>
+                <div class="container">
+                    <div class="row" id="menu-list">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff"/>
-            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
-                <strong class="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
-            </div>
-            <span class="d-block">@username</span>
-        </div>
-    </div>
-    <div class="d-flex text-body-secondary pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff"/>
-            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-        </svg>
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-            <div class="d-flex justify-content-between">
-                <strong class="text-gray-dark">Full Name</strong>
-                <a href="#">Follow</a>
-            </div>
-            <span class="d-block">@username</span>
-        </div>
-    </div>
-    <small class="d-block text-end mt-3">
-        <a href="#">All suggestions</a>
-    </small>
-</div>
 </main>
 <div th:include="~{/fragments/footer :: footer}"></div>
 </body>
 </html>
+<script>
+    var order = {};
+    order.restaurantId = '[[${restaurantId}]]';
+    order.userId = '[[${user.id}]]';
+    order.items = [];
+    order.total = 0;
+
+    var restaurant_api = require.config({
+        context: "version1",
+        paths: {
+            'superagent': '/assets/dist/js/superagent/superagent.min',
+            'index': '/assets/dist/js/clients/restaurant_api/index',
+            'ApiClient': '/assets/dist/js/clients/restaurant_api/ApiClient',
+            'api/RestaurantAdminApi': '/assets/dist/js/clients/restaurant_api/api/RestaurantAdminApi',
+            'api/RestaurantApi': '/assets/dist/js/clients/restaurant_api/api/RestaurantApi',
+            'model/Address': '/assets/dist/js/clients/restaurant_api/model/Address',
+            'model/Pageable': '/assets/dist/js/clients/restaurant_api/model/Pageable',
+            'model/Restaurant': '/assets/dist/js/clients/restaurant_api/model/Restaurant',
+            'model/RestaurantPage': '/assets/dist/js/clients/restaurant_api/model/RestaurantPage',
+            'model/RestaurantUserDetails': '/assets/dist/js/clients/restaurant_api/model/RestaurantUserDetails',
+            'model/RestaurantUserDetailsPage': '/assets/dist/js/clients/restaurant_api/model/RestaurantUserDetailsPage',
+            'model/Sort': '/assets/dist/js/clients/restaurant_api/model/Sort'
+        }
+    });
+
+    restaurant_api(['index'], function(OpenApiDefinition) {
+        var restaurantApi = new OpenApiDefinition.RestaurantApi();
+        restaurantApi.apiClient.basePath = '[[${gateway}]]/restaurants-service'.replace(/\/+$/, '');
+        restaurantApi.apiClient.authentications['oauth2'] = {
+            type: 'oauth2',
+            accessToken: '[[${user.token}]]'
+        };
+
+        restaurantApi.getRestaurantById('[[${restaurantId}]]', function(error, data, response) {
+            if (error) {
+                console.error(error);
+            } else {
+                var div = document.getElementById('restaurant-name');
+                div.innerHTML = '';
+                div.innerHTML = data.name;
+                div = document.getElementById('restaurant-description');
+                div.innerHTML = '';
+                div.innerHTML = data.description;
+                div = document.getElementById('restaurant-phone-number');
+                div.innerHTML = '';
+                div.innerHTML = data.phoneNumber;
+                div = document.getElementById('restaurant-distance');
+                div.innerHTML = '';
+                div.innerHTML = data.distance + ' - ' + data.duration;
+                div = document.getElementById('restaurant-address');
+                div.innerHTML = '';
+                div.innerHTML = data.address.street + ', ' + data.address._number + ', ' + data.address.city + ', ' + data.address.postalCode + ', ' + data.address.country;
+            }
+        });
+    });
+
+    var menus_api = require.config({
+        context: "version2",
+        paths: {
+            'superagent': '/assets/dist/js/superagent/superagent.min',
+            'index': '/assets/dist/js/clients/menus_api/index',
+            'ApiClient': '/assets/dist/js/clients/menus_api/ApiClient',
+            'api/MenuApi': '/assets/dist/js/clients/menus_api/api/MenuApi',
+            'model/MenuItem': '/assets/dist/js/clients/menus_api/model/MenuItem',
+            'model/MenuPage': '/assets/dist/js/clients/menus_api/model/MenuPage',
+            'model/Pageable': '/assets/dist/js/clients/menus_api/model/Pageable',
+            'model/Sort': '/assets/dist/js/clients/menus_api/model/Sort',
+        }
+    });
+
+    menus_api(['index'], function(OpenApiDefinition) {
+        var menuApi = new OpenApiDefinition.MenuApi();
+        menuApi.apiClient.basePath = '[[${gateway}]]/menus-service'.replace(/\/+$/, '');
+        menuApi.apiClient.authentications['oauth2'] = {
+            type: 'oauth2',
+            accessToken: '[[${user.token}]]'
+        };
+
+        menuApi.getItemsByRestaurantId('[[${restaurantId}]]', {}, function(error, data, response) {
+            if (error) {
+                console.error(error);
+            } else {
+                createMenuItems(data.content);
+            }
+        });
+    });
+
+    var orders_api = require.config({
+        context: "version3",
+        paths: {
+            'superagent': '/assets/dist/js/superagent/superagent.min',
+            'index': '/assets/dist/js/clients/orders_api/index',
+            'ApiClient': '/assets/dist/js/clients/orders_api/ApiClient',
+            'api/OrderApi': '/assets/dist/js/clients/orders_api/api/OrderApi',
+            'model/Address': '/assets/dist/js/clients/orders_api/model/Address',
+            'model/CreateOrder': '/assets/dist/js/clients/orders_api/model/CreateOrder',
+            'model/Order': '/assets/dist/js/clients/orders_api/model/Order',
+            'model/OrderDetails': '/assets/dist/js/clients/orders_api/model/OrderDetails',
+            'model/OrderEvent': '/assets/dist/js/clients/orders_api/model/OrderEvent',
+            'model/OrderItem': '/assets/dist/js/clients/orders_api/model/OrderItem',
+            'model/OrderPage': '/assets/dist/js/clients/orders_api/model/OrderPage',
+            'model/Pageable': '/assets/dist/js/clients/orders_api/model/Pageable',
+            'model/Restaurant': '/assets/dist/js/clients/orders_api/model/Restaurant',
+            'model/User': '/assets/dist/js/clients/orders_api/model/User',
+            'model/Sort': '/assets/dist/js/clients/orders_api/model/Sort',
+        }
+    });
+
+    function getRandomImageNumber() {
+        return Math.floor(Math.random() * 16) + 1;
+    }
+
+    function addItemCart(id, name, amount, price, result){
+        const cartList = document.getElementById('cart-list');
+        const amountFormatted = '(' + amount + 'x)';
+        const itemHTML = `
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div class="item-cart">
+                    <h6 class="my-0">${name}</h6>
+                    <small class="text-body-secondary">${amountFormatted}</small>
+                    <input type="hidden" class="item-id" value="${id}">
+                    <input type="hidden" class="item-price" value="${price}">
+                    <input type="hidden" class="item-amount" value="${amount}">
+                </div>
+                <span class="text-body-secondary">${result}</span>
+            </li>
+        `;
+        cartList.innerHTML += itemHTML;
+        disabledCheckoutButton(false);
+    }
+
+    function checkout(){
+        const cartItems = document.querySelectorAll('.item-cart');
+        cartItems.forEach(item => {
+            i = {};
+            i.id = item.querySelector('.item-id').value;
+            i.price = parseFloat(item.querySelector('.item-price').value);
+            i.amount = parseInt(item.querySelector('.item-amount').value);
+            order.items.push(i);
+        });
+        order.total = parseFloat(document.getElementById('cart-total').innerHTML);
+
+        orders_api(['index'], function(OpenApiDefinition) {
+            var orderApi = new OpenApiDefinition.OrderApi();
+            orderApi.apiClient.basePath = '[[${gateway}]]/orders-service'.replace(/\/+$/, '');
+            orderApi.apiClient.authentications['oauth2'] = {
+                type: 'oauth2',
+                accessToken: '[[${user.token}]]'
+            };
+
+            orderApi.createOrder(order, function(error, data, response) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    window.location.href = '/orders'
+                }
+            });
+        });
+
+    }
+
+    function disabledCheckoutButton(disabled){
+        const checkoutButton = document.getElementById('checkout-btn');
+        checkoutButton.disabled = disabled;
+    }
+
+    function clearCart(){
+        setSumCart(0);
+        const cartList = document.getElementById('cart-list');
+        cartList.innerHTML = '';
+        disabledCheckoutButton(true);
+    }
+
+    function addTotalCart(total){
+        const cartList = document.getElementById('cart-list');
+        const itemHTML = `
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Total</span>
+                <strong id="cart-total">${total}</strong>
+            </li>
+        `;
+        cartList.innerHTML += itemHTML;
+    }
+
+    function setSumCart(sum){
+        const countItems = document.getElementById('count-items');
+        countItems.innerHTML = sum;
+    }
+
+    function calculateTotal(){
+        clearCart();
+        var count = 0;
+        var sum = 0;
+        const inputs = document.querySelectorAll('input.input-item');
+        inputs.forEach(input => {
+            const priceValue = parseFloat(document.getElementById('price-' + input.id).innerHTML);
+            const amountValue = parseFloat(input.value);
+            const result = amountValue * priceValue;
+            if(result > 0){
+                count += amountValue;
+                sum += result;
+                const itemName = document.getElementById('name-' + input.id).innerHTML;
+                addItemCart(input.id, itemName, amountValue, priceValue, result);
+            }
+        });
+        setSumCart(count);
+        addTotalCart(sum);
+    }
+
+    function createMenuItems(items) {
+      const menuList = document.getElementById('menu-list');
+      items.forEach(item => {
+        const randomImageNumber = getRandomImageNumber();
+        const imageUrl = `/assets/images/vp-${randomImageNumber}.png`;
+        const itemHTML = `
+          <div class="col-12">
+            <div class="card item-card">
+              <div class="card-body d-flex">
+                <img src="${imageUrl}" class="item-img" alt="Foto do Item">
+                <div class="item-details">
+                  <h5 class="card-title" id="name-${item.id}">${item.name}</h5>
+                  <p class="card-text" id="description-${item.id}">${item.description}</p>
+                  <p class="card-text"><strong>Price: </strong><span id="price-${item.id}">${item.price.toFixed(2)}</span></p>
+                  <div class="form-group">
+                    <label for="amount-${item.id}">Amount:</label>
+                    <input type="number" class="form-control input-item" id="${item.id}" name="amount-${item.id}" min="0" value="0" onchange="calculateTotal()">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        menuList.innerHTML += itemHTML;
+      });
+    }
+</script>

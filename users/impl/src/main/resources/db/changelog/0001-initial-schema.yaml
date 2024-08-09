@@ -26,7 +26,6 @@ databaseChangeLog:
                   type: varchar(150)
                   constraints:
                     nullable: false
-                    unique: true
               - column:
                   name: street
                   type: varchar(150)
@@ -75,3 +74,7 @@ databaseChangeLog:
                   type: double
                   constraints:
                     nullable: false
+        - addUniqueConstraint:
+            columnNames: description, user_id
+            tableName: address
+            constraintName: uq_description_user_id

@@ -19,7 +19,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getById(UUID userId) {
-        Optional<UserWithAddressId> userOptional = iamClient.get(userId);
+        return enrichUser(iamClient.get(userId));
+    }
+
+    @Override
+    public Optional<User> getByUsername(String username) {
+        return enrichUser(iamClient.getByUsername(username));
+    }
+
+    private Optional<User> enrichUser(Optional<UserWithAddressId> userOptional) {
         if (userOptional.isEmpty()) {
             return Optional.empty();
         }

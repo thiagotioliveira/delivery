@@ -7,4 +7,6 @@ import java.util.UUID;
 public interface UserService {
 
     Optional<User> getById(UUID userId);
+
+    Optional<User> getByUsername(String username);
 }

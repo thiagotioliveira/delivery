@@ -39,6 +39,6 @@ public class AMQPConfig {
     public Binding binding(Queue findRestaurantsForUserQueue, TopicExchange userAddressUpdatedTopic) {
         return BindingBuilder.bind(findRestaurantsForUserQueue)
                 .to(userAddressUpdatedTopic)
-                .with(Label.USER_ADDRESS_UPDATED_ROUTING_KEY);
+                .with(String.format("%s.#", Label.USER_ADDRESS_UPDATED_ROUTING_KEY));
     }
 }

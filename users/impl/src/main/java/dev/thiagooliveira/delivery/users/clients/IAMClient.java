@@ -7,6 +7,8 @@ import java.util.UUID;
 public interface IAMClient {
     Optional<UserWithAddressId> get(UUID userId);
 
+    Optional<UserWithAddressId> getByUsername(String username);
+
     void updateCurrentAddress(UUID userId, UUID addressId);
     /*
        User updateAddress(UUID id, AddressValidated address);

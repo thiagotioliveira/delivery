@@ -11,6 +11,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 logging:
   level:
-    dev:
-      thiagooliveira:
-        delivery: DEBUG
+    dev.thiagooliveira.delivery: DEBUG
