@@ -20,6 +20,7 @@ import dev.thiagooliveira.delivery.location.utils.JwtTokenUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -27,7 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-@WebMvcTest(controllers = LocationController.class)
+@WebMvcTest(controllers = LocationController.class, excludeAutoConfiguration = OAuth2ClientAutoConfiguration.class)
 @Import(SecurityConfig.class)
 class LocationControllerTest {
 
@@ -47,6 +48,11 @@ class LocationControllerTest {
     void directionsWithoutPrivilege() throws Exception {
         mockMvc.perform(post("/admin/directions")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Fixtures.directions())))
+                .andExpect(status().isUnauthorized());
+
+        mockMvc.perform(post("/admin/directions")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .with(JwtTokenUtil.createUserToken())
                         .content(objectMapper.writeValueAsString(Fixtures.directions())))
                 .andExpect(status().isForbidden());
@@ -55,6 +61,11 @@ class LocationControllerTest {
     @Test
     @DisplayName("receives forbidden when trying to validate address without privilege.")
     void validateAddressWithoutPrivilege() throws Exception {
+        mockMvc.perform(post("/admin/address/validate")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(Fixtures.address())))
+                .andExpect(status().isUnauthorized());
+
         mockMvc.perform(post("/admin/address/validate")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(JwtTokenUtil.createUserToken())
