@@ -23,7 +23,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/admin/**"))
                         .hasAnyRole("SERVICE")
                         .requestMatchers(new AntPathRequestMatcher("/**"))
-                        .hasRole("USER")
+                        .hasAnyRole("USER", "SERVICE")
                         .anyRequest()
                         .authenticated());
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new JWTConverter())));
