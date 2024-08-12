@@ -65,6 +65,22 @@ class MenuControllerTest {
     }
 
     @Test
+    @DisplayName("try to get a menu passing restaurant id and menu id not found or invalid.")
+    void getItemByRestaurantIdAndItemIdNotFound() throws Exception {
+        when(menuService.getById(any(UUID.class))).thenReturn(Optional.empty());
+        mockMvc.perform(get("/restaurants/{restaurantId}/items/{itemId}", UUID.randomUUID(), UUID.randomUUID())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(JwtTokenUtil.createUserToken()))
+                .andExpect(status().isNotFound());
+        MenuItem menuDto = getMenuDto(UUID.randomUUID(), UUID.randomUUID());
+        when(menuService.getById(eq(menuDto.getId()))).thenReturn(Optional.of(menuDto));
+        mockMvc.perform(get("/restaurants/{restaurantId}/items/{itemId}", UUID.randomUUID(), menuDto.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(JwtTokenUtil.createUserToken()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("try to get a menu passing restaurant id and menu id without privilege.")
     void getItemByRestaurantIdAndItemIdWithoutPrivilege() throws Exception {
         mockMvc.perform(get("/restaurants/{restaurantId}/items/{itemId}", UUID.randomUUID(), UUID.randomUUID())
