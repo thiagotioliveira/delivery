@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Generate Token",
+			"name": "Generate Token (USER)",
 			"event": [
 				{
 					"listen": "test",
@@ -74,7 +74,7 @@
 			"response": []
 		},
 		{
-			"name": "Generate Token (Client)",
+			"name": "Generate Token (SERVICE)",
 			"event": [
 				{
 					"listen": "test",
@@ -97,6 +97,9 @@
 				}
 			],
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -104,7 +107,7 @@
 					"urlencoded": [
 						{
 							"key": "client_id",
-							"value": "orders-service",
+							"value": "users-service",
 							"type": "text"
 						},
 						{
@@ -114,7 +117,7 @@
 						},
 						{
 							"key": "client_secret",
-							"value": "zVw5tde4NLZV8xfujzSgZjHNlVjj0Ioy",
+							"value": "jftzuKCciHm8bfJ2V0bZK2qtMrXivBgA",
 							"type": "text"
 						},
 						{
@@ -198,6 +201,148 @@
 						"protocol",
 						"openid-connect",
 						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Locations API - Get Directions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"origin\": {\r\n    \"street\": \"Rua Alexandre Herculano\",\r\n    \"number\": \"2\",\r\n    \"notes\": \"\",\r\n    \"city\": \"Lisbon\",\r\n    \"state\": \"Lisbon\",\r\n    \"postalCode\": \"1150-006\",\r\n    \"country\": \"Portugal\",\r\n    \"formatted\": \"Rua Alexandre Herculano 2, Lisbon, Lisbon, 1150-006, Portugal\",\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  },\r\n  \"destination\": {\r\n    \"street\": \"Rua João de Freitas Branco\",\r\n    \"number\": \"34B\",\r\n    \"notes\": \"\",\r\n    \"city\": \"Lisbon\",\r\n    \"state\": \"Lisbon\",\r\n    \"postalCode\": \"1500-714\",\r\n    \"country\": \"Portugal\",\r\n    \"formatted\": \"Rua João de Freitas Branco 34B, Lisbon, Lisbon, 1500-714, Portugal\",\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8767/admin/directions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8767",
+					"path": [
+						"admin",
+						"directions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Locations API - Validate Address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"street\": \"Rua Alexandre Herculano\",\r\n    \"number\": \"2\",\r\n    \"notes\": \"\",\r\n    \"city\": \"Lisbon\",\r\n    \"state\": \"Lisbon\",\r\n    \"postalCode\": \"1150-006\",\r\n    \"country\": \"Portugal\",\r\n    \"formatted\": \"Rua Alexandre Herculano 2, Lisbon, Lisbon, 1150-006, Portugal\",\r\n    \"latitude\": 0,\r\n    \"longitude\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8767/admin/address/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8767",
+					"path": [
+						"admin",
+						"address",
+						"validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Menus API - Get Items By RestaurantId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8764/restaurants/{{restaurant_id}}/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8764",
+					"path": [
+						"restaurants",
+						"{{restaurant_id}}",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Menus API - Get Item By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8764/restaurants/{{restaurant_id}}/items/{{item_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8764",
+					"path": [
+						"restaurants",
+						"{{restaurant_id}}",
+						"items",
+						"{{item_id}}"
 					]
 				}
 			},

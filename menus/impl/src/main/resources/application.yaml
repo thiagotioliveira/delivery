@@ -1,5 +1,11 @@
 server:
   port: 8764
+info:
+  app:
+    name: ${spring.application.name}
+    description: Responsible for handling data related to menu of restaurants
+    version: 0.0.1-SNAPSHOT
+    author: Thiago Oliveira
 spring:
   application:
     name: menus-service
@@ -34,6 +40,23 @@ spring:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
 eureka:
   instance:
     preferIpAddress: true
