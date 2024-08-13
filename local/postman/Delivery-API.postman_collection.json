@@ -349,6 +349,126 @@
 			"response": []
 		},
 		{
+			"name": "Restaurants API - Get All",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8763/restaurants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8763",
+					"path": [
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Restaurants API - Get By Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8763/restaurants/{{restaurant_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8763",
+					"path": [
+						"restaurants",
+						"{{restaurant_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Restaurants API - Get All - ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8763/admin/restaurants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8763",
+					"path": [
+						"admin",
+						"restaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Restaurants API - Get By Id - ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8763/admin/restaurants/{{restaurant_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8763",
+					"path": [
+						"admin",
+						"restaurants",
+						"{{restaurant_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get User By Id",
 			"request": {
 				"auth": {

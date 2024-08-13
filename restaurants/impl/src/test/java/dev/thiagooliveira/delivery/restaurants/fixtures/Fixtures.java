@@ -67,6 +67,22 @@ public class Fixtures {
                 0d);
     }
 
+    public static dev.thiagooliveira.delivery.restaurants.dto.RestaurantIdWithAddress restaurantIdWithAddressDto(
+            UUID restaurantId) {
+        return new dev.thiagooliveira.delivery.restaurants.dto.RestaurantIdWithAddress()
+                .restaurantId(restaurantId)
+                .street(RESTAURANT_ADDRESS_STREET)
+                .number(RESTAURANT_ADDRESS_NUMBER)
+                .notes(RESTAURANT_ADDRESS_NOTES)
+                .city(RESTAURANT_ADDRESS_CITY)
+                .state(RESTAURANT_ADDRESS_STATE)
+                .postalCode(RESTAURANT_ADDRESS_POSTAL_CODE)
+                .country(RESTAURANT_ADDRESS_COUNTRY)
+                .formatted(format(address()))
+                .latitude(0d)
+                .longitude(0d);
+    }
+
     public static dev.thiagooliveira.delivery.restaurants.dto.RestaurantUser restaurantUserDto(
             UUID userId, UUID restaurantId) {
         return new dev.thiagooliveira.delivery.restaurants.dto.RestaurantUser()
