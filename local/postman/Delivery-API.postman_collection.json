@@ -469,6 +469,211 @@
 			"response": []
 		},
 		{
+			"name": "Users API - Get Address User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8762/users/{{user_id}}/addresses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8762",
+					"path": [
+						"users",
+						"{{user_id}}",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users API - Get User by Id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8762/users/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8762",
+					"path": [
+						"users",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users API - Get User by Id - ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8762/admin/users/8b1be42a-645f-4b1d-8670-e0160855e0e2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8762",
+					"path": [
+						"admin",
+						"users",
+						"8b1be42a-645f-4b1d-8670-e0160855e0e2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users API - Create New Address User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"home-test\",\r\n  \"street\": \"Rua Luciano Cordeiro\",\r\n  \"number\": \"51\",\r\n  \"notes\": \"2º andar direito\",\r\n  \"city\": \"Lisboa\",\r\n  \"state\": \"Lisboa\",\r\n  \"postalCode\": \"1150-212\",\r\n  \"country\": \"Portugal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8762/users/{{user_id}}/addresses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8762",
+					"path": [
+						"users",
+						"{{user_id}}",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users API - Update Address User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"current\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8762/users/{{user_id}}/addresses/8f7e95e8-d86b-4000-a7ab-e7cb96ab01a3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8762",
+					"path": [
+						"users",
+						"{{user_id}}",
+						"addresses",
+						"8f7e95e8-d86b-4000-a7ab-e7cb96ab01a3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Users API - Delete Address User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8762/users/{{user_id}}/addresses/a381ff4f-5f92-4485-8743-1a5fa33175d3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8762",
+					"path": [
+						"users",
+						"{{user_id}}",
+						"addresses",
+						"a381ff4f-5f92-4485-8743-1a5fa33175d3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get User By Id",
 			"request": {
 				"auth": {

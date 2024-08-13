@@ -1,5 +1,11 @@
 server:
   port: 8762
+info:
+  app:
+    name: ${spring.application.name}
+    description: Responsible for handling data related to users
+    version: 0.0.1-SNAPSHOT
+    author: Thiago Oliveira
 spring:
   application:
     name: users-service
@@ -47,7 +53,19 @@ management:
   endpoints:
     web:
       exposure:
-        include: 'health'
+        include: health,info
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      enabled: true
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
 app:
   client:
     location-service:
