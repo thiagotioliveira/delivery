@@ -8,31 +8,26 @@ import dev.thiagooliveira.delivery.restaurants.service.RestaurantService;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class RestaurantController implements RestaurantApi {
 
+    private final RequestContextManager requestContextManager;
     private final RestaurantService restaurantService;
 
     @Override
     public ResponseEntity<RestaurantUserDetails> getRestaurantById(UUID restaurantId) {
         return ResponseEntity.ok(restaurantService
-                .getById(getUserRequest(), restaurantId)
+                .getById(requestContextManager.getUserAuthenticatedId(), restaurantId)
                 .orElseThrow(RestaurantNotFoundException::new));
     }
 
     @Override
     public ResponseEntity<RestaurantUserDetailsPage> getRestaurants(Integer pageNumber, Integer pageSize) {
         return ResponseEntity.ok(restaurantService.getAll(
-                getUserRequest(), new PageRequest().pageNumber(pageNumber).pageSize(pageSize)));
-    }
-
-    private static UUID getUserRequest() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return UUID.fromString(authentication.getName());
+                requestContextManager.getUserAuthenticatedId(),
+                new PageRequest().pageNumber(pageNumber).pageSize(pageSize)));
     }
 }
