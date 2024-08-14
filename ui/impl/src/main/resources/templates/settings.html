@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
 <!--HEAD-->
-<div th:include="~{/fragments/header :: head}"></div>
+<div th:include="~{fragments/header :: head}"></div>
 <style>
     .list-group {
     width: 100%;
@@ -63,7 +63,7 @@
     }
 </style>
 <body>
-<div th:include="~{/fragments/header :: header}"></div>
+<div th:include="~{fragments/header :: header}"></div>
 <main>
     <div th:fragment="alert" class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
         <div id="alert-message" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -92,7 +92,7 @@
         </div>
     </div>
 </main>
-<div th:include="~{/fragments/footer :: footer}"></div>
+<div th:include="~{fragments/footer :: footer}"></div>
 </body>
 <script>
     require.config({

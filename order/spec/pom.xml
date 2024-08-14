@@ -54,6 +54,11 @@
             <version>${jakarta.annotation-api.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${org.hibernate.validator.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
             <version>${feign.version}</version>
@@ -104,8 +109,9 @@
                                 <library>spring-boot</library>
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>
+                                <performBeanValidation>true</performBeanValidation>
                                 <useBeanValidation>true</useBeanValidation>
-                                <useClassLevelBeanValidation>false</useClassLevelBeanValidation>
+                                <useClassLevelBeanValidation>true</useClassLevelBeanValidation>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <useTags>true</useTags>
                                 <hideGenerationTimestamp>true</hideGenerationTimestamp>
@@ -151,6 +157,8 @@
                             <configOptions>
                                 <library>feign</library>
                                 <useJakartaEe>true</useJakartaEe>
+                                <performBeanValidation>true</performBeanValidation>
+                                <useBeanValidation>true</useBeanValidation>
                                 <dateLibrary>java8</dateLibrary>
                                 <invokerPackage>${codegen.client.package.name}.invokers</invokerPackage>
                                 <apiPackage>${codegen.client.package.name}</apiPackage>

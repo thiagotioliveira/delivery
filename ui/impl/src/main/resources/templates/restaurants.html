@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org">
 <!--HEAD-->
-<div th:include="~{/fragments/header :: head}"></div>
+<div th:include="~{fragments/header :: head}"></div>
 <style>
     .card-img-top {
     height: 225px;
@@ -9,7 +9,7 @@
     }
 </style>
 <body>
-<div th:include="~{/fragments/header :: header}"></div>
+<div th:include="~{fragments/header :: header}"></div>
 <main>
     <section class="py-5 text-center container">
         <div class="row py-lg-5">
@@ -30,7 +30,7 @@
         </div>
     </div>
 </main>
-<div th:include="~{/fragments/footer :: footer}"></div>
+<div th:include="~{fragments/footer :: footer}"></div>
 <script>
     require.config({
         paths: {

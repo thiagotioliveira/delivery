@@ -18,10 +18,12 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**", "GET"))
                         .permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/actuator/**", "GET"))
+                        .permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/admin/**"))
-                        .hasAnyRole("ADMIN", "SERVICE")
+                        .hasAnyRole("SERVICE")
                         .requestMatchers(new AntPathRequestMatcher("/**"))
-                        .hasRole("USER")
+                        .hasAnyRole("USER", "SERVICE")
                         .anyRequest()
                         .authenticated());
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(new JWTConverter())));

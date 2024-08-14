@@ -1,7 +1,6 @@
 package dev.thiagooliveira.delivery.users.message.dto;
 
 import java.io.Serializable;
-
 import lombok.*;
 
 @AllArgsConstructor

@@ -18,8 +18,7 @@ services:
     image: quay.io/keycloak/keycloak:23.0.6
     command: "-v start-dev --import-realm"
     environment:
-      #KC_HOSTNAME: localhost
-      #KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_URL: http://keycloak:8080
       KC_HOSTNAME_STRICT_BACKCHANNEL: false
       KC_HTTP_ENABLED: true
       KC_HOSTNAME_STRICT_HTTPS: false
@@ -38,7 +37,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 90s
+      start_period: 180s
     volumes:
       - .\keycloak\delivery-realm.json:/opt/keycloak/data/import/delivery-realm.json
       - .\keycloak\delivery-users-0.json:/opt/keycloak/data/import/delivery-users-0.json
@@ -74,7 +73,7 @@ services:
       discovery:
         condition: service_healthy
     ports:
-      - "8082:8080"
+      - "8082:8082"
     networks:
       - delivery_network
   location:
@@ -88,6 +87,12 @@ services:
         condition: service_healthy
     ports:
       - "8767:8767"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://discovery:8761/eureka/apps/location-service || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
     networks:
       - delivery_network
   notifications:
@@ -114,6 +119,72 @@ services:
         condition: service_healthy
     ports:
       - "8765:8765"
+    networks:
+      - delivery_network
+  restaurants:
+    image: thiagotioliveira/delivery-restaurants:latest
+    environment:
+      APP_KEYCLOAK_BASEURL: http://keycloak:8080
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/restaurants_db
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    ports:
+      - "8763:8763"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://discovery:8761/eureka/apps/restaurants-service || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+    networks:
+      - delivery_network
+  menus:
+    image: thiagotioliveira/delivery-menus:latest
+    environment:
+      APP_KEYCLOAK_BASEURL: http://keycloak:8080
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/menus_db
+    depends_on:
+      restaurants:
+        condition: service_healthy
+    ports:
+      - "8764:8764"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://discovery:8761/eureka/apps/menus-service || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks:
+      - delivery_network
+  users:
+    image: thiagotioliveira/delivery-users:latest
+    environment:
+      APP_KEYCLOAK_BASEURL: http://keycloak:8080
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/users_db
+    depends_on:
+      location:
+        condition: service_healthy
+    ports:
+      - "8762:8762"
+    networks:
+      - delivery_network
+  web:
+    image: thiagotioliveira/delivery-ui:latest
+    environment:
+      APP_KEYCLOAK_BASEURL: http://keycloak:8080
+      #APP_CLIENT_GATEWAY_BASEURL: http://gateway:8082
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka/
+    depends_on:
+      menus:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
     networks:
       - delivery_network
 networks:
