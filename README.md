@@ -53,6 +53,8 @@ APP_GOOGLE_DIRECTIONSAPI_APIKEY
 
 User: michael.smith
 
+127.0.0.1 keycloak
+
 converte o openapi.yaml to json
 PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output_users -l javascript --additional-properties useES6=false
 
