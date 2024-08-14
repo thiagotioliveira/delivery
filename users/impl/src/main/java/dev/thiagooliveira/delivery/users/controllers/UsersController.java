@@ -12,14 +12,13 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
 public class UsersController implements UsersApi {
 
+    private final RequestContextManager requestContextManager;
     private final UserService userService;
     private final AddressService addressService;
 
@@ -57,8 +56,8 @@ public class UsersController implements UsersApi {
     }
 
     private void validateRequest(UUID userId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!Objects.equals(userId.toString(), authentication.getName())) {
+        UUID userAuthenticatedId = requestContextManager.getUserAuthenticatedId();
+        if (!Objects.equals(userId, userAuthenticatedId)) {
             throw new UserNotFoundException();
         }
     }

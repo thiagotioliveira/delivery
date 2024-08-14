@@ -1,6 +1,5 @@
 package dev.thiagooliveira.delivery.users.services;
 
-import dev.thiagooliveira.delivery.users.clients.IAMClient;
 import dev.thiagooliveira.delivery.users.dto.User;
 import dev.thiagooliveira.delivery.users.dto.UserWithAddressId;
 import dev.thiagooliveira.delivery.users.exceptions.AddressNotFoundException;
@@ -13,18 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final IAMClient iamClient;
+    private final IAMService iamService;
     private final AddressService addressService;
     private final UserMapper userMapper;
 
     @Override
     public Optional<User> getById(UUID userId) {
-        return enrichUser(iamClient.get(userId));
+        return enrichUser(iamService.get(userId));
     }
 
     @Override
     public Optional<User> getByUsername(String username) {
-        return enrichUser(iamClient.getByUsername(username));
+        return enrichUser(iamService.getByUsername(username));
     }
 
     private Optional<User> enrichUser(Optional<UserWithAddressId> userOptional) {

@@ -232,6 +232,8 @@ components:
         current:
           type: boolean
           description: Address current
+      required:
+        - current
     CreateAddress:
       type: object
       properties:

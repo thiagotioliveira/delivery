@@ -1,4 +1,4 @@
-package dev.thiagooliveira.delivery.users.clients;
+package dev.thiagooliveira.delivery.users.services;
 
 import static dev.thiagooliveira.delivery.users.utils.Constants.ATTRIBUTE_ADDRESS_ID;
 
@@ -17,7 +17,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 
 @RequiredArgsConstructor
 @Slf4j
-public class KeycloakClient implements IAMClient {
+public class KeycloakService implements IAMService {
     private final RealmResource realm;
     private final UserMapper userMapper;
 

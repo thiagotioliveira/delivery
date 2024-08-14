@@ -1,10 +1,10 @@
-package dev.thiagooliveira.delivery.users.clients;
+package dev.thiagooliveira.delivery.users.services;
 
 import dev.thiagooliveira.delivery.users.dto.UserWithAddressId;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface IAMClient {
+public interface IAMService {
     Optional<UserWithAddressId> get(UUID userId);
 
     Optional<UserWithAddressId> getByUsername(String username);

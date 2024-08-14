@@ -1,7 +1,6 @@
 package dev.thiagooliveira.delivery.users.services;
 
 import dev.thiagooliveira.delivery.location.clients.LocationApi;
-import dev.thiagooliveira.delivery.users.clients.IAMClient;
 import dev.thiagooliveira.delivery.users.config.factories.LocationApiFactory;
 import dev.thiagooliveira.delivery.users.dto.Address;
 import dev.thiagooliveira.delivery.users.dto.CreateAddress;
@@ -24,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 // TODO - refactor this class
 public class AddressServiceImpl implements AddressService {
-    private final IAMClient iamClient;
+    private final IAMService iamService;
     private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
     private final LocationApiFactory locationApiFactory;
@@ -51,7 +50,7 @@ public class AddressServiceImpl implements AddressService {
                 createAddress.getDescription(),
                 true,
                 locationApi.validateAddress(addressMapper.toAddress(createAddress)))));
-        iamClient.updateCurrentAddress(userId, address.getId());
+        iamService.updateCurrentAddress(userId, address.getId());
         userAddessUpdatedProducer.send(addressMapper.toUserAddress(userId, address));
         return address;
     }
@@ -75,7 +74,7 @@ public class AddressServiceImpl implements AddressService {
                 dev.thiagooliveira.delivery.users.model.Address newAddressCurrent = any.get();
                 newAddressCurrent.setCurrent(true);
                 addressRepository.save(newAddressCurrent);
-                iamClient.updateCurrentAddress(userId, newAddressCurrent.getId());
+                iamService.updateCurrentAddress(userId, newAddressCurrent.getId());
                 userAddessUpdatedProducer.send(
                         addressMapper.toUserAddress(userId, addressMapper.toAddress(newAddressCurrent)));
             } else {
@@ -108,7 +107,7 @@ public class AddressServiceImpl implements AddressService {
                 });
                 address.setCurrent(true);
                 addressRepository.save(address);
-                iamClient.updateCurrentAddress(userId, address.getId());
+                iamService.updateCurrentAddress(userId, address.getId());
                 userAddessUpdatedProducer.send(addressMapper.toUserAddress(userId, addressMapper.toAddress(address)));
             }
         } else {
@@ -122,7 +121,7 @@ public class AddressServiceImpl implements AddressService {
                     dev.thiagooliveira.delivery.users.model.Address newAddressCurrent = any.get();
                     newAddressCurrent.setCurrent(true);
                     addressRepository.save(newAddressCurrent);
-                    iamClient.updateCurrentAddress(userId, newAddressCurrent.getId());
+                    iamService.updateCurrentAddress(userId, newAddressCurrent.getId());
                     userAddessUpdatedProducer.send(
                             addressMapper.toUserAddress(userId, addressMapper.toAddress(newAddressCurrent)));
                 } else {
