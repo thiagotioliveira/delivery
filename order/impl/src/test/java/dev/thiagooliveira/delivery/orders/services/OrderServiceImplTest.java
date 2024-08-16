@@ -17,7 +17,6 @@ import dev.thiagooliveira.delivery.orders.validators.handlers.OrderValidatorResu
 import java.math.BigDecimal;
 import java.util.*;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,17 +38,16 @@ class OrderServiceImplTest {
     @Mock
     private OrderUpdatedProducer orderUpdatedProducer;
 
-    private OrderMapper orderMapper;
+    private OrderMapper orderMapper = new OrderMapperImpl();
     private OrderService orderService;
 
     @BeforeEach
     void setUp() {
-        orderMapper = new OrderMapperImpl();
         this.orderService = new OrderServiceImpl(orderValidator, orderMapper, orderRepository, orderUpdatedProducer);
     }
 
     @Test
-    @DisplayName("Test getById with existing order")
+    @DisplayName("test getById with existing order")
     void getById_whenOrderExists_shouldReturnOrderDetails() {
         UUID userId = UUID.randomUUID();
         UUID orderId = UUID.randomUUID();
@@ -66,7 +64,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test getById with non-existing order")
+    @DisplayName("test getById with non-existing order")
     void getById_whenOrderDoesNotExist_shouldReturnEmpty() {
         UUID userId = UUID.randomUUID();
         UUID orderId = UUID.randomUUID();
@@ -80,8 +78,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test create order")
-    @Disabled
+    @DisplayName("test create order")
     void create_shouldSaveOrderAndReturnOrderDetails() {
         CreateOrder createOrder = new CreateOrder();
         Order order = new Order();
@@ -93,17 +90,16 @@ class OrderServiceImplTest {
         OrderValidatorResult result = new OrderValidatorResult(map);
 
         when(orderValidator.validate(createOrder)).thenReturn(result);
-        //        when(orderRepository.save(order)).thenReturn(order);
-
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
         OrderDetails orderDetailsResult = orderService.create(createOrder);
 
         assertNotNull(orderDetailsResult);
-        verify(orderRepository, times(1)).save(order);
+        verify(orderRepository, times(1)).save(any(Order.class));
         verify(orderUpdatedProducer, times(1)).send(any(OrderDetails.class));
     }
 
     @Test
-    @DisplayName("Test approve order with existing order")
+    @DisplayName("test approve order with existing order")
     void approve_whenOrderExists_shouldUpdateStatusAndReturnOrderDetails() {
         UUID userId = UUID.randomUUID();
         UUID orderId = UUID.randomUUID();
@@ -127,7 +123,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test approve order with non-existing order")
+    @DisplayName("test approve order with non-existing order")
     void approve_whenOrderDoesNotExist_shouldThrowOrderNotFoundException() {
         UUID userId = UUID.randomUUID();
         UUID orderId = UUID.randomUUID();
@@ -139,13 +135,16 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test deliver order with existing order")
-    @Disabled
+    @DisplayName("test deliver order with existing order")
     void deliver_whenOrderExists_shouldUpdateStatusAndReturnOrderDetails() {
         UUID userId = UUID.randomUUID();
         UUID orderId = UUID.randomUUID();
         Order order = new Order();
         order.setId(orderId);
+        order.setStatus(dev.thiagooliveira.delivery.orders.model.OrderStatus.APPROVED);
+        dev.thiagooliveira.delivery.orders.model.OrderEvent event =
+                new dev.thiagooliveira.delivery.orders.model.OrderEvent();
+        order.setEvents(new ArrayList<>(List.of(event)));
 
         when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
         when(orderRepository.save(order)).thenReturn(order);
@@ -160,7 +159,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test deliver order with non-existing order")
+    @DisplayName("test deliver order with non-existing order")
     void deliver_whenOrderDoesNotExist_shouldThrowOrderNotFoundException() {
         UUID userId = UUID.randomUUID();
         UUID orderId = UUID.randomUUID();
@@ -172,13 +171,16 @@ class OrderServiceImplTest {
     }
 
     @Test
-    @DisplayName("Test getAll orders")
-    @Disabled
+    @DisplayName("test getAll orders")
     void getAll_shouldReturnOrderPage() {
         UUID userId = UUID.randomUUID();
-        PageRequest pageRequest = PageRequest.of(0, 10);
+        PageRequest pageRequest = PageRequest.of(
+                0,
+                10,
+                org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Order.desc("createdAt")));
         Order order = new Order();
-        Page<Order> page = new PageImpl<>(List.of(order));
+        Page<Order> page = new PageImpl<>(
+                List.of(order), PageRequest.of(0, 10, org.springframework.data.domain.Sort.by("createdAt")), 1);
 
         when(orderRepository.findByUserId(userId, pageRequest)).thenReturn(page);
 

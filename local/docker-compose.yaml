@@ -62,7 +62,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 50s
+      start_period: 150s
     networks:
       - delivery_network
   gateway:
@@ -92,7 +92,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 60s
+      start_period: 120s
     networks:
       - delivery_network
   notifications:
@@ -157,7 +157,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 60s
+      start_period: 120s
     networks:
       - delivery_network
   users:
