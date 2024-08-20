@@ -1,65 +1,119 @@
-- # Delivery
+# Delivery
 
-This is a Spring Boot project built with Maven and Docker, intended for a delivery service. The project is currently under construction.
+## Architecture Overview
 
-## Technologies Used
+The system is composed of several microservices, each responsible for a specific part of the business:
 
-- Java 21
-- Spring Boot 3.3.2
-- Maven 3.6.3
-- Docker 24.0.2
+- **Discovery** (Port: 8761): Uses Spring Cloud Netflix Eureka for service discovery management.
+- **Gateway** (Port: 8082): Implemented with Spring Cloud Gateway, it routes requests to the appropriate microservices.
+- **Users-service** (Port: 8762): Manages user information, such as addresses, and integrates with Keycloak.
+- **Restaurants-service** (Port: 8763): Provides information about the restaurants registered on the platform.
+- **Menus-service** (Port: 8764): Manages the menus and items of the restaurants.
+- **Orders-service** (Port: 8765): Responsible for creating and managing orders.
+- **Notification-service** (Port: 8766): A service for sending notifications, currently in the initial development stage.
+- **Location-service** (Port: 8767): Provides information about geolocation and address validation.
+- **Web-UI** (Port: 8081): The graphical user interface.
 
-## Getting Started
+### Keycloak: Identity and Access Management
 
----
-- $env:POSTGRES_DB='delivery_db'
-- $env:POSTGRES_USER='postgres'
-- $env:POSTGRES_PASSWORD='admin'
+Keycloak is used for authentication and authorization in the system. It is configured with a **realm** named `delivery`, where users have the role `USER` and services have the role `SERVICE`. Two users have been pre-registered:
 
-- $env:KEYCLOAK_ADMIN='admin'
-- $env:KEYCLOAK_ADMIN_PASSWORD='admin'
+- **michael.smith** | password: `michael.smith`
+- **laura.jones** | password: `laura.jones`
 
-- $env:KEYCLOAK_DB='keycloak_db'
-- $env:KEYCLOAK_DB_USER='keycloak'
-- $env:KEYCLOAK_DB_PASSWORD='keycloak'
+Each microservice has a **client** registered in Keycloak, also assigned the role `SERVICE`. This allows Spring Security to manage access permissions in a centralized and efficient manner.
 
-ports:
-keycloak: 8760
-discovery: 8761
-gateway: 8080
-user: 8762
-restaurants: 8763
-menus: 8764
-order: 8765
-notification: 8766
-location: 8767
+To ensure Keycloak is accessible when typing `keycloak` in the browser's address bar, you need to edit the `hosts` file by adding the following entry:
 
-/swagger-ui/index.html
-
-http://localhost:8080/realms/delivery/.well-known/openid-configuration
-
-docker-compose:
-keycloak:
-  volume:
-    - C:\Users\Thiago\data:/tmp
-
-./kc.sh export --dir /tmp --realm delivery
-
-user-service:
-delivery-realm.json removing the ‘authorizationSettings‘ node
-GOOGLE_APPLICATION_CREDENTIALS
-APP_GOOGLE_DIRECTIONSAPI_APIKEY
-[C:\Users\Thiago\AppData\Roaming\gcloud\application_default_credentials.json]
-
-User: michael.smith
-
+```
 127.0.0.1 keycloak
+```
 
-converte o openapi.yaml to json
-PS C:\Users\Thiago\workspace\other\swagger-codegen\modules\swagger-codegen-cli\target> java -jar swagger-codegen-cli.jar generate -i openapi.json -o output_users -l javascript --additional-properties useES6=false
+### Persistence with Postgres and Asynchronous Communication with RabbitMQ
 
-1 docker-compose 
-2 notification / location
-4 restaurants
-5 menu
-6 users
+The system uses Postgres (Port: 5432) as the database, ensuring robustness and scalability in data persistence. For asynchronous communication between services, especially for tasks that do not require an immediate response, RabbitMQ (Ports: 15672 and 5672) is used as a message broker, managing queues and allowing decoupled communication between components.
+
+#### Advantages of Using Keycloak, Postgres, and RabbitMQ
+
+- **Keycloak**: Simplifies user management, authentication, and authorization, providing centralized security and control.
+- **Postgres**: A reliable relational database with support for complex operations and ACID transactions.
+- **RabbitMQ**: Facilitates communication between services efficiently, supporting messaging patterns like queues and topics.
+
+### Maven for Dependency Management
+
+The project is built using Maven, which simplifies dependency management and ensures that all microservices are using consistent and compatible versions of libraries and tools. Maven also streamlines the build process, making it easier to compile, package, and deploy the microservices.
+
+### Security and Monitoring
+
+Spring Security is configured to validate requests:
+
+- **GET**: Access is allowed for `/swagger-ui/**`, `/v3/api-docs/**`, `/actuator/**`.
+- **/admin/**: Access is allowed only for services with the role `SERVICE`.
+- **/**: Access is allowed for users and services with the roles `USER` or `SERVICE`.
+
+For monitoring, Spring Actuator is integrated, allowing the retrieval of health metrics from the services.
+
+### Available Endpoints by Service
+
+The services expose various endpoints, all documented in Swagger, accessible at `/swagger-ui/index.html` in each service.
+
+#### Users-service (Port: 8762)
+
+- **GET /users/{id}**: Retrieve information about an authenticated user.
+- **GET /users/{id}/addresses**: Retrieve addresses of the authenticated user.
+- **POST /users/{id}/addresses**: Create a new address for the user.
+- **PATCH /users/{id}/addresses**: Update an existing address.
+- **DELETE /users/{id}/addresses/{addressId}**: Remove an address linked to the user.
+- **GET /admin/users/{id}**: Retrieve information about any user (ROLE = SERVICE).
+
+#### Restaurants-service (Port: 8763)
+
+- **GET /restaurants**: Retrieve a paginated list of restaurants available to the user.
+- **GET /restaurants/{id}**: Retrieve information about a specific restaurant.
+- **GET /admin/restaurants**: Retrieve a paginated list of all restaurants (ROLE = SERVICE).
+- **GET /admin/restaurants/{id}**: Retrieve information about any specific restaurant (ROLE = SERVICE).
+
+#### Menus-service (Port: 8764)
+
+- **GET /restaurants/{restaurantId}/items**: Retrieve available items from a restaurant.
+- **GET /restaurants/{restaurantsId}/items/{itemId}**: Retrieve information about a specific item.
+
+#### Orders-service (Port: 8765)
+
+- **POST /orders**: Create a new order.
+- **GET /orders**: Retrieve a list of orders placed by the user.
+
+#### Location-service (Port: 8767)
+
+- **POST /admin/directions**: Request a route between two addresses.
+- **POST /admin/address/validate**: Validate an address.
+
+#### Notification-service (Port: 8766)
+
+- **This service is in the initial phase, with no REST endpoints exposed**. Currently, it consumes messages from a RabbitMQ queue and logs the information of notifications sent to the user.
+
+### Testing the System with Docker Compose
+
+To facilitate testing in a local environment, the project includes a `docker-compose.yaml` file, which brings up all the necessary services. The startup process takes about 5 to 10 minutes, depending on the machine's configuration. After the startup, fictitious data, such as restaurants and menus, need to be manually registered for proper initialization. Once the environment is ready, the system can be accessed at `http://localhost:8081` using the credentials of one of the registered users.
+
+### Available Features in the UI
+
+- **Login**: Using OpenID Connect, the system generates JWT tokens for authentication.
+- **Restaurant Listing**: Based on the user’s registered address, listing nearby restaurants.
+- **Address Management**: Users can switch between their registered addresses, updating the list of available restaurants.
+- **Item Ordering**: Selecting menu items and creating orders with `PENDING` status.
+- **Order Tracking**: Viewing orders placed by the user.
+
+![demo](/docs/demo.gif)
+
+### Next Steps
+
+Future development plans include:
+
+- **Payment Integration**: Creating a `payments-service` to integrate with various payment gateways.
+- **Retry Strategies**: Implementing retry mechanisms for handling temporary service failures and ensuring better fault tolerance.
+- **Caching**: Introducing caching strategies to improve system performance by reducing the load on services and databases.
+
+## Final Considerations
+
+This prototype was created with the aim of studying microservices architecture, OpenID Connect, and asynchronous communication using queues and topics. It serves as a foundation for the development of a complete delivery system, with the potential to expand and incorporate new features. With a well-defined microservices architecture, the use of powerful tools like Keycloak, Postgres, and RabbitMQ, the ease of managing dependencies with Maven, and plans for retry strategies and caching, this project offers a scalable and secure solution for the restaurant delivery market.
